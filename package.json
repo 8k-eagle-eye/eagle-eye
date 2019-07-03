@@ -13,6 +13,13 @@
   },
   "homepage": "https://github.com/8k-eagle-eye/eagle-eye#readme",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next frontend",
+    "build": "next build frontend",
+    "start": "next start frontend"
+  },
+  "dependencies": {
+    "next": "8.1.0",
+    "react": "16.8.6",
+    "react-dom": "16.8.6"
   }
 }
