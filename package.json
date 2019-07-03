@@ -1,0 +1,18 @@
+{
+  "name": "eagle-eye",
+  "version": "0.0.1",
+  "description": "",
+  "author": "m-mitsuhide",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/8k-eagle-eye/eagle-eye.git"
+  },
+  "bugs": {
+    "url": "https://github.com/8k-eagle-eye/eagle-eye/issues"
+  },
+  "homepage": "https://github.com/8k-eagle-eye/eagle-eye#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
