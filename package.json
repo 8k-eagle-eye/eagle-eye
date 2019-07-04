@@ -30,6 +30,8 @@
     "@types/react-dom": "16.8.4",
     "@types/styled-components": "4.1.16",
     "@zeit/next-typescript": "1.1.1",
+    "husky": "3.0.0",
+    "lint-staged": "9.0.2",
     "prettier": "1.18.2",
     "ts-node": "8.3.0",
     "typescript": "3.5.2"
@@ -38,6 +40,17 @@
     "presets": [
       "next/babel",
       "@zeit/next-typescript/babel"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "prettier --write",
+      "git add"
     ]
   },
   "prettier": {
