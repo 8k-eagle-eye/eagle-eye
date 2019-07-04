@@ -78,8 +78,7 @@ const Home = () => (
           <Card>
             <h3>Examples &rarr;</h3>
             <p>
-              Find other example boilerplates on the{' '}
-              <code>create-next-app</code> site
+              Find other example boilerplates on the <code>create-next-app</code> site
             </p>
           </Card>
         </Link>
