@@ -1,0 +1,63 @@
+{
+  "name": "eagle-eye",
+  "version": "0.0.1",
+  "description": "",
+  "author": "m-mitsuhide",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/8k-eagle-eye/eagle-eye.git"
+  },
+  "bugs": {
+    "url": "https://github.com/8k-eagle-eye/eagle-eye/issues"
+  },
+  "homepage": "https://github.com/8k-eagle-eye/eagle-eye#readme",
+  "scripts": {
+    "dev": "next frontend",
+    "build": "next build frontend",
+    "start": "next start frontend",
+    "format": "prettier --write \"**/*.{js,ts,tsx}\" \"!**/.next/**\""
+  },
+  "dependencies": {
+    "next": "8.1.0",
+    "react": "16.8.6",
+    "react-bootstrap": "1.0.0-beta.9",
+    "react-dom": "16.8.6",
+    "styled-components": "4.3.2"
+  },
+  "devDependencies": {
+    "@types/next": "8.0.5",
+    "@types/react": "16.8.22",
+    "@types/react-dom": "16.8.4",
+    "@types/styled-components": "4.1.16",
+    "@zeit/next-typescript": "1.1.1",
+    "fork-ts-checker-webpack-plugin": "1.3.7",
+    "husky": "3.0.0",
+    "lint-staged": "9.0.2",
+    "prettier": "1.18.2",
+    "ts-node": "8.3.0",
+    "typescript": "3.5.2"
+  },
+  "babel": {
+    "presets": [
+      "next/babel",
+      "@zeit/next-typescript/babel"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "prettier": {
+    "printWidth": 100,
+    "semi": false,
+    "singleQuote": true
+  }
+}
