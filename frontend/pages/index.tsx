@@ -39,7 +39,7 @@ const Home = () => (
       </div>
     </div>
 
-    <style jsx>{`
+    {/* <style jsx>{`
       .hero {
         width: 100%;
         color: #333;
@@ -84,7 +84,7 @@ const Home = () => (
         font-size: 13px;
         color: #333;
       }
-    `}</style>
+    `}</style> */}
   </div>
 )
 
