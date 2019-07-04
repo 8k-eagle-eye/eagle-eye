@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import styled from 'styled-components'
+import { Alert, Container } from 'react-bootstrap'
 import Head from '../components/head'
 import Nav from '../components/nav'
 
@@ -60,6 +61,10 @@ const Home = () => (
   <div>
     <Head title="Home" />
     <Nav />
+
+    <Container>
+      <Alert variant="primary">This is a React Bootstrap alert—check it out!</Alert>
+    </Container>
 
     <Hero>
       <Title>Welcome to Next!</Title>
