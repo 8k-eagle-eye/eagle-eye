@@ -1,9 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
 import styled from 'styled-components'
-import { Alert, Container } from 'react-bootstrap'
+import { Alert, Container, Col as GridCol, Row as GridRow } from 'react-bootstrap'
 import Head from '../components/head'
 import Nav from '../components/nav'
+import ExampleModal from '../components/exampleModal'
 
 const Hero = styled.div`
   width: 100%;
@@ -63,7 +64,14 @@ const Home = () => (
     <Nav />
 
     <Container>
-      <Alert variant="primary">This is a React Bootstrap alert—check it out!</Alert>
+      <GridRow className="justify-content-md-center">
+        <GridCol>
+          <Alert variant="primary">This is a React Bootstrap alert—check it out!</Alert>
+        </GridCol>
+        <GridCol>
+          <ExampleModal />
+        </GridCol>
+      </GridRow>
     </Container>
 
     <Hero>
