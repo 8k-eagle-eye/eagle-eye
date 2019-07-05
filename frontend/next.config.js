@@ -6,7 +6,9 @@ module.exports = withTypescript({
   webpack(config, options) {
     if (options.isServer) {
       config.plugins.push(
-        new ForkTsCheckerWebpackPlugin({ tsconfig: path.resolve(__dirname, '../tsconfig.json') })
+        new ForkTsCheckerWebpackPlugin({
+          tsconfig: path.join(__dirname, './tsconfig.json')
+        })
       )
     }
     return config
