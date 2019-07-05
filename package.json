@@ -14,6 +14,7 @@
   "homepage": "https://github.com/8k-eagle-eye/eagle-eye#readme",
   "scripts": {
     "dev": "next frontend",
+    "dev:server": "ts-node backend/index.ts",
     "build": "next build frontend",
     "start": "next start frontend",
     "format": "prettier --write \"**/*.{js,ts,tsx}\" \"!**/.next/**\""
