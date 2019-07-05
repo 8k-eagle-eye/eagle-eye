@@ -1,7 +1,8 @@
+import 'reflect-metadata'
 import tachijs, { controller, httpGet } from 'tachijs'
 
 @controller('/')
-class HomeController() {
+class HomeController {
   // Define when this method should be used.
   @httpGet('/')
   index() {
