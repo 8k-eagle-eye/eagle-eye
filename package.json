@@ -23,7 +23,9 @@
     "react": "16.8.6",
     "react-bootstrap": "1.0.0-beta.9",
     "react-dom": "16.8.6",
-    "styled-components": "4.3.2"
+    "reflect-metadata": "0.1.13",
+    "styled-components": "4.3.2",
+    "tachijs": "0.15.1"
   },
   "devDependencies": {
     "@types/next": "8.0.5",
