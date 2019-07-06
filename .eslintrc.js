@@ -17,6 +17,14 @@ module.exports = {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly'
   },
+  overrides: [
+    {
+      files: ['./frontend/next.config.js'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off'
+      }
+    }
+  ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true
@@ -26,7 +34,11 @@ module.exports = {
     sourceType: 'module'
   },
   root: true,
-  rules: {},
+  rules: {
+    'no-console': process.env.NODE_ENV === 'development' ? 'off' : 'error',
+    'no-debugger': process.env.NODE_ENV === 'development' ? 'off' : 'error',
+    'react/prop-types': 'off'
+  },
   settings: {
     react: {
       version: 'detect'
