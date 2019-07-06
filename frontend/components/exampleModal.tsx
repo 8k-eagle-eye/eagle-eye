@@ -6,7 +6,7 @@ interface ModalState {
 }
 
 class ExampleModal extends React.Component<ModalProps, ModalState> {
-  constructor(props: ModalProps) {
+  public constructor(props: ModalProps) {
     super(props)
 
     this.handleShow = this.handleShow.bind(this)
@@ -17,15 +17,15 @@ class ExampleModal extends React.Component<ModalProps, ModalState> {
     }
   }
 
-  handleClose() {
+  public handleClose() {
     this.setState({ show: false })
   }
 
-  handleShow() {
+  public handleShow() {
     this.setState({ show: true })
   }
 
-  render() {
+  public render() {
     return (
       <>
         <Button variant="primary" onClick={this.handleShow}>

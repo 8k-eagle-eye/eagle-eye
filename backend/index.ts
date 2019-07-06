@@ -7,7 +7,7 @@ const { NODE_ENV, PORT } = process.env
 class HomeController {
   // Define when this method should be used.
   @httpGet('/')
-  index() {
+  public index() {
     return {
       message: 'Hello, world!'
     }
