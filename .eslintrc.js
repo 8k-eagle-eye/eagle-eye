@@ -4,7 +4,7 @@ module.exports = {
     es6: true,
     node: true
   },
-  extends: ['standard'],
+  extends: ['standard', 'plugin:react/recommended'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly'
@@ -16,6 +16,11 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module'
   },
-  plugins: ['react'],
-  rules: {}
+  root: true,
+  rules: {},
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  }
 }
