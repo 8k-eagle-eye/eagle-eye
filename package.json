@@ -20,7 +20,7 @@
     "start": "next start frontend",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore .",
     "lint:fix": "npm run lint -- --fix",
-    "format": "prettier --write \"**/*.{js,ts,tsx}\" \"!**/.next/**\""
+    "format": "prettier --write \"**/*.{js,json,jsx,md,ts,tsx}\""
   },
   "dependencies": {
     "next": "8.1.0",
@@ -70,7 +70,11 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts,tsx}": [
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix --no-ignore",
+      "git add"
+    ],
+    "*.{json,md}": [
       "prettier --write",
       "git add"
     ]
