@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 import tachijs, { controller, httpGet } from 'tachijs'
 
-const port = 8000
+const { NODE_ENV, PORT } = process.env
 
 @controller('/')
 class HomeController {
@@ -20,6 +20,9 @@ const app = tachijs({
 })
 
 // `app` is just an express application instance
-app.listen(port, () => {
-  console.log(`[server]  ready on http://localhost:${port}`)
+app.listen(PORT, () => {
+  if (NODE_ENV === 'development') {
+    // eslint-disable-next-line
+    console.log(`[server]  ready on http://localhost:${PORT}`)
+  }
 })

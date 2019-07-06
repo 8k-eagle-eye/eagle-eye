@@ -76,11 +76,15 @@
     ]
   },
   "nodemonConfig": {
+    "env": {
+      "NODE_ENV": "development",
+      "PORT": 8000
+    },
+    "exec": "ts-node backend/index.ts",
+    "ext": "ts",
     "watch": [
       "backend"
-    ],
-    "ext": "ts",
-    "exec": "ts-node backend/index.ts"
+    ]
   },
   "prettier": {
     "printWidth": 100,
