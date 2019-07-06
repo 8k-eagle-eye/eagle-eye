@@ -18,7 +18,8 @@
     "dev:server": "nodemon",
     "build": "next build frontend",
     "start": "next start frontend",
-    "lint": "eslint --cache --ext .js --ignore-path .gitignore .",
+    "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore .",
+    "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write \"**/*.{js,ts,tsx}\" \"!**/.next/**\""
   },
   "dependencies": {
@@ -35,6 +36,8 @@
     "@types/react": "16.8.22",
     "@types/react-dom": "16.8.4",
     "@types/styled-components": "4.1.16",
+    "@typescript-eslint/eslint-plugin": "1.11.0",
+    "@typescript-eslint/parser": "1.11.0",
     "@zeit/next-typescript": "1.1.1",
     "eslint": "6.0.1",
     "eslint-config-prettier": "6.0.0",

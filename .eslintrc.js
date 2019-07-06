@@ -7,9 +7,11 @@ module.exports = {
   extends: [
     'standard',
     'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
     'prettier/standard',
-    'prettier/react'
+    'prettier/react',
+    'prettier/@typescript-eslint'
   ],
   globals: {
     Atomics: 'readonly',
@@ -20,6 +22,7 @@ module.exports = {
       jsx: true
     },
     ecmaVersion: 2018,
+    project: './tsconfig.json',
     sourceType: 'module'
   },
   root: true,
