@@ -1,0 +1,97 @@
+version: 2.1
+
+executors:
+  default:
+    working_directory: ~/project
+    docker:
+      - image: circleci/node:lts
+
+commands:
+  install_packages:
+    parameters:
+      cache_key:
+        default: package.json
+        description: File to use as a Node cache checksum
+        type: string
+      cache_version:
+        default: v1
+        description: Cache version; increment this for a fresh cache
+        type: string
+    steps:
+      - restore_cache:
+          name: Restore dependencies
+          key: dependencies-<< parameters.cache_version >>-{{ checksum "<< parameters.cache_key >>" }}
+      - run:
+          name: Install dependencies
+          command: npm install
+      - save_cache:
+          name: Cache dependencies
+          key: dependencies-<< parameters.cache_version >>-{{ checksum "<< parameters.cache_key >>" }}
+          paths:
+            - node_modules
+  persist_data:
+    steps:
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+  attach_data:
+    steps:
+      - attach_workspace:
+          at: .
+
+jobs:
+  # Workflow: commit
+  setup:
+    executor:
+      name: default
+    parameters:
+      cache_key:
+        type: string
+      cache_version:
+        type: string
+    steps:
+      - checkout
+      - install_packages:
+          cache_key: << parameters.cache_key >>
+          cache_version: << parameters.cache_version >>
+      - persist_data
+  lint:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - attach_data
+      - run:
+          name: Run lint
+          command: npm run lint
+
+  # Workflow: weekly
+  audit:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - run:
+          name: Run a security audit
+          command: npm audit
+
+workflows:
+  commit:
+    jobs:
+      - setup:
+          cache_key: package.json
+          cache_version: v1
+      - lint:
+          requires:
+            - setup
+  weekly:
+    jobs:
+      - audit
+    triggers:
+      - schedule:
+          cron: "1 0 * * 6" # 10:00 AM on Saturday (Asia/Tokyo)
+          filters:
+            branches:
+              only:
+                - develop
