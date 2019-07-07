@@ -1,4 +1,4 @@
-import App, { Container } from 'next/app'
+import App, { Container, NextAppContext } from 'next/app'
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
 
@@ -9,7 +9,7 @@ const theme = {
 }
 
 export default class MyApp extends App {
-  static async getInitialProps ({ Component, ctx }) {
+  static async getInitialProps({ Component, ctx }: NextAppContext) {
     let pageProps = {}
 
     if (Component.getInitialProps) {
