@@ -1,10 +1,10 @@
-import React from 'react'
 import Link from 'next/link'
+import React from 'react'
 import styled from 'styled-components'
 import { Alert, Container, Col as GridCol, Row as GridRow } from 'react-bootstrap'
+import ExampleModal from '../components/exampleModal'
 import Head from '../components/head'
 import Nav from '../components/nav'
-import ExampleModal from '../components/exampleModal'
 
 const Hero = styled.div`
   width: 100%;
