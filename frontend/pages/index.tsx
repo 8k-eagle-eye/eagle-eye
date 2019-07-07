@@ -16,6 +16,7 @@ const Title = styled.h1`
   width: 100%;
   padding-top: 80px;
   line-height: 1.15;
+  color: ${({ theme }) => theme.colors.primary};
   font-size: 48px;
   text-align: center;
 `
