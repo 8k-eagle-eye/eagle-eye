@@ -9,7 +9,7 @@ const theme = {
 }
 
 export default class MyApp extends App {
-  static async getInitialProps({ Component, ctx }: NextAppContext) {
+  public static async getInitialProps({ Component, ctx }: NextAppContext) {
     let pageProps = {}
 
     if (Component.getInitialProps) {
@@ -19,7 +19,7 @@ export default class MyApp extends App {
     return { pageProps }
   }
 
-  render () {
+  public render() {
     const { Component, pageProps } = this.props
     return (
       <Container>

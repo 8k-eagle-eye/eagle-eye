@@ -3,7 +3,7 @@ import React from 'react'
 import { ServerStyleSheet } from 'styled-components'
 
 export default class MyDocument extends Document {
-  static async getInitialProps(ctx: NextDocumentContext) {
+  public static async getInitialProps(ctx: NextDocumentContext) {
     const sheet = new ServerStyleSheet()
     const originalRenderPage = ctx.renderPage
 
