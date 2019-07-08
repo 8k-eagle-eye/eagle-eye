@@ -1,5 +1,5 @@
 import request from 'supertest'
-import app from '../../backend/index'
+import app from '../../backend/app'
 
 describe('/', () => {
   it('GET request', async () => {
