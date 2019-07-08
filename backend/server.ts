@@ -1,4 +1,4 @@
-import app from './app'
+import app from 'backend/app'
 
 const { NODE_ENV, PORT } = process.env
 
