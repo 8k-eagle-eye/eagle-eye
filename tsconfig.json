@@ -2,6 +2,7 @@
   "compilerOptions": {
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -12,6 +13,15 @@
     "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "paths": {
+      "backend/*": ["./backend/*"],
+      "components/*": ["./frontend/components/*"],
+      "frontend/*": ["./frontend/*"],
+      "pages/*": ["./frontend/pages/*"],
+      "specs/*": ["./specs/*"],
+      "static/*": ["./frontend/static/*"],
+      "~/*": ["./*"]
+    },
     "preserveConstEnums": true,
     "removeComments": false,
     "skipLibCheck": true,
