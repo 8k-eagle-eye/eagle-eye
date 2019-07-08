@@ -65,6 +65,18 @@ jobs:
       - run:
           name: Run lint
           command: npm run lint
+  test:
+    executor:
+      name: default
+    steps:
+      - checkout
+      - attach_data
+      - run:
+          name: Run tests
+          command: npm test -- --coverage
+      - run:
+          name: Report coverage results
+          command: npm run coverage
 
   # Workflow: weekly
   audit:
@@ -83,6 +95,9 @@ workflows:
           cache_key: package.json
           cache_version: v1
       - lint:
+          requires:
+            - setup
+      - test:
           requires:
             - setup
   weekly:
