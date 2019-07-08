@@ -26,3 +26,5 @@ app.listen(PORT, () => {
     console.log(`[server]  ready on http://localhost:${PORT}`)
   }
 })
+
+export default app

@@ -20,7 +20,9 @@
     "start": "next start frontend",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore .",
     "lint:fix": "npm run lint -- --fix",
-    "format": "prettier --write \"**/*.{js,json,jsx,md,ts,tsx,yaml,yml}\""
+    "format": "prettier --write \"**/*.{js,json,jsx,md,ts,tsx,yaml,yml}\"",
+    "test": "jest",
+    "test:watch": "npm test -- --watch"
   },
   "dependencies": {
     "next": "8.1.0",
