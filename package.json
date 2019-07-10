@@ -39,6 +39,7 @@
     "@typescript-eslint/eslint-plugin": "1.11.0",
     "@typescript-eslint/parser": "1.11.0",
     "@zeit/next-typescript": "1.1.1",
+    "babel-plugin-styled-components": "1.10.6",
     "eslint": "6.0.1",
     "eslint-config-prettier": "6.0.0",
     "eslint-config-standard": "12.0.0",
@@ -63,6 +64,14 @@
     "presets": [
       "next/babel",
       "@zeit/next-typescript/babel"
+    ],
+    "plugins": [
+      [
+        "styled-components",
+        {
+          "ssr": true
+        }
+      ]
     ]
   },
   "husky": {

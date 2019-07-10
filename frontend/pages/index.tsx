@@ -1,10 +1,10 @@
-import React from 'react'
 import Link from 'next/link'
+import React from 'react'
 import styled from 'styled-components'
 import { Alert, Container, Col as GridCol, Row as GridRow } from 'react-bootstrap'
+import ExampleModal from '../components/exampleModal'
 import Head from '../components/head'
 import Nav from '../components/nav'
-import ExampleModal from '../components/exampleModal'
 
 const Hero = styled.div`
   width: 100%;
@@ -16,6 +16,7 @@ const Title = styled.h1`
   width: 100%;
   padding-top: 80px;
   line-height: 1.15;
+  color: ${({ theme }) => theme.colors.primary};
   font-size: 48px;
   text-align: center;
 `

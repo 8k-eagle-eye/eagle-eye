@@ -1,5 +1,5 @@
-import React from 'react'
 import Link from 'next/link'
+import React from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 
 const links = [{ href: 'https://github.com/segmentio/create-next-app', label: 'Github' }].map(
