@@ -6,12 +6,13 @@ module.exports = {
   },
   extends: [
     'standard',
-    'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:jest/recommended',
     'plugin:prettier/recommended',
-    'prettier/standard',
+    'plugin:react/recommended',
+    'prettier/@typescript-eslint',
     'prettier/react',
-    'prettier/@typescript-eslint'
+    'prettier/standard'
   ],
   globals: {
     Atomics: 'readonly',
