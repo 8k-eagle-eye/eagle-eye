@@ -1,17 +1,27 @@
+require('dotenv').config()
+
 const path = require('path')
-const withTypescript = require('@zeit/next-typescript')
+const Dotenv = require('dotenv-webpack')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const withTypescript = require('@zeit/next-typescript')
 const { compilerOptions } = require('../tsconfig')
 
 const baseUrl = path.resolve(process.cwd(), compilerOptions.baseUrl)
 
 module.exports = withTypescript({
   webpack(config, { dev, isServer }) {
+    config.plugins = [
+      ...(config.plugins || []),
+      new Dotenv({
+        path: path.resolve(__dirname, '../.env')
+      })
+    ]
+
     config.resolve.alias = {
       ...config.resolve.alias,
       ...Object.entries(compilerOptions.paths).reduce((obj, cv) => {
         const reg = new RegExp('\\/?\\*$')
-        obj[cv[0].replace(reg, '')] = path.join(baseUrl, cv[1][0].replace(reg, ''))
+        obj[cv[0].replace(reg, '')] = path.resolve(baseUrl, cv[1][0].replace(reg, ''))
         return obj
       }, {})
     }
@@ -28,7 +38,7 @@ module.exports = withTypescript({
     if (isServer) {
       config.plugins.push(
         new ForkTsCheckerWebpackPlugin({
-          tsconfig: path.join(__dirname, './tsconfig.json')
+          tsconfig: path.resolve(__dirname, './tsconfig.json')
         })
       )
     }
