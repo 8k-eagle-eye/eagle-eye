@@ -14,7 +14,7 @@
   "homepage": "https://github.com/8k-eagle-eye/eagle-eye#readme",
   "scripts": {
     "dev": "npm-run-all --parallel dev:*",
-    "dev:client": "next frontend",
+    "dev:client": "node --require dotenv/config node_modules/.bin/next frontend",
     "dev:server": "nodemon",
     "build": "next build frontend",
     "start": "next start frontend",
@@ -46,6 +46,7 @@
     "@zeit/next-typescript": "1.1.1",
     "babel-plugin-styled-components": "1.10.6",
     "codecov": "3.5.0",
+    "dotenv": "8.0.0",
     "eslint": "6.0.1",
     "eslint-config-prettier": "6.0.0",
     "eslint-config-standard": "12.0.0",
@@ -104,7 +105,7 @@
     "env": {
       "NODE_ENV": "development"
     },
-    "exec": "ts-node --require tsconfig-paths/register --transpile-only backend/server.ts",
+    "exec": "ts-node --require dotenv/config --require tsconfig-paths/register --transpile-only backend/server.ts",
     "ext": "ts",
     "watch": [
       "backend"
