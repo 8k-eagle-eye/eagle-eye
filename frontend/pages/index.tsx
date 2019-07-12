@@ -5,6 +5,7 @@ import { Alert, Container, Col as GridCol, Row as GridRow } from 'react-bootstra
 import ExampleModal from 'components/exampleModal'
 import Head from 'components/head'
 import Nav from 'components/nav'
+import Viewer from 'components/viewer'
 
 const Hero = styled.div`
   width: 100%;
@@ -23,6 +24,11 @@ const Title = styled.h1`
 
 const Description = styled.p`
   text-align: center;
+`
+
+const ViewerFrame = styled.div`
+  width: 600px;
+  margin: 30px auto;
 `
 
 const Row = styled.div`
@@ -80,6 +86,10 @@ const Home = () => (
       <Description>
         To get started, edit <code>pages/index.js</code> and save to reload.
       </Description>
+
+      <ViewerFrame>
+        <Viewer aspect={16 / 9} />
+      </ViewerFrame>
 
       <Row>
         <Link href="https://github.com/zeit/next.js#getting-started">
