@@ -14,7 +14,7 @@
   "homepage": "https://github.com/8k-eagle-eye/eagle-eye#readme",
   "scripts": {
     "dev": "npm-run-all --parallel dev:*",
-    "dev:client": "node --require dotenv/config node_modules/.bin/next frontend",
+    "dev:client": "next frontend",
     "dev:server": "nodemon",
     "build": "next build frontend",
     "start": "next start frontend",
@@ -47,6 +47,7 @@
     "babel-plugin-styled-components": "1.10.6",
     "codecov": "3.5.0",
     "dotenv": "8.0.0",
+    "dotenv-webpack": "1.7.0",
     "eslint": "6.0.1",
     "eslint-config-prettier": "6.0.0",
     "eslint-config-standard": "12.0.0",
