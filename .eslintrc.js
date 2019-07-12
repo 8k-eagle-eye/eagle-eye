@@ -20,7 +20,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['./frontend/next.config.js', './jest.config.js'],
+      files: ['./backend/webpack.config.js', './frontend/next.config.js', './jest.config.js'],
       rules: {
         '@typescript-eslint/no-var-requires': 'off'
       }
