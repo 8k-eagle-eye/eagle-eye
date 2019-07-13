@@ -106,7 +106,7 @@
     "env": {
       "NODE_ENV": "development"
     },
-    "exec": "ts-node --require dotenv/config --require tsconfig-paths/register --transpile-only backend/server.ts",
+    "exec": "ts-node --require dotenv/config --require tsconfig-paths/register backend/server.ts",
     "ext": "ts",
     "watch": [
       "backend"
