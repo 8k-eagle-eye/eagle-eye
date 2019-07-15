@@ -38,6 +38,7 @@ module.exports = {
   root: true,
   rules: {
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
     'no-console': process.env.NODE_ENV === 'development' ? 'off' : 'error',
     'no-debugger': process.env.NODE_ENV === 'development' ? 'off' : 'error',
     'react-hooks/exhaustive-deps': 'warn',

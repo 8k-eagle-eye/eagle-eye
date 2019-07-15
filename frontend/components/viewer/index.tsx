@@ -1,12 +1,12 @@
-import React, { FC, useState, useCallback, createRef } from 'react'
+import React, { useState, createRef } from 'react'
 import styled from 'styled-components'
 
 interface ViewerProps {
   aspect: number
 }
 
-const ViewerRoot = styled.div`
-  padding-top: ${({ aspect }: Pick<ViewerProps, 'aspect'>) => 100 / aspect}%;
+const ViewerRoot = styled.div<{ aspect: number }>`
+  padding-top: ${({ aspect }) => 100 / aspect}%;
   position: relative;
 `
 
@@ -39,12 +39,11 @@ const PlayIcon = styled.div`
   }
 `
 
-const Viewer: FC<ViewerProps> = props => {
+const Viewer = (props: ViewerProps) => {
   const videoRef = createRef<HTMLVideoElement>()
   const [playing, setPlaying] = useState(false)
-  const togglePlaying = useCallback(() => {
-    const video = videoRef.current
-    if (!video) return
+  const togglePlaying = () => {
+    const video = videoRef.current!
 
     if (video.paused) {
       video.play()
@@ -53,7 +52,7 @@ const Viewer: FC<ViewerProps> = props => {
       video.pause()
       setPlaying(false)
     }
-  }, [videoRef])
+  }
 
   return (
     <ViewerRoot aspect={props.aspect}>
