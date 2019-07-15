@@ -42,8 +42,11 @@ $ npm run dev
 # Builds the app for production
 $ npm run build
 
-# Starts the application in production mode
+# Starts the server in production mode
 $ npm start
+
+# Export static HTML
+$ npm run export
 
 # Linting codes
 $ npm run lint

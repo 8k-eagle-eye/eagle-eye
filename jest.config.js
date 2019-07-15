@@ -13,11 +13,11 @@ module.exports = {
       const value = cv[1][0].replace(reg, '')
 
       if (/^.*(?<!\/\*)$/.test(cv[0])) {
-        obj[`^${key}$`] = `${path.join(baseUrl, value)}`
+        obj[`^${key}$`] = `${path.resolve(baseUrl, value)}`
       }
 
       if (/\*$/.test(cv[0])) {
-        obj[`^${key}/(.*)`] = `${path.join(baseUrl, value)}/$1`
+        obj[`^${key}/(.*)`] = `${path.resolve(baseUrl, value)}/$1`
       }
 
       return obj

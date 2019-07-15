@@ -18,7 +18,7 @@ module.exports = withTypescript({
     ]
 
     config.resolve.alias = {
-      ...config.resolve.alias,
+      ...(config.resolve.alias || {}),
       ...Object.entries(compilerOptions.paths).reduce((obj, cv) => {
         const reg = new RegExp('\\/?\\*$')
         obj[cv[0].replace(reg, '')] = path.resolve(baseUrl, cv[1][0].replace(reg, ''))

@@ -16,8 +16,13 @@
     "dev": "npm-run-all --parallel dev:*",
     "dev:client": "next frontend",
     "dev:server": "nodemon",
-    "build": "next build frontend",
-    "start": "next start frontend",
+    "build": "npm-run-all --parallel build:*",
+    "build:client": "next build frontend",
+    "build:server": "webpack --mode=production --config backend/webpack.config.js",
+    "prebuild:server": "rimraf dist/backend",
+    "start": "node dist/backend/main.js",
+    "export": "next export frontend --outdir dist/frontend",
+    "preexport": "rimraf dist/frontend",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore .",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier --write \"**/*.{js,json,jsx,md,ts,tsx,yaml,yml}\"",
@@ -35,6 +40,10 @@
     "tachijs": "0.15.1"
   },
   "devDependencies": {
+    "@babel/core": "7.5.4",
+    "@babel/plugin-proposal-class-properties": "7.5.0",
+    "@babel/plugin-proposal-decorators": "7.4.4",
+    "@babel/preset-env": "7.5.4",
     "@types/jest": "24.0.15",
     "@types/next": "8.0.5",
     "@types/react": "16.8.22",
@@ -44,6 +53,7 @@
     "@typescript-eslint/eslint-plugin": "1.11.0",
     "@typescript-eslint/parser": "1.11.0",
     "@zeit/next-typescript": "1.1.1",
+    "babel-loader": "8.0.6",
     "babel-plugin-styled-components": "1.10.6",
     "codecov": "3.5.0",
     "dotenv": "8.0.0",
@@ -67,11 +77,15 @@
     "nodemon": "1.19.1",
     "npm-run-all": "4.1.5",
     "prettier": "1.18.2",
+    "rimraf": "2.6.3",
     "supertest": "4.0.2",
     "ts-jest": "24.0.2",
+    "ts-loader": "6.0.4",
     "ts-node": "8.3.0",
     "tsconfig-paths": "3.8.0",
-    "typescript": "3.5.2"
+    "typescript": "3.5.2",
+    "webpack": "4.35.3",
+    "webpack-cli": "3.3.5"
   },
   "babel": {
     "presets": [
@@ -106,7 +120,7 @@
     "env": {
       "NODE_ENV": "development"
     },
-    "exec": "ts-node --require dotenv/config --require tsconfig-paths/register --transpile-only backend/server.ts",
+    "exec": "ts-node --require dotenv/config --require tsconfig-paths/register backend/server.ts",
     "ext": "ts",
     "watch": [
       "backend"
