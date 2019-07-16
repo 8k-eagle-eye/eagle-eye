@@ -1,9 +1,21 @@
-import React, { useEffect, useState, useCallback, createRef } from 'react'
+import React, { Component, createRef } from 'react'
 import styled from 'styled-components'
 import { MAX_SCALE, ZOOM_STEP } from 'consts/viewer'
 
 interface ViewerProps {
   aspect: number
+}
+
+interface ViewerState {
+  playing: boolean
+  panning: boolean
+
+  baseSize: { width: number; height: number }
+  scale: number
+  translate: { x: number; y: number }
+  clientRect: { top: number; left: number }
+  zoomCenter: { x: number; y: number }
+  prevPanPoint: { x: number; y: number }
 }
 
 const ViewerRoot = styled.div<{ aspect: number }>`
@@ -50,150 +62,159 @@ const PlayIcon = styled.div`
   }
 `
 
-const Viewer = (props: ViewerProps) => {
-  const videoRef = createRef<HTMLVideoElement>()
-  const [playing, setPlaying] = useState(false)
-  const togglePlaying = () => {
-    const video = videoRef.current!
+export default class Viewer extends Component<ViewerProps, ViewerState> {
+  private constructor(props: ViewerProps) {
+    super(props)
+
+    this.state = {
+      playing: false,
+      panning: false,
+      baseSize: { width: 0, height: 0 },
+      scale: 1,
+      translate: { x: 0, y: 0 },
+      clientRect: { top: 0, left: 0 },
+      zoomCenter: { x: 0, y: 0 },
+      prevPanPoint: { x: 0, y: 0 }
+    }
+
+    this.togglePlaying = this.togglePlaying.bind(this)
+    this.calcBaseSize = this.calcBaseSize.bind(this)
+    this.onMouseDown = this.onMouseDown.bind(this)
+    this.onMouseMove = this.onMouseMove.bind(this)
+    this.onMouseUp = this.onMouseUp.bind(this)
+    this.onWheel = this.onWheel.bind(this)
+  }
+
+  private rootRef = createRef<HTMLDivElement>()
+  private videoRef = createRef<HTMLVideoElement>()
+
+  private togglePlaying() {
+    const video = this.videoRef.current!
 
     if (video.paused) {
       video.play()
-      setPlaying(true)
+      this.setState({ playing: true })
     } else {
       video.pause()
-      setPlaying(false)
+      this.setState({ playing: false })
     }
   }
 
-  const [baseSize, setBaseSize] = useState({ width: 0, height: 0 })
-  const [prevPanPoint, setPrevPanPoint] = useState({ x: 0, y: 0 })
-  const [zoomCenter, setZoomCenter] = useState({ x: 0, y: 0 })
-  const [translate, setTranslate] = useState({ x: 0, y: 0 })
-  const [scale, setScale] = useState(1)
-  const [clientRect, setClientRect] = useState({ top: 0, left: 0 })
-  const [panning, setPanning] = useState(false)
+  private calcBaseSize() {
+    const rootElem = this.rootRef.current!
+    const { top, left } = rootElem.getBoundingClientRect()
 
-  const startPan = (e: React.MouseEvent) => setPrevPanPoint({ x: e.pageX, y: e.pageY })
-  const transform = useCallback(
-    (scaleDelta: number, translateXDelta: number, translateYDelta: number) => {
-      const prevScale = scale
-      const pinpoint = {
-        x: zoomCenter.x - translate.x + translateXDelta,
-        y: zoomCenter.y - translate.y + translateYDelta
-      }
+    this.setState({
+      baseSize: {
+        width: rootElem.clientWidth,
+        height: rootElem.clientHeight
+      },
+      clientRect: { top, left }
+    })
+  }
 
-      const newScale = Math.min(MAX_SCALE, Math.max(1, scale + scaleDelta))
-      setScale(newScale)
+  private transform(scaleDelta: number, translateXDelta: number, translateYDelta: number) {
+    const { scale, zoomCenter, translate, baseSize } = this.state
+    const pinpoint = {
+      x: zoomCenter.x - translate.x + translateXDelta,
+      y: zoomCenter.y - translate.y + translateYDelta
+    }
+    const newScale = Math.min(MAX_SCALE, Math.max(1, scale + scaleDelta))
 
-      setTranslate({
+    this.setState({
+      scale: newScale,
+      translate: {
         x: Math.max(
           0,
-          Math.min(
-            baseSize.width * (newScale - 1),
-            (zoomCenter.x / prevScale) * newScale - pinpoint.x
-          )
+          Math.min(baseSize.width * (newScale - 1), (zoomCenter.x / scale) * newScale - pinpoint.x)
         ),
         y: Math.max(
           0,
-          Math.min(
-            baseSize.height * (newScale - 1),
-            (zoomCenter.y / prevScale) * newScale - pinpoint.y
-          )
+          Math.min(baseSize.height * (newScale - 1), (zoomCenter.y / scale) * newScale - pinpoint.y)
         )
-      })
-    },
-    [scale, zoomCenter, translate, baseSize]
-  )
-
-  const movePan = useCallback(
-    (e: MouseEvent) => {
-      const currentPanPoint = { x: e.pageX, y: e.pageY }
-
-      transform(0, currentPanPoint.x - prevPanPoint.x, currentPanPoint.y - prevPanPoint.y)
-      setPrevPanPoint(currentPanPoint)
-    },
-    [prevPanPoint, transform]
-  )
-
-  const onMouseDown = (e: React.MouseEvent) => {
-    e.preventDefault()
-    setPanning(true)
-    startPan(e)
+      }
+    })
   }
 
-  const onMouseMove = useCallback(
-    (e: MouseEvent) => {
-      if (!panning) return
-      movePan(e)
-    },
-    [panning]
-  )
+  private startPan(e: React.MouseEvent) {
+    this.setState({ prevPanPoint: { x: e.pageX, y: e.pageY } })
+  }
 
-  const onMouseUp = () => setPanning(false)
+  private movePan(e: MouseEvent) {
+    const { prevPanPoint } = this.state
+    const currentPanPoint = { x: e.pageX, y: e.pageY }
 
-  const rootRef = createRef<HTMLDivElement>()
+    this.transform(0, currentPanPoint.x - prevPanPoint.x, currentPanPoint.y - prevPanPoint.y)
+    this.setState({ prevPanPoint: currentPanPoint })
+  }
 
-  const onZoom = useCallback(
-    (pointX: number, pointY: number, scaleDelta: number) => {
-      setZoomCenter({
+  private onMouseDown(e: React.MouseEvent) {
+    e.preventDefault()
+    this.setState({ panning: true })
+    this.startPan(e)
+  }
+
+  private onMouseMove(e: MouseEvent) {
+    if (!this.state.panning) return
+    this.movePan(e)
+  }
+
+  private onMouseUp() {
+    this.setState({ panning: false })
+  }
+
+  private onZoom(pointX: number, pointY: number, scaleDelta: number) {
+    const { clientRect, translate } = this.state
+
+    this.setState({
+      zoomCenter: {
         x: pointX - clientRect.left - translate.x,
         y: pointY - clientRect.top - translate.y
-      })
+      }
+    })
 
-      transform(scaleDelta, 0, 0)
-    },
-    [translate]
-  )
+    this.transform(scaleDelta, 0, 0)
+  }
 
-  const onWheel = useCallback(
-    (e: WheelEvent) => {
-      e.preventDefault()
-      onZoom(e.clientX, e.clientY, e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP)
-    },
-    [onZoom]
-  )
+  private onWheel(e: WheelEvent) {
+    e.preventDefault()
+    this.onZoom(e.clientX, e.clientY, e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP)
+  }
 
-  useEffect(() => {
-    const rootElem = rootRef.current!
-    const calcBaseSize = () => {
-      setBaseSize({
-        width: rootElem.clientWidth,
-        height: rootElem.clientHeight
-      })
+  public componentDidMount() {
+    this.calcBaseSize()
 
-      const { top, left } = rootElem.getBoundingClientRect()
-      setClientRect({ top, left })
-    }
+    window.addEventListener('resize', this.calcBaseSize, false)
+    document.addEventListener('mousemove', this.onMouseMove, false)
+    document.addEventListener('mouseup', this.onMouseUp, false)
+    this.rootRef.current!.addEventListener('wheel', this.onWheel, false)
+  }
 
-    calcBaseSize()
+  public componentWillUnmount() {
+    window.removeEventListener('resize', this.calcBaseSize, false)
+    document.removeEventListener('mousemove', this.onMouseMove, false)
+    document.removeEventListener('mouseup', this.onMouseUp, false)
+    this.rootRef.current!.removeEventListener('wheel', this.onWheel, false)
+  }
 
-    window.addEventListener('resize', calcBaseSize, false)
-    document.addEventListener('mousemove', onMouseMove, false)
-    document.addEventListener('mouseup', onMouseUp, false)
-    rootElem.addEventListener('wheel', onWheel, false)
+  public render() {
+    const { aspect } = this.props
+    const { playing, translate, scale } = this.state
+    const { rootRef, videoRef, togglePlaying, onMouseDown } = this
 
-    return () => {
-      window.removeEventListener('resize', calcBaseSize, false)
-      document.removeEventListener('mousemove', onMouseMove, false)
-      document.removeEventListener('mouseup', onMouseUp, false)
-      rootElem.removeEventListener('wheel', onWheel, false)
-    }
-  }, [onMouseMove, onWheel])
+    return (
+      <ViewerRoot ref={rootRef} aspect={aspect}>
+        <MediaFrame translate={translate} scale={scale} onMouseDown={onMouseDown}>
+          <BaseVideo
+            ref={videoRef}
+            src={`${process.env.STORAGE_ORIGIN}/videos/hd/1-1.mp4`}
+            loop
+            playsInline
+          />
+        </MediaFrame>
 
-  return (
-    <ViewerRoot ref={rootRef} aspect={props.aspect}>
-      <MediaFrame translate={translate} scale={scale} onMouseDown={onMouseDown}>
-        <BaseVideo
-          ref={videoRef}
-          src={`${process.env.STORAGE_ORIGIN}/videos/hd/1-1.mp4`}
-          loop
-          playsInline
-        />
-      </MediaFrame>
-
-      <PlayIcon onClick={togglePlaying}>{playing ? '■' : '▶'}</PlayIcon>
-    </ViewerRoot>
-  )
+        <PlayIcon onClick={togglePlaying}>{playing ? '■' : '▶'}</PlayIcon>
+      </ViewerRoot>
+    )
+  }
 }
-
-export default Viewer
