@@ -9,7 +9,6 @@ interface ViewerProps {
 interface ViewerState {
   playing: boolean
   panning: boolean
-
   baseSize: { width: number; height: number }
   scale: number
   translate: { x: number; y: number }
@@ -168,8 +167,8 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
 
     this.setState({
       zoomCenter: {
-        x: pointX - clientRect.left - translate.x,
-        y: pointY - clientRect.top - translate.y
+        x: pointX - clientRect.left + translate.x,
+        y: pointY - clientRect.top + translate.y
       }
     })
 
