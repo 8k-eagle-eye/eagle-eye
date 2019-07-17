@@ -147,13 +147,13 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
 
     const gridWidth = (baseSize.width * scale) / resolutionRatio / 2
     const gridHeight = (baseSize.height * scale) / resolutionRatio / 2
-    const modX = translate.x % gridWidth
-    const modY = translate.y % gridHeight
+    const modX = (translate.x + baseSize.width / 2) % gridWidth
+    const modY = (translate.y + baseSize.height / 2) % gridHeight
 
     this.setState({
       diffToGrid: {
-        x: modX > gridWidth / 2 ? gridWidth - modX : -modX,
-        y: modY > gridHeight / 2 ? gridHeight - modY : -modY
+        x: modX > gridWidth / 2 ? modX - gridWidth : modX,
+        y: modY > gridHeight / 2 ? modY - gridHeight : modY
       },
       animationFrameId: requestAnimationFrame(runGridAnimation)
     })
