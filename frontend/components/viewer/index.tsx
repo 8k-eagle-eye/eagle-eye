@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react'
 import styled from 'styled-components'
-import { MAX_SCALE, ZOOM_STEP } from 'consts/viewer'
+import { MAX_SCALE, ZOOM_STEP, GRID_ANIMATION_STEP, DELAY_ANIMATION_ON_ZOOM } from 'consts/viewer'
 
 interface ViewerProps {
   aspect: number
@@ -15,6 +15,10 @@ interface ViewerState {
   clientRect: { top: number; left: number }
   zoomCenter: { x: number; y: number }
   prevPanPoint: { x: number; y: number }
+  diffToGrid: { x: number; y: number }
+  finallyTranslate: { x: number; y: number }
+  animationFrameId: number | null
+  timeoutId: number | null
 }
 
 const ViewerRoot = styled.div<{ aspect: number }>`
@@ -73,11 +77,17 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
       translate: { x: 0, y: 0 },
       clientRect: { top: 0, left: 0 },
       zoomCenter: { x: 0, y: 0 },
-      prevPanPoint: { x: 0, y: 0 }
+      prevPanPoint: { x: 0, y: 0 },
+      diffToGrid: { x: 0, y: 0 },
+      finallyTranslate: { x: 0, y: 0 },
+      animationFrameId: null,
+      timeoutId: null
     }
 
     this.togglePlaying = this.togglePlaying.bind(this)
     this.calcBaseSize = this.calcBaseSize.bind(this)
+    this.startMoveToGrid = this.startMoveToGrid.bind(this)
+    this.runGridAnimation = this.runGridAnimation.bind(this)
     this.onMouseDown = this.onMouseDown.bind(this)
     this.onMouseMove = this.onMouseMove.bind(this)
     this.onMouseUp = this.onMouseUp.bind(this)
@@ -86,6 +96,11 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
 
   private rootRef = createRef<HTMLDivElement>()
   private videoRef = createRef<HTMLVideoElement>()
+
+  private get resolutionRatio() {
+    const { scale } = this.state
+    return scale >= 8 ? 8 : scale >= 4 ? 4 : scale >= 2 ? 2 : 1
+  }
 
   private togglePlaying() {
     const video = this.videoRef.current!
@@ -135,8 +150,58 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
     })
   }
 
+  private startMoveToGrid() {
+    const { baseSize, scale, translate } = this.state
+    const { resolutionRatio, runGridAnimation } = this
+
+    const gridWidth = (baseSize.width * scale) / resolutionRatio / 2
+    const gridHeight = (baseSize.height * scale) / resolutionRatio / 2
+    const modX = translate.x % gridWidth
+    const modY = translate.y % gridHeight
+
+    this.setState({
+      diffToGrid: {
+        x: modX > gridWidth / 2 ? gridWidth - modX : -modX,
+        y: modY > gridHeight / 2 ? gridHeight - modY : -modY
+      },
+      animationFrameId: requestAnimationFrame(runGridAnimation)
+    })
+  }
+
+  private runGridAnimation() {
+    const { diffToGrid } = this.state
+    const step = GRID_ANIMATION_STEP
+
+    const newDiff = {
+      x: Math.abs(diffToGrid.x) <= step ? 0 : diffToGrid.x + (diffToGrid.x < 0 ? step : -step),
+      y: Math.abs(diffToGrid.y) <= step ? 0 : diffToGrid.y + (diffToGrid.y < 0 ? step : -step)
+    }
+
+    this.transform(0, diffToGrid.x - newDiff.x, diffToGrid.y - newDiff.y)
+
+    if (newDiff.x === 0 && newDiff.y === 0) {
+      this.setState({
+        diffToGrid: newDiff,
+        finallyTranslate: { ...this.state.translate }
+      })
+
+      this.stopMoveToGrid()
+    } else {
+      this.setState({
+        diffToGrid: newDiff,
+        animationFrameId: requestAnimationFrame(this.runGridAnimation)
+      })
+    }
+  }
+
+  private stopMoveToGrid() {
+    const { animationFrameId } = this.state
+    if (animationFrameId) cancelAnimationFrame(animationFrameId)
+  }
+
   private startPan(e: React.MouseEvent) {
     this.setState({ prevPanPoint: { x: e.pageX, y: e.pageY } })
+    this.stopMoveToGrid()
   }
 
   private movePan(e: MouseEvent) {
@@ -160,18 +225,22 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
 
   private onMouseUp() {
     this.setState({ panning: false })
+    this.startMoveToGrid()
   }
 
   private onZoom(pointX: number, pointY: number, scaleDelta: number) {
-    const { clientRect, translate } = this.state
+    const { clientRect, translate, timeoutId } = this.state
+
+    this.stopMoveToGrid()
+    if (timeoutId) clearTimeout(timeoutId)
 
     this.setState({
       zoomCenter: {
         x: pointX - clientRect.left + translate.x,
         y: pointY - clientRect.top + translate.y
-      }
+      },
+      timeoutId: setTimeout(this.startMoveToGrid, DELAY_ANIMATION_ON_ZOOM)
     })
-
     this.transform(scaleDelta, 0, 0)
   }
 
