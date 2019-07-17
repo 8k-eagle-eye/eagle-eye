@@ -83,15 +83,6 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
       animationFrameId: null,
       timeoutId: null
     }
-
-    this.togglePlaying = this.togglePlaying.bind(this)
-    this.calcBaseSize = this.calcBaseSize.bind(this)
-    this.startMoveToGrid = this.startMoveToGrid.bind(this)
-    this.runGridAnimation = this.runGridAnimation.bind(this)
-    this.onMouseDown = this.onMouseDown.bind(this)
-    this.onMouseMove = this.onMouseMove.bind(this)
-    this.onMouseUp = this.onMouseUp.bind(this)
-    this.onWheel = this.onWheel.bind(this)
   }
 
   private rootRef = createRef<HTMLDivElement>()
@@ -102,7 +93,7 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
     return scale >= 8 ? 8 : scale >= 4 ? 4 : scale >= 2 ? 2 : 1
   }
 
-  private togglePlaying() {
+  private togglePlaying = () => {
     const video = this.videoRef.current!
 
     if (video.paused) {
@@ -114,7 +105,7 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
     }
   }
 
-  private calcBaseSize() {
+  private calcBaseSize = () => {
     const rootElem = this.rootRef.current!
     const { top, left } = rootElem.getBoundingClientRect()
 
@@ -150,7 +141,7 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
     })
   }
 
-  private startMoveToGrid() {
+  private startMoveToGrid = () => {
     const { baseSize, scale, translate } = this.state
     const { resolutionRatio, runGridAnimation } = this
 
@@ -168,7 +159,7 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
     })
   }
 
-  private runGridAnimation() {
+  private runGridAnimation = () => {
     const { diffToGrid } = this.state
     const step = GRID_ANIMATION_STEP
 
@@ -212,18 +203,18 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
     this.setState({ prevPanPoint: currentPanPoint })
   }
 
-  private onMouseDown(e: React.MouseEvent) {
+  private onMouseDown = (e: React.MouseEvent) => {
     e.preventDefault()
     this.setState({ panning: true })
     this.startPan(e)
   }
 
-  private onMouseMove(e: MouseEvent) {
+  private onMouseMove = (e: MouseEvent) => {
     if (!this.state.panning) return
     this.movePan(e)
   }
 
-  private onMouseUp() {
+  private onMouseUp = () => {
     this.setState({ panning: false })
     this.startMoveToGrid()
   }
@@ -244,7 +235,7 @@ export default class Viewer extends Component<ViewerProps, ViewerState> {
     this.transform(scaleDelta, 0, 0)
   }
 
-  private onWheel(e: WheelEvent) {
+  private onWheel = (e: WheelEvent) => {
     e.preventDefault()
     this.onZoom(e.clientX, e.clientY, e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP)
   }
