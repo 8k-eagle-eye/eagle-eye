@@ -20,7 +20,7 @@
     "build:client": "next build frontend",
     "build:server": "tsc --project backend --outDir dist/backend",
     "prebuild:server": "rimraf \"dist/!(frontend)\"",
-    "start": "node dist/backend/server.js",
+    "start": "node --require module-alias/register dist/backend/server.js",
     "export": "next export frontend --outdir dist/frontend",
     "preexport": "rimraf dist/frontend",
     "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore .",
@@ -69,6 +69,7 @@
     "husky": "3.0.0",
     "jest": "24.8.0",
     "lint-staged": "9.0.2",
+    "module-alias": "2.2.0",
     "nodemon": "1.19.1",
     "npm-run-all": "4.1.5",
     "prettier": "1.18.2",
@@ -78,6 +79,10 @@
     "ts-node": "8.3.0",
     "tsconfig-paths": "3.8.0",
     "typescript": "3.5.2"
+  },
+  "_moduleAliases": {
+    "backend": "dist/backend",
+    "~": "dist"
   },
   "babel": {
     "presets": [
