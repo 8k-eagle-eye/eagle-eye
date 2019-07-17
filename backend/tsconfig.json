@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "module": "esnext"
+    "noEmit": false,
+    "sourceMap": true
   },
   "extends": "../tsconfig"
 }
