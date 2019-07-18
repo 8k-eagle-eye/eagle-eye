@@ -138,5 +138,39 @@
         }
       }
     ]
+  },
+  "renovate": {
+    "description": "Configuration for 8K Eagle Eye",
+    "extends": [
+      "config:base",
+      ":timezone(Asia/Tokyo)"
+    ],
+    "npm": {
+      "commitMessageTopic": "{{prettyDepType}} {{depName}}",
+      "extends": [
+        "group:allNonMajor",
+        ":label(dependencies)",
+        ":prNotPending",
+        ":rebaseStalePrs",
+        ":semanticCommitTypeAll(chore)",
+        ":semanticCommits",
+        ":unpublishSafe"
+      ],
+      "lockFileMaintenance": {
+        "enabled": true,
+        "schedule": "after 10am on the first day of the month"
+      },
+      "prBodyColumns": [
+        "Package",
+        "Update",
+        "Type",
+        "Change",
+        "CompatibilityScore"
+      ],
+      "prBodyDefinitions": {
+        "CompatibilityScore": "[![compatibility-score for {{{depNameEscaped}}}](https://api.dependabot.com/badges/compatibility_score?dependency-name={{{depNameEscaped}}}&package-manager=npm_and_yarn&previous-version={{{fromVersion}}}&new-version={{{toVersion}}})](https://dependabot.com/compatibility-score/?dependency-name={{{depNameEscaped}}}&package-manager=npm_and_yarn&previous-version={{{fromVersion}}}&new-version={{{toVersion}}})"
+      }
+    },
+    "schedule": "after 10am on Saturday"
   }
 }
