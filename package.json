@@ -148,18 +148,36 @@
     "npm": {
       "commitMessageTopic": "{{prettyDepType}} {{depName}}",
       "extends": [
-        "group:allNonMajor",
+        ":automergeMinor",
         ":label(dependencies)",
+        ":maintainLockFilesMonthly",
         ":prNotPending",
         ":rebaseStalePrs",
         ":semanticCommitTypeAll(chore)",
         ":semanticCommits",
         ":unpublishSafe"
       ],
-      "lockFileMaintenance": {
-        "enabled": true,
-        "schedule": "after 10am on the first day of the month"
-      },
+      "packageRules": [
+        {
+          "excludePackageNames": [
+            "typescript"
+          ],
+          "minor": {
+            "groupName": "non-major dependencies",
+            "groupSlug": "minor-patch"
+          },
+          "packagePatterns": [
+            "*"
+          ]
+        },
+        {
+          "automerge": false,
+          "description": "Disable auto merging feature",
+          "packageNames": [
+            "typescript"
+          ]
+        }
+      ],
       "prBodyColumns": [
         "Package",
         "Update",

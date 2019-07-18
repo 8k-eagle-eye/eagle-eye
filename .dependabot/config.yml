@@ -7,6 +7,9 @@ update_configs:
     allowed_updates:
       - match:
           update_type: "security"
+    automerged_updates:
+      - match:
+          update_type: "semver:minor"
     commit_message:
       prefix: "chore"
       include_scope: true
