@@ -1,12 +1,13 @@
+import Link from 'next/link'
 import React from 'react'
 import styled from 'styled-components'
-import { Button, Container } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import Heading from 'components/public/heading'
 
 export interface HeroProps {
   heading: string
   description?: string
-  linkButtons?: {
+  linkList?: {
     href: string
     text: string
   }[]
@@ -16,7 +17,6 @@ const HeroSection = styled.section`
   position: relative;
   margin-bottom: 30vw;
   padding-top: 30vw;
-  text-align: center;
 
   @media screen and (min-width: 576px) {
     margin-bottom: 173px;
@@ -31,21 +31,42 @@ const HeroDescription = styled.p`
 `
 
 const HeroLinkList = styled.ul`
-  display: flex;
-  justify-content: center;
+  .link {
+    display: block;
+    padding: 0.5em 1em;
+    border: solid 2px ${({ theme }) => theme.color.primary};
+    border-radius: 4px;
+    color: ${({ theme }) => theme.color.primary};
+    font-weight: bold;
 
-  & li:nth-child(n + 2) {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  li {
+    display: inline-block;
+  }
+
+  li:first-child {
+    .link {
+      background-color: ${({ theme }) => theme.color.primary};
+      color: var(--white);
+    }
+  }
+
+  li:nth-child(n + 2) {
     margin-left: 1.5em;
   }
 `
 
-const LinkList = (props: Required<Pick<HeroProps, 'linkButtons'>>) => (
+const LinkList = (props: Required<Pick<HeroProps, 'linkList'>>) => (
   <HeroLinkList>
-    {props.linkButtons.map(linkButton => (
-      <li key={linkButton.href}>
-        <a href={linkButton.href}>
-          <Button variant="outline-warning">{linkButton.text}</Button>
-        </a>
+    {props.linkList.map(link => (
+      <li key={link.href}>
+        <Link href={link.href}>
+          <a className="link">{link.text}</a>
+        </Link>
       </li>
     ))}
   </HeroLinkList>
@@ -53,12 +74,10 @@ const LinkList = (props: Required<Pick<HeroProps, 'linkButtons'>>) => (
 
 const Hero = (props: HeroProps) => (
   <HeroSection>
-    <Container>
+    <Container className="text-md-center">
       <Heading text={props.heading} />
       {props.description && <HeroDescription>{props.description}</HeroDescription>}
-      {props.linkButtons && props.linkButtons.length > 0 && (
-        <LinkList linkButtons={props.linkButtons} />
-      )}
+      {props.linkList && props.linkList.length > 0 && <LinkList linkList={props.linkList} />}
     </Container>
   </HeroSection>
 )

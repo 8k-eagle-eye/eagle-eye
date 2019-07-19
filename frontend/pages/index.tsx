@@ -105,7 +105,7 @@ const Home = () => (
     <Hero
       heading="Application Concept, Copy etc..."
       description={dummyText}
-      linkButtons={[
+      linkList={[
         { href: '#demonstration', text: 'Demonstration' },
         { href: 'https://github.com/8k-eagle-eye/eagle-eye', text: 'GitHub' }
       ]}
