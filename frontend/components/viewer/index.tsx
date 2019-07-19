@@ -38,16 +38,17 @@ const Viewer = (props: ViewerProps) => {
   const [playing, setPlaying] = useState(false)
 
   const togglePlaying = useCallback(() => setPlaying(playing => !playing), [])
-  const calcBaseSize = useCallback(() => {
-    const viewerElem = viewerRef.current!
-    const { clientWidth, clientHeight } = viewerElem
-    const { top, left } = viewerElem.getBoundingClientRect()
-
-    setBaseSize({ width: clientWidth, height: clientHeight })
-    setClientRect({ top, left })
-  }, [viewerRef.current])
 
   useEffect(() => {
+    const viewerElem = viewerRef.current!
+    const calcBaseSize = () => {
+      const { clientWidth, clientHeight } = viewerElem
+      const { top, left } = viewerElem.getBoundingClientRect()
+
+      setBaseSize({ width: clientWidth, height: clientHeight })
+      setClientRect({ top, left })
+    }
+
     calcBaseSize()
     window.addEventListener('resize', calcBaseSize, false)
 
