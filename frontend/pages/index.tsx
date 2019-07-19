@@ -5,6 +5,7 @@ import Feature, { FeatureProps } from 'components/public/feature'
 import Footer from 'components/public/footer'
 import Head from 'components/head'
 import Header from 'components/public/header'
+import Heading from 'components/public/heading'
 import Hero from 'components/public/hero'
 import Viewer from 'components/viewer'
 import { ResetStyle, BackgroundStyle } from 'assets/styles/globalStyle'
@@ -35,16 +36,6 @@ const ViewerSection = styled.section`
 
   @media screen and (min-width: 576px) {
     margin-bottom: 173px;
-  }
-`
-
-const ViewerHeading = styled.h2`
-  font-size: 10vw;
-  font-weight: bold;
-  margin-bottom: 1em;
-
-  @media screen and (min-width: 640px) {
-    font-size: ${({ theme }) => theme.fontSize.xl};
   }
 `
 
@@ -122,7 +113,7 @@ const Home = () => (
 
     <ViewerSection>
       <Container>
-        <ViewerHeading id="demonstration">Demonstration</ViewerHeading>
+        <Heading id="demonstration" text="Demonstration" />
         <ViewerFrame>
           <Viewer aspect={16 / 9} />
         </ViewerFrame>

@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Button, Container } from 'react-bootstrap'
+import Heading from 'components/public/heading'
 
 export interface HeroProps {
   heading: string
@@ -20,16 +21,6 @@ const HeroSection = styled.section`
   @media screen and (min-width: 576px) {
     margin-bottom: 173px;
     padding-top: 173px;
-  }
-`
-
-const HeroHeading = styled.h2`
-  font-size: 10vw;
-  font-weight: bold;
-  margin-bottom: 0.4em;
-
-  @media screen and (min-width: 640px) {
-    font-size: ${({ theme }) => theme.fontSize.xl};
   }
 `
 
@@ -63,7 +54,7 @@ const LinkList = (props: Required<Pick<HeroProps, 'linkButtons'>>) => (
 const Hero = (props: HeroProps) => (
   <HeroSection>
     <Container>
-      <HeroHeading>{props.heading}</HeroHeading>
+      <Heading text={props.heading} />
       {props.description && <HeroDescription>{props.description}</HeroDescription>}
       {props.linkButtons && props.linkButtons.length > 0 && (
         <LinkList linkButtons={props.linkButtons} />
