@@ -1,18 +1,11 @@
 import React, { createRef } from 'react'
 import styled from 'styled-components'
 import useVideoController from 'hooks/viewer/useVideoController.ts'
-import useTransform from 'hooks/viewer/useTransform.ts'
 
 interface VideoContainerProps {
   playing: boolean
-  clientRect: { top: number; left: number }
-  baseSize: { width: number; height: number }
-  zoomPointX: number
-  zoomPointY: number
-  translateXDelta: number
-  translateYDelta: number
-  scaleDelta: number
-  deltaDetection: number
+  scale: number
+  translate: { x: number; y: number }
 }
 
 interface ContainerProps {
@@ -40,18 +33,9 @@ const BaseVideo = styled.video`
 
 const VideoContainer = (props: VideoContainerProps) => {
   const videoRef = createRef<HTMLVideoElement>()
-  const { translate, scale } = useTransform(
-    props.baseSize,
-    props.clientRect,
-    props.zoomPointX,
-    props.zoomPointY,
-    props.translateXDelta,
-    props.translateYDelta,
-    props.scaleDelta,
-    props.deltaDetection
-  )
+  const { playing, translate, scale } = props
 
-  useVideoController(videoRef, props.playing)
+  useVideoController(videoRef, playing)
 
   return (
     <Container translate={translate} scale={scale}>
