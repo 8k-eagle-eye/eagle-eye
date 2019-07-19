@@ -12,9 +12,9 @@ interface ViewerState {
   panning: boolean
   baseSize: { width: number; height: number }
   clientRect: { top: number; left: number }
-  prevPanPoint: { x: number; y: number },
-  zoomPointX: number,
-  zoomPointY: number,
+  prevPanPoint: { x: number; y: number }
+  zoomPointX: number
+  zoomPointY: number
   deltaDetection: number
 }
 
@@ -48,10 +48,6 @@ const PlayIcon = styled.div`
 `
 
 export default class Viewer extends Component<ViewerProps, ViewerState> {
-  private constructor(props: ViewerProps) {
-    super(props)
-  }
-
   public state = {
     playing: false,
     panning: false,
