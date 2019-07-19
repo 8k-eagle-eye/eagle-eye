@@ -1,11 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Col, Container, Row } from 'react-bootstrap'
+import Feature, { FeatureProps } from 'components/public/feature'
+import Footer from 'components/public/footer'
 import Head from 'components/head'
 import Header from 'components/public/header'
 import Hero from 'components/public/hero'
 import Viewer from 'components/viewer'
-import Feature, { FeatureProps } from 'components/public/feature'
 import { ResetStyle } from 'assets/styles/globalStyle'
 import { SITE_TITLE, APP_VERSION } from 'consts/meta'
 
@@ -128,6 +129,13 @@ const Home = () => (
     </ViewerSection>
 
     <Features features={featureContents} />
+
+    <Footer
+      className="pt-5"
+      style={{
+        backgroundColor: 'var(--color-primary-light)'
+      }}
+    />
   </div>
 )
 
