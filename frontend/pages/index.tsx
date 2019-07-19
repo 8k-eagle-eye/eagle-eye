@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Col, Container, Row } from 'react-bootstrap'
+import AnimationIcon from 'components/public/animationIcon'
 import Feature, { FeatureProps } from 'components/public/feature'
 import Footer from 'components/public/footer'
 import Head from 'components/head'
@@ -40,11 +41,19 @@ const ViewerSection = styled.section`
 `
 
 const ViewerFrame = styled.div`
+  position: relative;
   overflow: hidden;
   border-radius: 8px;
   margin: 0 auto 2em;
   background-color: ${({ theme: { color } }) => color.primaryDark};
   max-width: 640px;
+
+  .icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 `
 
 const FeaturesSection = styled.section`
@@ -116,6 +125,9 @@ const Home = () => (
         <Heading id="demonstration" text="Demonstration" />
         <ViewerFrame>
           <Viewer aspect={16 / 9} />
+          <div className="icon">
+            <AnimationIcon text="Try zooming!" />
+          </div>
         </ViewerFrame>
         <p>{dummyText}</p>
       </Container>
