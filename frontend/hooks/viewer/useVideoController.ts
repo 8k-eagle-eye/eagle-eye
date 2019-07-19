@@ -9,5 +9,5 @@ export default (videoRef: RefObject<HTMLVideoElement>, playing: boolean) => {
     } else {
       videoElem.pause()
     }
-  }, [playing])
+  }, [playing, videoRef.current])
 }
