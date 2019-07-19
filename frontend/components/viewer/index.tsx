@@ -7,6 +7,17 @@ interface ViewerProps {
   aspect: number
 }
 
+interface ViewerState {
+  playing: boolean
+  panning: boolean
+  baseSize: { width: number; height: number }
+  clientRect: { top: number; left: number }
+  prevPanPoint: { x: number; y: number },
+  zoomPointX: number,
+  zoomPointY: number,
+  deltaDetection: number
+}
+
 const ViewerRoot = styled.div<{ aspect: number }>`
   padding-top: ${({ aspect }) => 100 / aspect}%;
   position: relative;
@@ -36,21 +47,20 @@ const PlayIcon = styled.div`
   }
 `
 
-const genInitialState = () => ({
-  playing: false,
-  panning: false,
-  baseSize: { width: 0, height: 0 },
-  clientRect: { top: 0, left: 0 },
-  prevPanPoint: { x: 0, y: 0 },
-  zoomPointX: 0,
-  zoomPointY: 0,
-  deltaDetection: 0
-})
-
-export default class Viewer extends Component<ViewerProps, ReturnType<typeof genInitialState>> {
+export default class Viewer extends Component<ViewerProps, ViewerState> {
   private constructor(props: ViewerProps) {
     super(props)
-    this.state = genInitialState()
+  }
+
+  public state = {
+    playing: false,
+    panning: false,
+    baseSize: { width: 0, height: 0 },
+    clientRect: { top: 0, left: 0 },
+    prevPanPoint: { x: 0, y: 0 },
+    zoomPointX: 0,
+    zoomPointY: 0,
+    deltaDetection: 0
   }
 
   private inputPanelRef = createRef<HTMLDivElement>()
