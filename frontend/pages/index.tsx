@@ -7,7 +7,7 @@ import Head from 'components/head'
 import Header from 'components/public/header'
 import Hero from 'components/public/hero'
 import Viewer from 'components/viewer'
-import { ResetStyle } from 'assets/styles/globalStyle'
+import { ResetStyle, BackgroundStyle } from 'assets/styles/globalStyle'
 import { SITE_TITLE, APP_VERSION } from 'consts/meta'
 
 interface FeaturesProps {
@@ -107,6 +107,8 @@ const Home = () => (
   <div>
     <Head title={SITE_TITLE} />
     <ResetStyle />
+    <BackgroundStyle />
+
     <Header title={SITE_TITLE} version={APP_VERSION} />
 
     <Hero

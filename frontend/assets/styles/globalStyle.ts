@@ -56,3 +56,17 @@ export const ResetStyle = createGlobalStyle`
     font-size: inherit;
   }
 `
+
+export const BackgroundStyle = createGlobalStyle`
+  body {
+    background: no-repeat calc(50% + 24vw) -16vw / 40vw url('/static/images/multi-triangle.svg');
+
+    @media screen and (min-width: 768px) {
+      background-size: 308px;
+    }
+
+    @media screen and (min-width: 1200px) {
+      background-position: calc(50% + 288px) -192px;
+    }
+  }
+`
