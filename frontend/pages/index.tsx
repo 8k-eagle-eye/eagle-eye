@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Container } from 'react-bootstrap'
 import Head from 'components/head'
 import Header from 'components/public/header'
 import Hero from 'components/public/hero'
@@ -14,9 +15,31 @@ aperiam, iusto consectetur obcaecati, facilis velit, voluptatum
 nisi sed. Vero molestias minus sequi voluptatem!
 `
 
+const ViewerSection = styled.section`
+  text-align: center;
+  margin-bottom: 30vw;
+
+  @media screen and (min-width: 576px) {
+    margin-bottom: 173px;
+  }
+`
+
+const ViewerHeading = styled.h2`
+  font-size: 10vw;
+  font-weight: bold;
+  margin-bottom: 1em;
+
+  @media screen and (min-width: 640px) {
+    font-size: ${({ theme }) => theme.fontSize.xl};
+  }
+`
+
 const ViewerFrame = styled.div`
-  width: 600px;
-  margin: 30px auto;
+  overflow: hidden;
+  border-radius: 8px;
+  margin: 0 auto 2em;
+  background-color: ${({ theme: { color } }) => color.primaryDark};
+  max-width: 640px;
 `
 
 const Home = () => (
@@ -34,9 +57,15 @@ const Home = () => (
       ]}
     />
 
-    <ViewerFrame>
-      <Viewer aspect={16 / 9} />
-    </ViewerFrame>
+    <ViewerSection>
+      <Container>
+        <ViewerHeading id="demonstration">Demonstration</ViewerHeading>
+        <ViewerFrame>
+          <Viewer aspect={16 / 9} />
+        </ViewerFrame>
+        <p>{dummyText}</p>
+      </Container>
+    </ViewerSection>
   </div>
 )
 
