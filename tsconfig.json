@@ -16,6 +16,7 @@
       "backend/*": ["./backend/*"],
       "components/*": ["./frontend/components/*"],
       "hooks/*": ["./frontend/hooks/*"],
+      "libs/*": ["./frontend/libs/*"],
       "consts/*": ["./frontend/consts/*"],
       "frontend/*": ["./frontend/*"],
       "pages/*": ["./frontend/pages/*"],
