@@ -15,6 +15,7 @@
     "paths": {
       "backend/*": ["./backend/*"],
       "components/*": ["./frontend/components/*"],
+      "hooks/*": ["./frontend/hooks/*"],
       "consts/*": ["./frontend/consts/*"],
       "frontend/*": ["./frontend/*"],
       "pages/*": ["./frontend/pages/*"],
