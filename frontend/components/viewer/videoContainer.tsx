@@ -1,9 +1,11 @@
-import React, { createRef } from 'react'
+import React, { createRef, useState, useCallback, SyntheticEvent } from 'react'
 import styled from 'styled-components'
-import useVideoController from 'hooks/viewer/useVideoController.ts'
+import useVideoController from 'hooks/viewer/useVideoController'
+import FrontVideo from './frontVideo'
 
 interface VideoContainerProps {
   playing: boolean
+  baseSize: { width: number; height: number }
   scale: number
   translate: { x: number; y: number }
 }
@@ -33,7 +35,12 @@ const BaseVideo = styled.video`
 
 const VideoContainer = (props: VideoContainerProps) => {
   const videoRef = createRef<HTMLVideoElement>()
-  const { playing, translate, scale } = props
+  const { playing, baseSize, translate, scale } = props
+  const [currentTime, setCurrentTime] = useState(0)
+  const onTimeUpdate = useCallback(
+    (e: SyntheticEvent<HTMLVideoElement>) => setCurrentTime(e.currentTarget.currentTime),
+    []
+  )
 
   useVideoController(videoRef, playing)
 
@@ -42,8 +49,16 @@ const VideoContainer = (props: VideoContainerProps) => {
       <BaseVideo
         ref={videoRef}
         src={`${process.env.STORAGE_ORIGIN}/videos/hd/1-1.mp4`}
+        onTimeUpdate={onTimeUpdate}
         loop
         playsInline
+      />
+      <FrontVideo
+        playing={playing}
+        currentTime={currentTime}
+        baseSize={baseSize}
+        scale={scale}
+        translate={translate}
       />
     </Container>
   )

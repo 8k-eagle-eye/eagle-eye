@@ -1,7 +1,7 @@
 import React, { Component, createRef, Dispatch } from 'react'
 import styled from 'styled-components'
 import { ZOOM_STEP, MAX_SCALE } from 'consts/viewer'
-import calcDistance from 'libs/viewer/calcDistance.ts'
+import calcDistance from 'libs/viewer/calcDistance'
 
 interface InputPanelProps {
   baseSize: { width: number; height: number }
