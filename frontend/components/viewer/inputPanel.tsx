@@ -32,7 +32,10 @@ export default class InputPanel extends Component<InputPanelProps> {
   }
 
   private onMouseMove = (e: MouseEvent) => {
-    if (!this.panning) { return }
+    if (!this.panning) {
+      return
+    }
+
     this.movePan(e)
   }
 
