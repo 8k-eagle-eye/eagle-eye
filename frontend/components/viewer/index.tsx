@@ -37,7 +37,7 @@ const Viewer = (props: ViewerProps) => {
   const [translate, setTranslate] = useState({ x: 0, y: 0 })
   const [playing, setPlaying] = useState(false)
 
-  const togglePlaying = useCallback(() => setPlaying(playing => !playing), [])
+  const togglePlaying = useCallback(() => setPlaying(!playing), [playing])
 
   useEffect(() => {
     const viewerElem = viewerRef.current!
