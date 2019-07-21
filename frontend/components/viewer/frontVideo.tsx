@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import useFrontVideoParams from 'hooks/viewer/useFrontVideoParams'
+import calculateFrontVideoParams from 'hooks/viewer/calculateFrontVideoParams'
 import useFrontVideoController from 'hooks/viewer/useFrontVideoController'
 
 interface FrontVideoProps {
@@ -34,7 +34,7 @@ const FrontVideoElem = styled.video.attrs(
 
 const FrontVideo = (props: FrontVideoProps) => {
   const { playing, currentTime, baseSize, scale, translate } = props
-  const { resolutionRatio, top, left, src } = useFrontVideoParams(baseSize, scale, translate)
+  const { resolutionRatio, top, left, src } = calculateFrontVideoParams(baseSize, scale, translate)
   const { ref, canPlay, onCanPlayThrough } = useFrontVideoController(
     resolutionRatio,
     src,

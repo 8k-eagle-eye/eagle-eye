@@ -1,7 +1,7 @@
 import React, { Component, createRef, Dispatch } from 'react'
 import styled from 'styled-components'
 import { ZOOM_STEP, MAX_SCALE } from 'consts/viewer'
-import calcDistance from 'libs/viewer/calcDistance'
+import calculateDistance from 'libs/viewer/calculateDistance'
 
 interface InputPanelProps {
   baseSize: { width: number; height: number }
@@ -41,7 +41,7 @@ export default class InputPanel extends Component<InputPanelProps> {
       this.startPan(e.touches[0])
     } else if (e.touches.length === 2) {
       this.zooming = true
-      this.baseDistance = calcDistance(e.touches) / this.props.scale
+      this.baseDistance = calculateDistance(e.touches) / this.props.scale
     }
   }
 
@@ -60,7 +60,7 @@ export default class InputPanel extends Component<InputPanelProps> {
       this.onZoom(
         (touches[0].pageX + touches[1].pageY) / 2,
         (touches[0].pageY + touches[1].pageY) / 2,
-        calcDistance(touches) / this.baseDistance - this.props.scale
+        calculateDistance(touches) / this.baseDistance - this.props.scale
       )
     }
   }
