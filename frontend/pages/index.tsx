@@ -1,33 +1,82 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Container } from 'react-bootstrap'
-import AnimationIcon from 'components/public/animationIcon'
+import AnimationIcon, { AnimationIconProps } from 'components/public/animationIcon'
 import FeatureList, { FeatureListProps } from 'components/public/featureList'
 import Footer from 'components/public/footer'
-import Head from 'components/head'
-import Header from 'components/public/header'
-import Heading from 'components/public/heading'
-import Hero from 'components/public/hero'
+import Head, { HeadProps } from 'components/head'
+import Header, { HeaderProps } from 'components/public/header'
+import Heading, { HeadingProps } from 'components/public/heading'
+import Hero, { HeroProps } from 'components/public/hero'
 import Viewer from 'components/viewer'
 import { ResetStyle, BackgroundStyle } from 'assets/styles/globalStyle'
 import { SITE_TITLE, APP_VERSION } from 'consts/meta'
 
-const dummyText = `Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-Nostrum harum laudantium dicta laboriosam iste molestias totam
-aperiam, iusto consectetur obcaecati, facilis velit, voluptatum
-nisi sed. Vero molestias minus sequi voluptatem!
-`
+interface Content {
+  head: HeadProps
+  header: HeaderProps
+  hero: HeroProps
+  viewer: {
+    heading: HeadingProps
+    icon: AnimationIconProps
+    description: string
+  }
+  features: {
+    heading: string
+    list: FeatureListProps
+  }
+}
 
-const featureContents: FeatureListProps = {
-  items: [...Array(3)].map((_, idx) => ({
-    heading: `heading ${++idx}`,
-    description: dummyText,
-    icon: { src: '/static/images/github.svg' }
-  }))
+const homeContent: Content = {
+  head: {
+    title: SITE_TITLE
+  },
+  header: {
+    title: SITE_TITLE,
+    version: APP_VERSION
+  },
+  hero: {
+    heading: 'Application Concept, Copy etc...',
+    description: `Eagle Eyeはユーザーが動画を通じて触れる世界を広げます。
+8K相当の情報量を保持した動画を、ユーザーによる動画スワイプ、ズームイン/アウトをして視聴することが可能な動画プレーヤーです。`,
+    linkList: [
+      { href: '#demonstration', text: 'Demonstration' },
+      { href: 'https://github.com/8k-eagle-eye/eagle-eye', text: 'GitHub' }
+    ]
+  },
+  viewer: {
+    heading: {
+      id: 'demonstration',
+      text: 'Demonstration'
+    },
+    icon: {
+      text: 'Try zooming!'
+    },
+    description: `「もっとよく見てみたい場所」に指を置いて、ズーム・スワイプ操作をしてみましょう。
+直感的な操作で、細部に宿るた美しさ、精緻さが新しい動画体験を提供します。`
+  },
+  features: {
+    heading: 'Features',
+    list: {
+      items: [
+        {
+          heading: 'インタラクティブな解像度補正',
+          description:
+            '8Kで撮影されたオリジナル動画のデータ密度を利用して最大12倍の無劣化ズームを実現します',
+          icon: { src: '/static/images/aspect-ratio.svg' }
+        },
+        {
+          heading: 'PCとスマホ両方のWebサイトに対応',
+          description: `特別な環境・機材を必要とせず、現状のサイトに埋め込み・配信をします
+          5Gともにやってくる8K動画の感動を4G環境でも少しだけ先取り体験出来ます`,
+          icon: { src: '/static/images/phonelink.svg' }
+        }
+      ]
+    }
+  }
 }
 
 const ViewerSection = styled.section`
-  text-align: center;
   margin-bottom: 30vw;
 
   @media screen and (min-width: 576px) {
@@ -84,39 +133,34 @@ const FeaturesSection = styled.section`
 `
 
 const Home = () => (
-  <div>
-    <Head title={SITE_TITLE} />
+  <>
+    <Head {...homeContent.head} />
     <ResetStyle />
     <BackgroundStyle />
 
-    <Header title={SITE_TITLE} version={APP_VERSION} />
+    <Header {...homeContent.header} />
 
-    <Hero
-      heading="Application Concept, Copy etc..."
-      description={dummyText}
-      linkList={[
-        { href: '#demonstration', text: 'Demonstration' },
-        { href: 'https://github.com/8k-eagle-eye/eagle-eye', text: 'GitHub' }
-      ]}
-    />
+    <Hero {...homeContent.hero} />
 
     <ViewerSection>
       <Container>
-        <Heading id="demonstration" text="Demonstration" />
+        <Heading className="text-center" {...homeContent.viewer.heading} />
         <ViewerFrame>
           <Viewer aspect={16 / 9} />
           <div className="icon">
-            <AnimationIcon text="Try zooming!" />
+            <AnimationIcon {...homeContent.viewer.icon} />
           </div>
         </ViewerFrame>
-        <p>{dummyText}</p>
+        <p className="text-md-center" style={{ whiteSpace: 'pre-line' }}>
+          {homeContent.viewer.description}
+        </p>
       </Container>
     </ViewerSection>
 
     <FeaturesSection>
       <Container>
-        <h2 className="font-weight-bold mt-4 mt-md-0 mb-4">Features</h2>
-        <FeatureList items={featureContents.items} />
+        <h2 className="font-weight-bold mt-4 mt-md-0 mb-4">{homeContent.features.heading}</h2>
+        <FeatureList {...homeContent.features.list} />
       </Container>
     </FeaturesSection>
 
@@ -126,7 +170,7 @@ const Home = () => (
         backgroundColor: 'var(--color-primary-light)'
       }}
     />
-  </div>
+  </>
 )
 
 export default Home
