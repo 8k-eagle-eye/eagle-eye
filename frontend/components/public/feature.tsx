@@ -3,42 +3,35 @@ import styled from 'styled-components'
 
 export interface FeatureProps {
   heading: string
+  headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   description: string
-  icon?: {
+  icon: {
     src: string
     alt?: string
   }
 }
 
-const IconWrapper = styled.p`
-  padding: 0 20%;
-  margin-bottom: 2em;
+const Icon = styled.span`
+  display: inline-block;
+  width: 3rem;
+  margin-bottom: 0.4em;
 `
 
-const Caption = styled.h3`
-  margin-bottom: 0.5em;
-  text-align: center;
+const Heading = styled.h3`
+  font-size: 1.2em;
   font-weight: bold;
-
-  &::after {
-    content: '';
-    display: block;
-    width: 2.5em;
-    height: 3px;
-    margin: 0.5em auto 0;
-    background-color: currentColor;
-  }
+  margin-bottom: 0.5em;
 `
 
 const Feature = (props: FeatureProps) => (
   <>
     {props.icon && (
-      <IconWrapper>
+      <Icon>
         <img src={props.icon.src} alt={props.icon.alt || ''} />
-      </IconWrapper>
+      </Icon>
     )}
-    <Caption>{props.heading}</Caption>
-    <p className="text-center">{props.description}</p>
+    <Heading as={props.headingLevel && props.headingLevel}>{props.heading}</Heading>
+    <p style={{ whiteSpace: 'pre-line' }}>{props.description}</p>
   </>
 )
 

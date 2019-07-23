@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Col, Container, Row } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import AnimationIcon from 'components/public/animationIcon'
-import Feature, { FeatureProps } from 'components/public/feature'
+import FeatureList, { FeatureListProps } from 'components/public/featureList'
 import Footer from 'components/public/footer'
 import Head from 'components/head'
 import Header from 'components/public/header'
@@ -12,24 +12,19 @@ import Viewer from 'components/viewer'
 import { ResetStyle, BackgroundStyle } from 'assets/styles/globalStyle'
 import { SITE_TITLE, APP_VERSION } from 'consts/meta'
 
-interface FeaturesProps {
-  features: FeatureProps[]
-}
-
-const dummyText = `
-Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+const dummyText = `Lorem ipsum dolor, sit amet consectetur adipisicing elit.
 Nostrum harum laudantium dicta laboriosam iste molestias totam
 aperiam, iusto consectetur obcaecati, facilis velit, voluptatum
 nisi sed. Vero molestias minus sequi voluptatem!
 `
 
-const featureContents = [...Array(3)].map(
-  (_, idx): FeatureProps => ({
+const featureContents: FeatureListProps = {
+  items: [...Array(3)].map((_, idx) => ({
     heading: `heading ${++idx}`,
     description: dummyText,
     icon: { src: '/static/images/github.svg' }
-  })
-)
+  }))
+}
 
 const ViewerSection = styled.section`
   text-align: center;
@@ -88,21 +83,6 @@ const FeaturesSection = styled.section`
   }
 `
 
-const Features = (props: FeaturesProps) => (
-  <FeaturesSection>
-    <Container>
-      <h2 className="font-weight-bold text-center mt-5 mb-md-5">Features</h2>
-      <Row>
-        {props.features.map(({ heading, description, icon }) => (
-          <Col key={heading} md className="mt-5 mt-md-0">
-            <Feature heading={heading} description={description} icon={icon} />
-          </Col>
-        ))}
-      </Row>
-    </Container>
-  </FeaturesSection>
-)
-
 const Home = () => (
   <div>
     <Head title={SITE_TITLE} />
@@ -133,7 +113,12 @@ const Home = () => (
       </Container>
     </ViewerSection>
 
-    <Features features={featureContents} />
+    <FeaturesSection>
+      <Container>
+        <h2 className="font-weight-bold mt-4 mt-md-0 mb-4">Features</h2>
+        <FeatureList items={featureContents.items} />
+      </Container>
+    </FeaturesSection>
 
     <Footer
       className="pt-5"
