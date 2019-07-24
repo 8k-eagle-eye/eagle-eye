@@ -57,7 +57,7 @@ const Viewer = (props: ViewerProps) => {
 
   return (
     <ViewerRoot ref={viewerRef} aspect={aspect}>
-      <VideoContainer playing={playing} scale={scale} translate={translate} />
+      <VideoContainer playing={playing} baseSize={baseSize} scale={scale} translate={translate} />
       <InputPanel
         baseSize={baseSize}
         clientRect={clientRect}
