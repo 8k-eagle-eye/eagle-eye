@@ -6,9 +6,10 @@ import useFrontVideoController from 'hooks/viewer/useFrontVideoController'
 interface FrontVideoProps {
   playing: boolean
   currentTime: number
-  baseSize: { width: number; height: number }
   scale: number
-  translate: { x: number; y: number }
+  gridSize: { width: number; height: number }
+  resolutionRatio: number
+  finallyTranslate: { x: number; y: number }
 }
 
 interface FrontVideoElemProps {
@@ -33,8 +34,13 @@ const FrontVideoElem = styled.video.attrs(
 `
 
 const FrontVideo = (props: FrontVideoProps) => {
-  const { playing, currentTime, baseSize, scale, translate } = props
-  const { resolutionRatio, top, left, src } = calculateFrontVideoParams(baseSize, scale, translate)
+  const { playing, currentTime, scale, gridSize, resolutionRatio, finallyTranslate } = props
+  const { top, left, src } = calculateFrontVideoParams(
+    gridSize,
+    resolutionRatio,
+    scale,
+    finallyTranslate
+  )
   const { ref, canPlay, setCanPlayOnCanPlayThrough } = useFrontVideoController(
     src,
     playing,
