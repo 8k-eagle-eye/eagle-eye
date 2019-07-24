@@ -1,5 +1,10 @@
 import { createGlobalStyle, css } from 'styled-components'
-import { color } from 'assets/styles/theme'
+import { theme } from 'assets/styles/theme'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getKeys<K extends keyof V, V extends { [key: string]: any }>(value: V): K[] {
+  return Object.keys(value) as K[]
+}
 
 const toPascalCase = (str: string) =>
   str
@@ -7,14 +12,17 @@ const toPascalCase = (str: string) =>
     .join('-')
     .toLowerCase()
 
-const cssColorVars = Object.keys(color).reduce((styles, key): string => {
-  return (styles += `--color-${toPascalCase(key)}: ${color[key]};`)
+const cssCustomProperties: string = getKeys(theme).reduce((styles, property) => {
+  getKeys(theme[property]).forEach(key => {
+    styles += `--${toPascalCase(`${property}-${key}`)}: ${theme[property][key]};`
+  })
+  return styles
 }, '')
 
 export const ResetStyle = createGlobalStyle`
   :root{
     ${css`
-      ${cssColorVars}
+      ${cssCustomProperties}
     `}
   }
 

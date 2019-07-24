@@ -1,26 +1,20 @@
-interface CssDeclaration {
-  [key: string]: string
+import baseStyled, { ThemedStyledInterface } from 'styled-components'
+
+export const theme = {
+  color: {
+    primary: '#fedd00',
+    primaryDark: '#fff298',
+    primaryLight: '#fffadc',
+    gray: '#6c757d'
+  },
+  fontSize: {
+    xl: '64px',
+    l: '32px'
+  }
 }
 
-interface Theme {
-  [key: string]: CssDeclaration
-}
+export type Theme = typeof theme
 
-export const color: CssDeclaration = {
-  primary: '#fedd00',
-  primaryDark: '#fff298',
-  primaryLight: '#fffadc',
-  gray: '#6c757d'
-}
-
-export const fontSize: CssDeclaration = {
-  xl: '64px',
-  l: '32px'
-}
-
-const theme: Theme = {
-  color,
-  fontSize
-}
+export const styled = baseStyled as ThemedStyledInterface<Theme>
 
 export default theme
