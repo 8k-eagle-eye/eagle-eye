@@ -37,7 +37,7 @@ const VideoContainer = (props: VideoContainerProps) => {
   const videoRef = createRef<HTMLVideoElement>()
   const { playing, baseSize, translate, scale } = props
   const [currentTime, setCurrentTime] = useState(0)
-  const onTimeUpdate = useCallback(
+  const setCurrentTimeOnTimeUpdate = useCallback(
     (e: SyntheticEvent<HTMLVideoElement>) => setCurrentTime(e.currentTarget.currentTime),
     []
   )
@@ -49,7 +49,7 @@ const VideoContainer = (props: VideoContainerProps) => {
       <BaseVideo
         ref={videoRef}
         src={`${process.env.STORAGE_ORIGIN}/videos/hd/1-1.mp4`}
-        onTimeUpdate={onTimeUpdate}
+        onTimeUpdate={setCurrentTimeOnTimeUpdate}
         loop
         playsInline
       />

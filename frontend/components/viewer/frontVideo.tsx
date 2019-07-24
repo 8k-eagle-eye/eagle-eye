@@ -35,8 +35,7 @@ const FrontVideoElem = styled.video.attrs(
 const FrontVideo = (props: FrontVideoProps) => {
   const { playing, currentTime, baseSize, scale, translate } = props
   const { resolutionRatio, top, left, src } = calculateFrontVideoParams(baseSize, scale, translate)
-  const { ref, canPlay, onCanPlayThrough } = useFrontVideoController(
-    resolutionRatio,
+  const { ref, canPlay, setCanPlayOnCanPlayThrough } = useFrontVideoController(
     src,
     playing,
     currentTime
@@ -50,7 +49,7 @@ const FrontVideo = (props: FrontVideoProps) => {
       left={left}
       opacity={canPlay ? 1 : 0}
       src={src}
-      onCanPlayThrough={onCanPlayThrough}
+      onCanPlayThrough={setCanPlayOnCanPlayThrough}
       loop
       playsInline
       muted

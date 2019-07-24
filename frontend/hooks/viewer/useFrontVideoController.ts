@@ -1,13 +1,13 @@
-import { useState, createRef, useCallback, useMemo, useEffect } from 'react'
+import { useState, createRef, useCallback, useEffect } from 'react'
 
-export default (resolutionRatio: number, src: string, playing: boolean, currentTime: number) => {
-  const [videoElem, setVideoElem] = useState<HTMLVideoElement | null>(null)
+export default (src: string, playing: boolean, currentTime: number) => {
   const frontVideoRef = createRef<HTMLVideoElement>()
   const [canPlay, setCanPlay] = useState(false)
 
-  useMemo(() => setCanPlay(false), [src])
+  useEffect(() => setCanPlay(false), [src])
 
-  useMemo(() => {
+  useEffect(() => {
+    const videoElem = frontVideoRef.current
     if (!videoElem || !canPlay) {
       return
     }
@@ -17,9 +17,10 @@ export default (resolutionRatio: number, src: string, playing: boolean, currentT
     } else if (!playing && !videoElem.paused) {
       videoElem.pause()
     }
-  }, [canPlay, playing, videoElem])
+  }, [canPlay, frontVideoRef.current, playing])
 
-  useMemo(() => {
+  useEffect(() => {
+    const videoElem = frontVideoRef.current
     if (!videoElem) {
       return
     }
@@ -27,16 +28,11 @@ export default (resolutionRatio: number, src: string, playing: boolean, currentT
     if (Math.abs(videoElem.currentTime - currentTime) > 0.5) {
       videoElem.currentTime = currentTime
     }
-  }, [currentTime, videoElem, canPlay, src])
+  }, [currentTime, canPlay, frontVideoRef.current, src])
 
-  useEffect(() => {
-    const frontVideoElem = frontVideoRef.current
-    if (!frontVideoElem) {
-      return
-    }
-
-    setVideoElem(frontVideoElem)
-  }, [resolutionRatio, frontVideoRef.current])
-
-  return { ref: frontVideoRef, canPlay, onCanPlayThrough: useCallback(() => setCanPlay(true), []) }
+  return {
+    ref: frontVideoRef,
+    canPlay,
+    setCanPlayOnCanPlayThrough: useCallback(() => setCanPlay(true), [])
+  }
 }
