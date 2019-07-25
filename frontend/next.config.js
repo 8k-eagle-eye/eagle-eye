@@ -13,7 +13,8 @@ module.exports = withTypescript({
     config.plugins = [
       ...(config.plugins || []),
       new Dotenv({
-        path: path.resolve(__dirname, '../.env')
+        path: path.resolve(__dirname, '../.env'),
+        systemvars: process.env.SYSTEMVARS_ENABLED === 'true'
       })
     ]
 
