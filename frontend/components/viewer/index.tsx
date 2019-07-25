@@ -35,7 +35,7 @@ const Viewer = (props: ViewerProps) => {
   const [clientRect, setClientRect] = useState({ top: 0, left: 0 })
   const [scale, setScale] = useState(1)
   const [translate, setTranslate] = useState({ x: 0, y: 0 })
-  const [finallyTranslate, setFinallyTranslate] = useState({ x: 0, y: 0 })
+  const [destinationTranslate, setFinallyTranslate] = useState({ x: 0, y: 0 })
   const [playing, setPlaying] = useState(false)
   const resolutionRatio = useMemo(() => (scale >= 8 ? 8 : scale >= 4 ? 4 : scale >= 2 ? 2 : 1), [
     scale
@@ -74,7 +74,7 @@ const Viewer = (props: ViewerProps) => {
         gridSize={gridSize}
         resolutionRatio={resolutionRatio}
         translate={translate}
-        finallyTranslate={finallyTranslate}
+        destinationTranslate={destinationTranslate}
       />
       <InputPanel
         baseSize={baseSize}
@@ -82,7 +82,7 @@ const Viewer = (props: ViewerProps) => {
         scale={scale}
         gridSize={gridSize}
         translate={translate}
-        finallyTranslate={finallyTranslate}
+        destinationTranslate={destinationTranslate}
         onChangeScale={setScale}
         onChangeTranslate={setTranslate}
         onChangeFinallyTranslate={setFinallyTranslate}

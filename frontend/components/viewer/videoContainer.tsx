@@ -9,7 +9,7 @@ interface VideoContainerProps {
   gridSize: { width: number; height: number }
   resolutionRatio: number
   translate: { x: number; y: number }
-  finallyTranslate: { x: number; y: number }
+  destinationTranslate: { x: number; y: number }
 }
 
 interface ContainerProps {
@@ -37,7 +37,7 @@ const BaseVideo = styled.video`
 
 const VideoContainer = (props: VideoContainerProps) => {
   const videoRef = createRef<HTMLVideoElement>()
-  const { playing, translate, scale, gridSize, resolutionRatio, finallyTranslate } = props
+  const { playing, translate, scale, gridSize, resolutionRatio, destinationTranslate } = props
   const [currentTime, setCurrentTime] = useState(0)
   const setCurrentTimeOnTimeUpdate = useCallback(
     (e: SyntheticEvent<HTMLVideoElement>) => setCurrentTime(e.currentTarget.currentTime),
@@ -61,7 +61,7 @@ const VideoContainer = (props: VideoContainerProps) => {
         scale={scale}
         gridSize={gridSize}
         resolutionRatio={resolutionRatio}
-        finallyTranslate={finallyTranslate}
+        destinationTranslate={destinationTranslate}
       />
     </Container>
   )

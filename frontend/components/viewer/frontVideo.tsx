@@ -9,7 +9,7 @@ interface FrontVideoProps {
   scale: number
   gridSize: { width: number; height: number }
   resolutionRatio: number
-  finallyTranslate: { x: number; y: number }
+  destinationTranslate: { x: number; y: number }
 }
 
 interface FrontVideoElemProps {
@@ -34,12 +34,12 @@ const FrontVideoElem = styled.video.attrs(
 `
 
 const FrontVideo = (props: FrontVideoProps) => {
-  const { playing, currentTime, scale, gridSize, resolutionRatio, finallyTranslate } = props
+  const { playing, currentTime, scale, gridSize, resolutionRatio, destinationTranslate } = props
   const { top, left, src } = calculateFrontVideoParams(
     gridSize,
     resolutionRatio,
     scale,
-    finallyTranslate
+    destinationTranslate
   )
   const { ref, canPlay, setCanPlayOnCanPlayThrough } = useFrontVideoController(
     src,

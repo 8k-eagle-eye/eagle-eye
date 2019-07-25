@@ -9,7 +9,7 @@ interface InputPanelProps {
   scale: number
   gridSize: { width: number; height: number }
   translate: { x: number; y: number }
-  finallyTranslate: { x: number; y: number }
+  destinationTranslate: { x: number; y: number }
   onChangeScale: Dispatch<number>
   onChangeTranslate: Dispatch<{ x: number; y: number }>
   onChangeFinallyTranslate: Dispatch<{ x: number; y: number }>
@@ -150,10 +150,10 @@ export default class InputPanel extends Component<InputPanelProps> {
   }
 
   private runGridAnimation = () => {
-    const { translate, finallyTranslate } = this.props
+    const { translate, destinationTranslate } = this.props
     const step = GRID_ANIMATION_STEP
-    const diffXToGrid = translate.x - finallyTranslate.x
-    const diffYToGrid = translate.y - finallyTranslate.y
+    const diffXToGrid = translate.x - destinationTranslate.x
+    const diffYToGrid = translate.y - destinationTranslate.y
 
     const newDiffX =
       Math.abs(diffXToGrid) <= step ? 0 : diffXToGrid + (diffXToGrid < 0 ? step : -step)
