@@ -1,120 +1,176 @@
-import Link from 'next/link'
 import React from 'react'
-import styled from 'styled-components'
-import { Alert, Container, Col as GridCol, Row as GridRow } from 'react-bootstrap'
-import ExampleModal from 'components/exampleModal'
-import Head from 'components/head'
-import Nav from 'components/nav'
+import { Container } from 'react-bootstrap'
+import AnimationIcon, { AnimationIconProps } from 'components/public/animationIcon'
+import FeatureList, { FeatureListProps } from 'components/public/featureList'
+import Footer from 'components/public/footer'
+import Head, { HeadProps } from 'components/head'
+import Header, { HeaderProps } from 'components/public/header'
+import Heading, { HeadingProps } from 'components/public/heading'
+import Hero, { HeroProps } from 'components/public/hero'
 import Viewer from 'components/viewer'
+import { ResetStyle, BackgroundStyle } from 'assets/styles/globalStyle'
+import { SITE_TITLE, APP_VERSION } from 'consts/meta'
+import { styled } from 'assets/styles/theme'
 
-const Hero = styled.div`
-  width: 100%;
-  color: #333;
-`
+interface Content {
+  head: HeadProps
+  header: HeaderProps
+  hero: HeroProps
+  viewer: {
+    heading: HeadingProps
+    icon: AnimationIconProps
+    description: string
+  }
+  features: {
+    heading: string
+    list: FeatureListProps
+  }
+}
 
-const Title = styled.h1`
-  margin: 0;
-  width: 100%;
-  padding-top: 80px;
-  line-height: 1.15;
-  color: ${({ theme }) => theme.colors.primary};
-  font-size: 48px;
-  text-align: center;
-`
+const homeContent: Content = {
+  head: {
+    title: SITE_TITLE
+  },
+  header: {
+    title: SITE_TITLE,
+    version: APP_VERSION
+  },
+  hero: {
+    heading: 'Application Concept, Copy etc...',
+    description: `Eagle Eyeはユーザーが動画を通じて触れる世界を広げます。
+8K相当の情報量を保持した動画を、ユーザーによる動画スワイプ、ズームイン/アウトをして視聴することが可能な動画プレーヤーです。`,
+    linkList: [
+      { href: '#demonstration', text: 'Demonstration' },
+      { href: 'https://github.com/8k-eagle-eye/eagle-eye', text: 'GitHub' }
+    ]
+  },
+  viewer: {
+    heading: {
+      id: 'demonstration',
+      text: 'Demonstration'
+    },
+    icon: {
+      text: 'Try zooming!'
+    },
+    description: `「もっとよく見てみたい場所」に指を置いて、ズーム・スワイプ操作をしてみましょう。
+直感的な操作で、細部に宿るた美しさ、精緻さが新しい動画体験を提供します。`
+  },
+  features: {
+    heading: 'Features',
+    list: {
+      items: [
+        {
+          heading: 'インタラクティブな解像度補正',
+          description:
+            '8Kで撮影されたオリジナル動画のデータ密度を利用して最大12倍の無劣化ズームを実現します',
+          icon: { src: '/static/images/aspect-ratio.svg' }
+        },
+        {
+          heading: 'PCとスマホ両方のWebサイトに対応',
+          description: `特別な環境・機材を必要とせず、現状のサイトに埋め込み・配信をします
+          5Gともにやってくる8K動画の感動を4G環境でも少しだけ先取り体験出来ます`,
+          icon: { src: '/static/images/phonelink.svg' }
+        }
+      ]
+    }
+  }
+}
 
-const Description = styled.p`
-  text-align: center;
+const ViewerSection = styled.section`
+  margin-bottom: 30vw;
+
+  @media screen and (min-width: 576px) {
+    margin-bottom: 173px;
+  }
 `
 
 const ViewerFrame = styled.div`
-  width: 600px;
-  margin: 30px auto;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  margin: 0 auto 2em;
+  background-color: ${({ theme }) => theme.color.primaryDark};
+  max-width: 640px;
+
+  .icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 `
 
-const Row = styled.div`
-  max-width: 880px;
-  margin: 80px auto 40px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-`
+const FeaturesSection = styled.section`
+  position: relative;
+  overflow-x: hidden;
+  padding-top: 6vw;
+  background-color: ${({ theme }) => theme.color.primaryLight};
+  background-clip: content-box;
 
-const Card = styled.a`
-  padding: 18px 18px 24px;
-  width: 220px;
-  text-align: left;
-  text-decoration: none;
-  color: #434343;
-  border: 1px solid #9b9b9b;
-
-  &:hover {
-    border-color: #067df7;
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    z-index: -1;
+    display: block;
+    height: 0;
+    width: 0;
+    border-style: solid;
   }
 
-  & h3 {
-    margin: 0;
-    color: #067df7;
-    font-size: 18px;
+  &::before {
+    right: 0;
+    border-color: transparent transparent ${({ theme }) => theme.color.primaryDark} transparent;
+    border-width: 0 0 6vw 100vw;
   }
 
-  & p {
-    margin: 0;
-    padding: 12px 0 0;
-    font-size: 13px;
-    color: #333;
+  &::after {
+    left: 0;
+    border-color: transparent transparent transparent ${({ theme }) => theme.color.primaryLight};
+    border-width: 6vw 0 0 100vw;
   }
 `
 
 const Home = () => (
-  <div>
-    <Head title="Home" />
-    <Nav />
+  <>
+    <Head {...homeContent.head} />
+    <ResetStyle />
+    <BackgroundStyle />
 
-    <Container>
-      <GridRow className="justify-content-md-center">
-        <GridCol>
-          <Alert variant="primary">This is a React Bootstrap alert—check it out!</Alert>
-        </GridCol>
-        <GridCol>
-          <ExampleModal />
-        </GridCol>
-      </GridRow>
-    </Container>
+    <Header {...homeContent.header} />
 
-    <Hero>
-      <Title>Welcome to Next!</Title>
-      <Description>
-        To get started, edit <code>pages/index.js</code> and save to reload.
-      </Description>
+    <Hero {...homeContent.hero} />
 
-      <ViewerFrame>
-        <Viewer aspect={16 / 9} />
-      </ViewerFrame>
+    <ViewerSection>
+      <Container>
+        <Heading className="text-center" {...homeContent.viewer.heading} />
+        <ViewerFrame>
+          <Viewer aspect={16 / 9} />
+          <div className="icon">
+            <AnimationIcon {...homeContent.viewer.icon} />
+          </div>
+        </ViewerFrame>
+        <p className="text-md-center" style={{ whiteSpace: 'pre-line' }}>
+          {homeContent.viewer.description}
+        </p>
+      </Container>
+    </ViewerSection>
 
-      <Row>
-        <Link href="https://github.com/zeit/next.js#getting-started">
-          <Card>
-            <h3>Getting Started &rarr;</h3>
-            <p>Learn more about Next on Github and in their examples</p>
-          </Card>
-        </Link>
-        <Link href="https://open.segment.com/create-next-app">
-          <Card>
-            <h3>Examples &rarr;</h3>
-            <p>
-              Find other example boilerplates on the <code>create-next-app</code> site
-            </p>
-          </Card>
-        </Link>
-        <Link href="https://github.com/segmentio/create-next-app">
-          <Card>
-            <h3>Create Next App &rarr;</h3>
-            <p>Was this tool helpful? Let us know how we can improve it</p>
-          </Card>
-        </Link>
-      </Row>
-    </Hero>
-  </div>
+    <FeaturesSection>
+      <Container>
+        <h2 className="font-weight-bold mt-4 mt-md-0 mb-4">{homeContent.features.heading}</h2>
+        <FeatureList {...homeContent.features.list} />
+      </Container>
+    </FeaturesSection>
+
+    <Footer
+      className="pt-5"
+      style={{
+        backgroundColor: 'var(--color-primary-light)'
+      }}
+    />
+  </>
 )
 
 export default Home

@@ -1,18 +1,18 @@
 import NextHead from 'next/head'
-import React, { FC } from 'react'
+import React from 'react'
 
 const defaultDescription = ''
 const defaultOGURL = ''
 const defaultOGImage = ''
 
-interface HeadProps {
+export interface HeadProps {
   title: string
   description?: string
   url?: string
   ogImage?: string
 }
 
-const Head: FC<HeadProps> = props => (
+const Head = (props: HeadProps) => (
   <NextHead>
     <meta charSet="UTF-8" />
     <title>{props.title || ''}</title>
