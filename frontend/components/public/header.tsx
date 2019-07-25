@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
-import styled from 'styled-components'
 import { Container } from 'react-bootstrap'
+import { styled } from 'assets/styles/theme'
 
 export interface HeaderProps {
   title: string

@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Container } from 'react-bootstrap'
 import AnimationIcon, { AnimationIconProps } from 'components/public/animationIcon'
 import FeatureList, { FeatureListProps } from 'components/public/featureList'
@@ -11,6 +10,7 @@ import Hero, { HeroProps } from 'components/public/hero'
 import Viewer from 'components/viewer'
 import { ResetStyle, BackgroundStyle } from 'assets/styles/globalStyle'
 import { SITE_TITLE, APP_VERSION } from 'consts/meta'
+import { styled } from 'assets/styles/theme'
 
 interface Content {
   head: HeadProps
@@ -89,7 +89,7 @@ const ViewerFrame = styled.div`
   overflow: hidden;
   border-radius: 8px;
   margin: 0 auto 2em;
-  background-color: ${({ theme: { color } }) => color.primaryDark};
+  background-color: ${({ theme }) => theme.color.primaryDark};
   max-width: 640px;
 
   .icon {

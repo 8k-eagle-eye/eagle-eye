@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import React, { FC, HTMLAttributes } from 'react'
-import styled from 'styled-components'
 import { Container } from 'react-bootstrap'
 import { COPYRIGHT } from 'consts/meta'
+import { styled } from 'assets/styles/theme'
 
 export interface FooterListItem {
   text: string

@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import React from 'react'
-import styled from 'styled-components'
 import { Container } from 'react-bootstrap'
 import Heading from 'components/public/heading'
+import { styled } from 'assets/styles/theme'
 
 export interface HeroProps {
   heading: string

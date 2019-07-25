@@ -1,11 +1,11 @@
 import React, { HTMLAttributes } from 'react'
-import styled from 'styled-components'
+import { styled } from 'assets/styles/theme'
 
 export interface HeadingProps extends HTMLAttributes<HTMLElement> {
   text: string
 }
 
-const Heading = styled.h2`
+const HeadingElement = styled.h2`
   margin-bottom: 0.5em;
   font-size: 10vw;
   font-weight: bold;
@@ -15,6 +15,6 @@ const Heading = styled.h2`
   }
 `
 
-const heading = (props: HeadingProps) => <Heading {...props}>{props.text}</Heading>
+const Heading = (props: HeadingProps) => <HeadingElement {...props}>{props.text}</HeadingElement>
 
-export default heading
+export default Heading

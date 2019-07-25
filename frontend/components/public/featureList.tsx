@@ -1,6 +1,7 @@
 import React from 'react'
-import styled, { css } from 'styled-components'
+import { css } from 'styled-components'
 import Feature, { FeatureProps } from 'components/public/feature'
+import { styled } from 'assets/styles/theme'
 
 export interface FeatureListProps {
   items: FeatureProps[]
