@@ -7,7 +7,7 @@ import Head, { HeadProps } from 'components/head'
 import Header, { HeaderProps } from 'components/public/header'
 import Heading, { HeadingProps } from 'components/public/heading'
 import Hero, { HeroProps } from 'components/public/hero'
-import Viewer from 'components/viewer'
+import Viewer, { ViewerProps } from 'components/viewer'
 import { ResetStyle, BackgroundStyle } from 'assets/styles/globalStyle'
 import { SITE_TITLE, APP_VERSION } from 'consts/meta'
 import { styled } from 'assets/styles/theme'
@@ -19,6 +19,7 @@ interface Content {
   viewer: {
     heading: HeadingProps
     icon: AnimationIconProps
+    main: ViewerProps
     description: string
   }
   features: {
@@ -51,6 +52,10 @@ const homeContent: Content = {
     },
     icon: {
       text: 'Try zooming!'
+    },
+    main: {
+      aspect: 16 / 9,
+      baseUrl: process.env.STORAGE_ORIGIN as string
     },
     description: `「もっとよく見てみたい場所」に指を置いて、ズーム・スワイプ操作をしてみましょう。
 直感的な操作で、細部に宿るた美しさ、精緻さが新しい動画体験を提供します。`
@@ -146,7 +151,7 @@ const Home = () => (
       <Container>
         <Heading className="text-center" {...homeContent.viewer.heading} />
         <ViewerFrame>
-          <Viewer aspect={16 / 9} />
+          <Viewer {...homeContent.viewer.main} />
           <div className="icon">
             <AnimationIcon {...homeContent.viewer.icon} />
           </div>

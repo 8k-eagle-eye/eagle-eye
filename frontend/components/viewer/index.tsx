@@ -3,8 +3,9 @@ import styled from 'styled-components'
 import VideoContainer from './videoContainer'
 import InputPanel from './inputPanel'
 
-interface ViewerProps {
+export interface ViewerProps {
   aspect: number
+  baseUrl: string
 }
 
 const ViewerRoot = styled.div<{ aspect: number }>`
@@ -29,7 +30,7 @@ const PlayIcon = styled.div`
 `
 
 const Viewer = (props: ViewerProps) => {
-  const { aspect } = props
+  const { aspect, baseUrl } = props
   const viewerRef = createRef<HTMLDivElement>()
   const [baseSize, setBaseSize] = useState({ width: 0, height: 0 })
   const [clientRect, setClientRect] = useState({ top: 0, left: 0 })
@@ -69,6 +70,7 @@ const Viewer = (props: ViewerProps) => {
   return (
     <ViewerRoot ref={viewerRef} aspect={aspect}>
       <VideoContainer
+        baseUrl={baseUrl}
         playing={playing}
         scale={scale}
         gridSize={gridSize}

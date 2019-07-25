@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
 import calculateFrontVideoParams from 'hooks/viewer/calculateFrontVideoParams'
 import useFrontVideoController from 'hooks/viewer/useFrontVideoController'
+import getVideoSrc from 'libs/viewer/getVideoSrc'
 
 interface FrontVideoProps {
+  baseUrl: string
   playing: boolean
   currentTime: number
   scale: number
@@ -34,12 +36,23 @@ const FrontVideoElem = styled.video.attrs(
 `
 
 const FrontVideo = (props: FrontVideoProps) => {
-  const { playing, currentTime, scale, gridSize, resolutionRatio, destinationTranslate } = props
-  const { top, left, src } = calculateFrontVideoParams(
+  const {
+    baseUrl,
+    playing,
+    currentTime,
+    scale,
     gridSize,
     resolutionRatio,
+    destinationTranslate
+  } = props
+  const { top, left, gridIndexTop, gridIndexLeft } = calculateFrontVideoParams(
+    gridSize,
     scale,
     destinationTranslate
+  )
+  const src = useMemo(
+    () => getVideoSrc({ baseUrl, resolutionRatio, gridIndexTop, gridIndexLeft }),
+    [baseUrl, resolutionRatio, gridIndexTop, gridIndexLeft]
   )
   const { ref, canPlay, setCanPlayOnCanPlayThrough } = useFrontVideoController(
     src,
