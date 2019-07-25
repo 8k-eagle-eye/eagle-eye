@@ -5,9 +5,11 @@ import FrontVideo from './frontVideo'
 
 interface VideoContainerProps {
   playing: boolean
-  baseSize: { width: number; height: number }
   scale: number
+  gridSize: { width: number; height: number }
+  resolutionRatio: number
   translate: { x: number; y: number }
+  destinationTranslate: { x: number; y: number }
 }
 
 interface ContainerProps {
@@ -35,7 +37,7 @@ const BaseVideo = styled.video`
 
 const VideoContainer = (props: VideoContainerProps) => {
   const videoRef = createRef<HTMLVideoElement>()
-  const { playing, baseSize, translate, scale } = props
+  const { playing, translate, scale, gridSize, resolutionRatio, destinationTranslate } = props
   const [currentTime, setCurrentTime] = useState(0)
   const setCurrentTimeOnTimeUpdate = useCallback(
     (e: SyntheticEvent<HTMLVideoElement>) => setCurrentTime(e.currentTarget.currentTime),
@@ -56,9 +58,10 @@ const VideoContainer = (props: VideoContainerProps) => {
       <FrontVideo
         playing={playing}
         currentTime={currentTime}
-        baseSize={baseSize}
         scale={scale}
-        translate={translate}
+        gridSize={gridSize}
+        resolutionRatio={resolutionRatio}
+        destinationTranslate={destinationTranslate}
       />
     </Container>
   )

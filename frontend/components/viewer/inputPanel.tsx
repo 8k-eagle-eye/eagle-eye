@@ -1,15 +1,18 @@
 import React, { Component, createRef, Dispatch } from 'react'
 import styled from 'styled-components'
-import { ZOOM_STEP, MAX_SCALE } from 'consts/viewer'
+import { ZOOM_STEP, MAX_SCALE, GRID_ANIMATION_STEP, DELAY_ANIMATION_ON_ZOOM } from 'consts/viewer'
 import calculateDistance from 'libs/viewer/calculateDistance'
 
 interface InputPanelProps {
   baseSize: { width: number; height: number }
   clientRect: { top: number; left: number }
   scale: number
+  gridSize: { width: number; height: number }
   translate: { x: number; y: number }
+  destinationTranslate: { x: number; y: number }
   onChangeScale: Dispatch<number>
   onChangeTranslate: Dispatch<{ x: number; y: number }>
+  onChangeFinallyTranslate: Dispatch<{ x: number; y: number }>
 }
 
 const InputPanelElem = styled.div`
@@ -27,6 +30,8 @@ export default class InputPanel extends Component<InputPanelProps> {
   private zooming = false
   private baseDistance = 0
   private inputPanelRef = createRef<HTMLDivElement>()
+  private timeoutId: number | null = null
+  private animationFrameId: number | null = null
 
   private onMouseDown = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -67,20 +72,27 @@ export default class InputPanel extends Component<InputPanelProps> {
 
   private onMouseUp = () => {
     this.panning = false
+    this.startMoveToGrid()
   }
 
   private onTouchEnd = ({ touches }: TouchEvent) => {
     // ズーム後に指1本でパンに移行してガタつくのを防ぐ
     if (touches.length === 0) this.zooming = false
+    this.startMoveToGrid()
   }
 
   private onWheel = (e: WheelEvent) => {
     e.preventDefault()
     this.onZoom(e.clientX, e.clientY, e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP)
+    this.stopMoveToGrid()
+
+    if (this.timeoutId) clearTimeout(this.timeoutId)
+    this.timeoutId = setTimeout(this.startMoveToGrid, DELAY_ANIMATION_ON_ZOOM)
   }
 
   private startPan(e: React.MouseEvent | Touch) {
     this.prevPanPoint = { x: e.pageX, y: e.pageY }
+    this.stopMoveToGrid()
   }
 
   private movePan(e: MouseEvent | Touch) {
@@ -122,6 +134,43 @@ export default class InputPanel extends Component<InputPanelProps> {
         Math.min(baseSize.height * (newScale - 1), (zoomCenter.y / scale) * newScale - pinpoint.y)
       )
     })
+  }
+
+  private startMoveToGrid = () => {
+    const { baseSize, gridSize, translate, onChangeFinallyTranslate } = this.props
+    const modX = (translate.x + baseSize.width / 2) % gridSize.width
+    const modY = (translate.y + baseSize.height / 2) % gridSize.height
+
+    onChangeFinallyTranslate({
+      x: translate.x - (modX > gridSize.width / 2 ? modX - gridSize.width : modX),
+      y: translate.y - (modY > gridSize.height / 2 ? modY - gridSize.height : modY)
+    })
+
+    this.animationFrameId = requestAnimationFrame(this.runGridAnimation)
+  }
+
+  private runGridAnimation = () => {
+    const { translate, destinationTranslate } = this.props
+    const step = GRID_ANIMATION_STEP
+    const diffXToGrid = translate.x - destinationTranslate.x
+    const diffYToGrid = translate.y - destinationTranslate.y
+
+    const newDiffX =
+      Math.abs(diffXToGrid) <= step ? 0 : diffXToGrid + (diffXToGrid < 0 ? step : -step)
+    const newDiffY =
+      Math.abs(diffYToGrid) <= step ? 0 : diffYToGrid + (diffYToGrid < 0 ? step : -step)
+
+    this.transform(0, diffXToGrid - newDiffX, diffYToGrid - newDiffY)
+
+    if (newDiffX === 0 && newDiffY === 0) {
+      this.stopMoveToGrid()
+    } else {
+      this.animationFrameId = requestAnimationFrame(this.runGridAnimation)
+    }
+  }
+
+  private stopMoveToGrid() {
+    if (this.animationFrameId) cancelAnimationFrame(this.animationFrameId)
   }
 
   public componentDidMount() {

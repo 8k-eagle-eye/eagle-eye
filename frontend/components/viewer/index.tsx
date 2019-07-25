@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, createRef } from 'react'
+import React, { useState, useCallback, useEffect, createRef, useMemo } from 'react'
 import styled from 'styled-components'
 import VideoContainer from './videoContainer'
 import InputPanel from './inputPanel'
@@ -35,7 +35,18 @@ const Viewer = (props: ViewerProps) => {
   const [clientRect, setClientRect] = useState({ top: 0, left: 0 })
   const [scale, setScale] = useState(1)
   const [translate, setTranslate] = useState({ x: 0, y: 0 })
+  const [destinationTranslate, setFinallyTranslate] = useState({ x: 0, y: 0 })
   const [playing, setPlaying] = useState(false)
+  const resolutionRatio = useMemo(() => (scale >= 8 ? 8 : scale >= 4 ? 4 : scale >= 2 ? 2 : 1), [
+    scale
+  ])
+  const gridSize = useMemo(
+    () => ({
+      width: (baseSize.width * scale) / resolutionRatio / 2,
+      height: (baseSize.height * scale) / resolutionRatio / 2
+    }),
+    [baseSize, scale]
+  )
 
   const togglePlaying = useCallback(() => setPlaying(!playing), [playing])
 
@@ -57,14 +68,24 @@ const Viewer = (props: ViewerProps) => {
 
   return (
     <ViewerRoot ref={viewerRef} aspect={aspect}>
-      <VideoContainer playing={playing} baseSize={baseSize} scale={scale} translate={translate} />
+      <VideoContainer
+        playing={playing}
+        scale={scale}
+        gridSize={gridSize}
+        resolutionRatio={resolutionRatio}
+        translate={translate}
+        destinationTranslate={destinationTranslate}
+      />
       <InputPanel
         baseSize={baseSize}
         clientRect={clientRect}
         scale={scale}
+        gridSize={gridSize}
         translate={translate}
+        destinationTranslate={destinationTranslate}
         onChangeScale={setScale}
         onChangeTranslate={setTranslate}
+        onChangeFinallyTranslate={setFinallyTranslate}
       />
       <PlayIcon onClick={togglePlaying}>{playing ? '■' : '▶'}</PlayIcon>
     </ViewerRoot>
