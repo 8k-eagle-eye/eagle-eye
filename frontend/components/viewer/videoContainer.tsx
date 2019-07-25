@@ -1,9 +1,11 @@
-import React, { createRef, useState, useCallback, SyntheticEvent } from 'react'
+import React, { createRef, useMemo, useState, useCallback, SyntheticEvent } from 'react'
 import styled from 'styled-components'
 import useVideoController from 'hooks/viewer/useVideoController'
+import getVideoSrc from 'libs/viewer/getVideoSrc'
 import FrontVideo from './frontVideo'
 
 interface VideoContainerProps {
+  baseUrl: string
   playing: boolean
   scale: number
   gridSize: { width: number; height: number }
@@ -37,7 +39,19 @@ const BaseVideo = styled.video`
 
 const VideoContainer = (props: VideoContainerProps) => {
   const videoRef = createRef<HTMLVideoElement>()
-  const { playing, translate, scale, gridSize, resolutionRatio, destinationTranslate } = props
+  const {
+    baseUrl,
+    playing,
+    translate,
+    scale,
+    gridSize,
+    resolutionRatio,
+    destinationTranslate
+  } = props
+  const baseVideoSrc = useMemo(
+    () => getVideoSrc({ baseUrl, resolutionRatio: 1, gridIndexTop: 0, gridIndexLeft: 0 }),
+    [baseUrl]
+  )
   const [currentTime, setCurrentTime] = useState(0)
   const setCurrentTimeOnTimeUpdate = useCallback(
     (e: SyntheticEvent<HTMLVideoElement>) => setCurrentTime(e.currentTarget.currentTime),
@@ -50,12 +64,13 @@ const VideoContainer = (props: VideoContainerProps) => {
     <Container translate={translate} scale={scale}>
       <BaseVideo
         ref={videoRef}
-        src={`${process.env.STORAGE_ORIGIN}/videos/hd/1-1.mp4`}
+        src={baseVideoSrc}
         onTimeUpdate={setCurrentTimeOnTimeUpdate}
         loop
         playsInline
       />
       <FrontVideo
+        baseUrl={baseUrl}
         playing={playing}
         currentTime={currentTime}
         scale={scale}
