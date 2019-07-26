@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, createRef, useMemo } from 'rea
 import styled from 'styled-components'
 import VideoContainer from './videoContainer'
 import InputPanel from './inputPanel'
+import Poster from './poster'
 
 export interface ViewerProps {
   aspect: number
@@ -37,6 +38,7 @@ const Viewer = (props: ViewerProps) => {
   const [scale, setScale] = useState(1)
   const [translate, setTranslate] = useState({ x: 0, y: 0 })
   const [destinationTranslate, setFinallyTranslate] = useState({ x: 0, y: 0 })
+  const [initialized, setInitialized] = useState(false)
   const [playing, setPlaying] = useState(false)
   const resolutionRatio = useMemo(() => (scale >= 8 ? 8 : scale >= 4 ? 4 : scale >= 2 ? 2 : 1), [
     scale
@@ -50,6 +52,10 @@ const Viewer = (props: ViewerProps) => {
   )
 
   const togglePlaying = useCallback(() => setPlaying(!playing), [playing])
+  const playFirstTime = useCallback(() => {
+    setInitialized(true)
+    setPlaying(true)
+  }, [])
 
   useEffect(() => {
     const viewerElem = viewerRef.current!
@@ -73,27 +79,33 @@ const Viewer = (props: ViewerProps) => {
 
   return (
     <ViewerRoot ref={viewerRef} aspect={aspect}>
-      <VideoContainer
-        baseUrl={baseUrl}
-        playing={playing}
-        scale={scale}
-        gridSize={gridSize}
-        resolutionRatio={resolutionRatio}
-        translate={translate}
-        destinationTranslate={destinationTranslate}
-      />
-      <InputPanel
-        baseSize={baseSize}
-        clientRect={clientRect}
-        scale={scale}
-        gridSize={gridSize}
-        translate={translate}
-        destinationTranslate={destinationTranslate}
-        onChangeScale={setScale}
-        onChangeTranslate={setTranslate}
-        onChangeFinallyTranslate={setFinallyTranslate}
-      />
-      <PlayIcon onClick={togglePlaying}>{playing ? '■' : '▶'}</PlayIcon>
+      {initialized ? (
+        <>
+          <VideoContainer
+            baseUrl={baseUrl}
+            playing={playing}
+            scale={scale}
+            gridSize={gridSize}
+            resolutionRatio={resolutionRatio}
+            translate={translate}
+            destinationTranslate={destinationTranslate}
+          />
+          <InputPanel
+            baseSize={baseSize}
+            clientRect={clientRect}
+            scale={scale}
+            gridSize={gridSize}
+            translate={translate}
+            destinationTranslate={destinationTranslate}
+            onChangeScale={setScale}
+            onChangeTranslate={setTranslate}
+            onChangeFinallyTranslate={setFinallyTranslate}
+          />
+          <PlayIcon onClick={togglePlaying}>{playing ? '■' : '▶'}</PlayIcon>
+        </>
+      ) : (
+        <Poster baseUrl={baseUrl} onClick={playFirstTime} />
+      )}
     </ViewerRoot>
   )
 }
