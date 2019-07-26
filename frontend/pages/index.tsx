@@ -1,6 +1,5 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
-import AnimationIcon, { AnimationIconProps } from 'components/public/animationIcon'
 import FeatureList, { FeatureListProps } from 'components/public/featureList'
 import Footer from 'components/public/footer'
 import Head, { HeadProps } from 'components/head'
@@ -18,7 +17,6 @@ interface Content {
   hero: HeroProps
   viewer: {
     heading: HeadingProps
-    icon: AnimationIconProps
     main: ViewerProps
     description: string
   }
@@ -49,9 +47,6 @@ const homeContent: Content = {
     heading: {
       id: 'demonstration',
       text: 'Demonstration'
-    },
-    icon: {
-      text: 'Try zooming!'
     },
     main: {
       aspect: 16 / 9,
@@ -96,13 +91,6 @@ const ViewerFrame = styled.div`
   margin: 0 auto 2em;
   background-color: ${({ theme }) => theme.color.primaryDark};
   max-width: 640px;
-
-  .icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
 `
 
 const FeaturesSection = styled.section`
@@ -152,9 +140,6 @@ const Home = () => (
         <Heading className="text-center" {...homeContent.viewer.heading} />
         <ViewerFrame>
           <Viewer {...homeContent.viewer.main} />
-          <div className="icon">
-            <AnimationIcon {...homeContent.viewer.icon} />
-          </div>
         </ViewerFrame>
         <p className="text-md-center" style={{ whiteSpace: 'pre-line' }}>
           {homeContent.viewer.description}
