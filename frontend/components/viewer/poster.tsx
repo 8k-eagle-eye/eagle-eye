@@ -20,8 +20,8 @@ const CircleButton = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: #fff;
@@ -37,9 +37,9 @@ const CircleButton = styled.div`
 const ArrowMark = styled.div`
   position: absolute;
   top: 50%;
-  left: 32px;
+  left: 28px;
   border: solid transparent;
-  border-width: 24px 46px;
+  border-width: 18px 32px;
   border-left-color: #333;
   transform: translateY(-50%);
 `

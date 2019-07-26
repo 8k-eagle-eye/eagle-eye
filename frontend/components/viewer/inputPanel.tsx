@@ -21,6 +21,7 @@ const InputPanelElem = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
+  cursor: move;
 `
 
 export default class InputPanel extends Component<InputPanelProps> {
