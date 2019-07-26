@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import VideoContainer from './videoContainer'
 import InputPanel from './inputPanel'
 import Poster from './poster'
+import AnimationIcon from './animationIcon'
 
 export interface ViewerProps {
   aspect: number
@@ -13,6 +14,7 @@ const ViewerRoot = styled.div<{ aspect: number }>`
   padding-top: ${({ aspect }) => 100 / aspect}%;
   position: relative;
   overflow: hidden;
+  background: #222;
 `
 
 const PlayIcon = styled.div`
@@ -90,6 +92,7 @@ const Viewer = (props: ViewerProps) => {
             translate={translate}
             destinationTranslate={destinationTranslate}
           />
+          <AnimationIcon>Try zooming!</AnimationIcon>
           <InputPanel
             baseSize={baseSize}
             clientRect={clientRect}

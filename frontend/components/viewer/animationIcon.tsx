@@ -1,12 +1,15 @@
-import React from 'react'
-import { styled } from 'assets/styles/theme'
+import React, { ReactText } from 'react'
+import styled from 'styled-components'
 
-export interface AnimationIconProps {
-  text?: string
+interface AnimationIconProps {
+  children: ReactText
 }
 
-export const Icon = styled.div`
-  position: relative;
+const Icon = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   min-width: 5em;
   padding-top: 3em;
 
@@ -65,8 +68,8 @@ export const Icon = styled.div`
   }
 `
 
-const AnimationIcon = (props: AnimationIconProps) => (
-  <Icon data-text={props.text ? props.text : ''}>
+const AnimationIcon = ({ children }: AnimationIconProps) => (
+  <Icon data-text={children}>
     <svg role="img" viewBox="0 0 14 11" xmlns="http://www.w3.org/2000/svg" className="right">
       <path d="M14 0L7 11L0 0L14 0Z"></path>
     </svg>
