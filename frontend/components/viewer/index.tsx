@@ -63,8 +63,12 @@ const Viewer = (props: ViewerProps) => {
 
     calcBaseSize()
     window.addEventListener('resize', calcBaseSize, false)
+    window.addEventListener('scroll', calcBaseSize, false)
 
-    return () => window.removeEventListener('resize', calcBaseSize, false)
+    return () => {
+      window.removeEventListener('resize', calcBaseSize, false)
+      window.removeEventListener('scroll', calcBaseSize, false)
+    }
   }, [])
 
   return (
