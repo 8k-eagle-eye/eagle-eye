@@ -4,6 +4,7 @@ import VideoContainer from './videoContainer'
 import InputPanel from './inputPanel'
 import Poster from './poster'
 import AnimationIcon from './animationIcon'
+import ControlsBar from './controlsBar'
 
 export interface ViewerProps {
   aspect: number
@@ -17,19 +18,17 @@ const ViewerRoot = styled.div<{ aspect: number }>`
   background: #222;
 `
 
-const PlayIcon = styled.div`
+const ScalePanel = styled.div`
   position: absolute;
-  bottom: 15px;
+  top: 15px;
   left: 15px;
-  background: #ffffffaa;
-  border-radius: 10px;
-  cursor: pointer;
-  padding: 5px 15px;
-  font-size: 20px;
-
-  &:hover {
-    background: #fff;
-  }
+  background: #fff;
+  border-radius: 5px;
+  padding: 6px 0;
+  width: 64px;
+  font-size: 16px;
+  text-align: center;
+  color: #222;
 `
 
 const Viewer = (props: ViewerProps) => {
@@ -42,6 +41,7 @@ const Viewer = (props: ViewerProps) => {
   const [destinationTranslate, setFinallyTranslate] = useState({ x: 0, y: 0 })
   const [initialized, setInitialized] = useState(false)
   const [playing, setPlaying] = useState(false)
+  const [animationIconVisible, setAnimationIconVisible] = useState(true)
   const resolutionRatio = useMemo(() => (scale >= 8 ? 8 : scale >= 4 ? 4 : scale >= 2 ? 2 : 1), [
     scale
   ])
@@ -58,6 +58,8 @@ const Viewer = (props: ViewerProps) => {
     setInitialized(true)
     setPlaying(true)
   }, [])
+
+  useEffect(() => setAnimationIconVisible(!initialized), [scale])
 
   useEffect(() => {
     const viewerElem = viewerRef.current!
@@ -92,7 +94,8 @@ const Viewer = (props: ViewerProps) => {
             translate={translate}
             destinationTranslate={destinationTranslate}
           />
-          <AnimationIcon>Try zooming!</AnimationIcon>
+          {animationIconVisible ? <AnimationIcon>Try zooming!</AnimationIcon> : null}
+          <ScalePanel>x {Math.floor(scale * 10) / 10}</ScalePanel>
           <InputPanel
             baseSize={baseSize}
             clientRect={clientRect}
@@ -104,7 +107,7 @@ const Viewer = (props: ViewerProps) => {
             onChangeTranslate={setTranslate}
             onChangeFinallyTranslate={setFinallyTranslate}
           />
-          <PlayIcon onClick={togglePlaying}>{playing ? '■' : '▶'}</PlayIcon>
+          <ControlsBar playing={playing} onTogglePlaying={togglePlaying} />
         </>
       ) : (
         <Poster baseUrl={baseUrl} onClick={playFirstTime} />

@@ -21,6 +21,7 @@ const InputPanelElem = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
+  cursor: move;
 `
 
 export default class InputPanel extends Component<InputPanelProps> {
@@ -63,8 +64,8 @@ export default class InputPanel extends Component<InputPanelProps> {
       this.movePan(touches[0])
     } else if (touches.length === 2) {
       this.onZoom(
-        (touches[0].pageX + touches[1].pageY) / 2,
-        (touches[0].pageY + touches[1].pageY) / 2,
+        (touches[0].clientX + touches[1].clientX) / 2,
+        (touches[0].clientY + touches[1].clientY) / 2,
         calculateDistance(touches) / this.baseDistance - this.props.scale
       )
     }
