@@ -4,6 +4,7 @@ import VideoContainer from './videoContainer'
 import InputPanel from './inputPanel'
 import Poster from './poster'
 import AnimationIcon from './animationIcon'
+import ControlsBar from './controlsBar'
 
 export interface ViewerProps {
   aspect: number
@@ -28,21 +29,6 @@ const ScalePanel = styled.div`
   font-size: 16px;
   text-align: center;
   color: #222;
-`
-
-const PlayIcon = styled.div`
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
-  background: #ffffffaa;
-  border-radius: 10px;
-  cursor: pointer;
-  padding: 5px 15px;
-  font-size: 20px;
-
-  &:hover {
-    background: #fff;
-  }
 `
 
 const Viewer = (props: ViewerProps) => {
@@ -121,7 +107,7 @@ const Viewer = (props: ViewerProps) => {
             onChangeTranslate={setTranslate}
             onChangeFinallyTranslate={setFinallyTranslate}
           />
-          <PlayIcon onClick={togglePlaying}>{playing ? '■' : '▶'}</PlayIcon>
+          <ControlsBar playing={playing} onTogglePlaying={togglePlaying} />
         </>
       ) : (
         <Poster baseUrl={baseUrl} onClick={playFirstTime} />

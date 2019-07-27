@@ -27,7 +27,7 @@ const CircleButton = styled.div`
   background: #fff;
   opacity: 0.8;
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.2s ease-in-out;
 
   &:hover {
     opacity: 1;
