@@ -52,6 +52,7 @@ const homeContent: Content = {
     },
     main: {
       aspect: 16 / 9,
+      duration: 34,
       baseUrl: process.env.STORAGE_ORIGIN as string
     },
     description: `「もっとよく見てみたい場所」に指を置いて、ズーム・スワイプ操作をしてみましょう。

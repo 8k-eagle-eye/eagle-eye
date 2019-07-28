@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
+import timeToText from 'libs/viewer/timeToText'
 import pauseIconSrc from 'assets/images/viewer/pause.svg'
 import playIconSrc from 'assets/images/viewer/play.svg'
 
 interface ControlsBarProps {
   playing: boolean
+  currentTime: number
+  duration: number
+  onSeekTime: (src: number) => void
   onTogglePlaying: () => void
 }
 
@@ -39,14 +43,30 @@ const PlayOrPauseIconImg = styled.img`
   vertical-align: bottom;
 `
 
+const TimeText = styled.div`
+  position: absolute;
+  font-size: 12px;
+  margin-top: 1px;
+  top: 50%;
+  left: 49px;
+  transform: translateY(-50%);
+  color: #fff;
+`
+
 const ControlsBar = (props: ControlsBarProps) => {
-  const { playing, onTogglePlaying } = props
+  const { playing, onTogglePlaying, currentTime, duration } = props
+  const timeText = useMemo(() => `${timeToText(currentTime)} / ${timeToText(duration)}`, [
+    currentTime,
+    duration
+  ])
 
   return (
     <ControlsRoot visible={true}>
       <PlayingIconFrame playing={playing} onClick={onTogglePlaying}>
         <PlayOrPauseIconImg src={playing ? pauseIconSrc : playIconSrc} />
       </PlayingIconFrame>
+
+      <TimeText>{timeText}</TimeText>
     </ControlsRoot>
   )
 }

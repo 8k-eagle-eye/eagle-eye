@@ -5,10 +5,12 @@ import InputPanel from './inputPanel'
 import Poster from './poster'
 import AnimationIcon from './animationIcon'
 import ControlsBar from './controlsBar'
+import useTimeController from 'hooks/viewer/useTimeController'
 
 export interface ViewerProps {
   aspect: number
   baseUrl: string
+  duration: number
 }
 
 const ViewerRoot = styled.div<{ aspect: number }>`
@@ -32,7 +34,7 @@ const ScalePanel = styled.div`
 `
 
 const Viewer = (props: ViewerProps) => {
-  const { aspect, baseUrl } = props
+  const { aspect, baseUrl, duration } = props
   const viewerRef = createRef<HTMLDivElement>()
   const [baseSize, setBaseSize] = useState({ width: 0, height: 0 })
   const [clientRect, setClientRect] = useState({ top: 0, left: 0 })
@@ -40,8 +42,8 @@ const Viewer = (props: ViewerProps) => {
   const [translate, setTranslate] = useState({ x: 0, y: 0 })
   const [destinationTranslate, setFinallyTranslate] = useState({ x: 0, y: 0 })
   const [initialized, setInitialized] = useState(false)
-  const [playing, setPlaying] = useState(false)
   const [animationIconVisible, setAnimationIconVisible] = useState(true)
+  const { playing, onPause, onPlay, currentTime, onSeekTime } = useTimeController(duration)
   const resolutionRatio = useMemo(() => (scale >= 8 ? 8 : scale >= 4 ? 4 : scale >= 2 ? 2 : 1), [
     scale
   ])
@@ -53,10 +55,14 @@ const Viewer = (props: ViewerProps) => {
     [baseSize, scale]
   )
 
-  const togglePlaying = useCallback(() => setPlaying(!playing), [playing])
+  const togglePlaying = useCallback(() => {
+    if (playing) onPause()
+    else onPlay()
+  }, [playing])
+
   const playFirstTime = useCallback(() => {
     setInitialized(true)
-    setPlaying(true)
+    onPlay()
   }, [])
 
   useEffect(() => setAnimationIconVisible(!initialized), [scale])
@@ -90,6 +96,7 @@ const Viewer = (props: ViewerProps) => {
             playing={playing}
             scale={scale}
             gridSize={gridSize}
+            currentTime={currentTime}
             resolutionRatio={resolutionRatio}
             translate={translate}
             destinationTranslate={destinationTranslate}
@@ -107,7 +114,13 @@ const Viewer = (props: ViewerProps) => {
             onChangeTranslate={setTranslate}
             onChangeFinallyTranslate={setFinallyTranslate}
           />
-          <ControlsBar playing={playing} onTogglePlaying={togglePlaying} />
+          <ControlsBar
+            playing={playing}
+            currentTime={currentTime}
+            duration={duration}
+            onSeekTime={onSeekTime}
+            onTogglePlaying={togglePlaying}
+          />
         </>
       ) : (
         <Poster baseUrl={baseUrl} onClick={playFirstTime} />
