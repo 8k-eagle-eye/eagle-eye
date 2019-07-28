@@ -10,6 +10,19 @@ const baseUrl = path.resolve(process.cwd(), compilerOptions.baseUrl)
 
 module.exports = withTypescript({
   webpack(config, { dev, isServer }) {
+    config.module.rules.push({
+      test: /\.(png|jpe?g|gif|svg|webp)$/i,
+      use: {
+        loader: 'url-loader',
+        options: {
+          limit: 1000,
+          publicPath: '/_next/static/images',
+          outputPath: 'static/images',
+          name: '[name].[hash:7].[ext]'
+        }
+      }
+    })
+
     config.plugins = [
       ...(config.plugins || []),
       new Dotenv({
