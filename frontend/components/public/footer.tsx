@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import React, { FC, HTMLAttributes } from 'react'
 import { Container } from 'react-bootstrap'
+import githubIcon from 'assets/images/github.svg'
 import { COPYRIGHT } from 'consts/meta'
 import { styled } from 'assets/styles/theme'
 
@@ -92,7 +93,7 @@ Footer.defaultProps = {
       text: 'GitHub',
       href: 'https://github.com/8k-eagle-eye/eagle-eye',
       icon: {
-        src: '/static/images/github.svg',
+        src: githubIcon,
         alt: 'GitHub icon'
       }
     }

@@ -7,6 +7,8 @@ import Header, { HeaderProps } from 'components/public/header'
 import Heading, { HeadingProps } from 'components/public/heading'
 import Hero, { HeroProps } from 'components/public/hero'
 import Viewer, { ViewerProps } from 'components/viewer'
+import aspectRatioIcon from 'assets/images/aspect-ratio.svg'
+import phonelinkIcon from 'assets/images/phonelink.svg'
 import { ResetStyle, BackgroundStyle } from 'assets/styles/globalStyle'
 import { SITE_TITLE, APP_VERSION } from 'consts/meta'
 import { styled } from 'assets/styles/theme'
@@ -63,13 +65,13 @@ const homeContent: Content = {
           heading: 'インタラクティブな解像度補正',
           description:
             '8Kで撮影されたオリジナル動画のデータ密度を利用して最大12倍の無劣化ズームを実現します',
-          icon: { src: '/static/images/aspect-ratio.svg' }
+          icon: { src: aspectRatioIcon }
         },
         {
           heading: 'PCとスマホ両方のWebサイトに対応',
           description: `特別な環境・機材を必要とせず、現状のサイトに埋め込み・配信をします
           5Gともにやってくる8K動画の感動を4G環境でも少しだけ先取り体験出来ます`,
-          icon: { src: '/static/images/phonelink.svg' }
+          icon: { src: phonelinkIcon }
         }
       ]
     }

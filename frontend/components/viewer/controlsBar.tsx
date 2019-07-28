@@ -1,10 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-// Todo: import playIconSrc from 'assets/images/viewer/play.svg'
-// import pauseIconSrc from 'assets/images/viewer/pause.svg'
-
-const playIconSrc = '/static/images/viewer/play.svg'
-const pauseIconSrc = '/static/images/viewer/pause.svg'
+import pauseIconSrc from 'assets/images/viewer/pause.svg'
+import playIconSrc from 'assets/images/viewer/play.svg'
 
 interface ControlsBarProps {
   playing: boolean
