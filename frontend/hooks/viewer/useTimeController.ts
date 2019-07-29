@@ -6,19 +6,14 @@ export default (duration: number) => {
   const [baseTimestamp, setBaseTimestamp] = useState(0)
   const [playing, setPlaying] = useState(false)
 
-  const onSeekTime = useCallback((sec: number) => {
-    setCurrentTime(sec)
-    setBaseTimestamp(Date.now() - sec * 1000)
-  }, [])
+  const onSeekTime = useCallback((sec: number) => setCurrentTime(sec), [])
 
   const onPlay = useCallback(() => {
     setPlaying(true)
     setBaseTimestamp(Date.now() - currentTime * 1000)
   }, [currentTime])
 
-  const onPause = useCallback(() => {
-    setPlaying(false)
-  }, [])
+  const onPause = useCallback(() => setPlaying(false), [])
 
   useEffect(() => {
     const intervalId = setInterval(() => {

@@ -55,7 +55,7 @@ const VideoContainer = (props: VideoContainerProps) => {
     [baseUrl]
   )
 
-  useVideoController(videoRef, playing)
+  useVideoController(videoRef, playing, currentTime)
 
   return (
     <Container translate={translate} scale={scale}>

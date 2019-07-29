@@ -58,7 +58,7 @@ const Viewer = (props: ViewerProps) => {
   const togglePlaying = useCallback(() => {
     if (playing) onPause()
     else onPlay()
-  }, [playing])
+  }, [playing, onPlay])
 
   const playFirstTime = useCallback(() => {
     setInitialized(true)

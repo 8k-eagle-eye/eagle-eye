@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useCallback } from 'react'
 import styled from 'styled-components'
 import timeToText from 'libs/viewer/timeToText'
+import SeekBar from './seekBar'
 import pauseIconSrc from 'assets/images/viewer/pause.svg'
 import playIconSrc from 'assets/images/viewer/play.svg'
 
@@ -8,16 +9,16 @@ interface ControlsBarProps {
   playing: boolean
   currentTime: number
   duration: number
-  onSeekTime: (src: number) => void
+  onSeekTime: (sec: number) => void
   onTogglePlaying: () => void
 }
 
-const ControlsRoot = styled.div<{ visible: boolean }>`
+const ControlsRoot = styled.div`
   height: 54px;
   position: absolute;
   width: 100%;
   left: 0;
-  bottom: ${({ visible }) => (visible ? 0 : -54)}px;
+  bottom: 0;
   transition: 0.3s ease-in-out;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.05));
 `
@@ -54,19 +55,38 @@ const TimeText = styled.div`
 `
 
 const ControlsBar = (props: ControlsBarProps) => {
-  const { playing, onTogglePlaying, currentTime, duration } = props
+  const { playing, onTogglePlaying, currentTime, duration, onSeekTime } = props
+  const [playingBeforeSeeking, setPlayingBeforeSeeking] = useState(false)
+
+  const onSeekStart = useCallback(() => {
+    setPlayingBeforeSeeking(playing)
+    if (playing) onTogglePlaying()
+  }, [playing, onTogglePlaying])
+
+  const onSeekEnd = useCallback(() => {
+    if (playingBeforeSeeking) onTogglePlaying()
+  }, [playingBeforeSeeking, onTogglePlaying])
+
   const timeText = useMemo(() => `${timeToText(currentTime)} / ${timeToText(duration)}`, [
     currentTime,
     duration
   ])
 
   return (
-    <ControlsRoot visible={true}>
+    <ControlsRoot>
       <PlayingIconFrame playing={playing} onClick={onTogglePlaying}>
         <PlayOrPauseIconImg src={playing ? pauseIconSrc : playIconSrc} />
       </PlayingIconFrame>
 
       <TimeText>{timeText}</TimeText>
+
+      <SeekBar
+        currentTime={currentTime}
+        duration={duration}
+        onSeekTime={onSeekTime}
+        onSeekStart={onSeekStart}
+        onSeekEnd={onSeekEnd}
+      />
     </ControlsRoot>
   )
 }
