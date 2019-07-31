@@ -2,13 +2,11 @@ require('dotenv').config()
 
 const path = require('path')
 const Dotenv = require('dotenv-webpack')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const withTypescript = require('@zeit/next-typescript')
 const { compilerOptions } = require('../tsconfig')
 
 const baseUrl = path.resolve(process.cwd(), compilerOptions.baseUrl)
 
-module.exports = withTypescript({
+module.exports = {
   webpack(config, { dev, isServer }) {
     config.module.rules.push({
       test: /\.(png|jpe?g|gif|svg|webp)$/i,
@@ -49,14 +47,6 @@ module.exports = withTypescript({
       })
     }
 
-    if (isServer) {
-      config.plugins.push(
-        new ForkTsCheckerWebpackPlugin({
-          tsconfig: path.resolve(__dirname, './tsconfig.json')
-        })
-      )
-    }
-
     return config
   }
-})
+}
