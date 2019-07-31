@@ -26,12 +26,19 @@ const InputPanelElem = styled.div`
 
 export default class InputPanel extends Component<InputPanelProps> {
   private prevPanPoint = { x: 0, y: 0 }
+
   private zoomCenter = { x: 0, y: 0 }
+
   private panning = false
+
   private zooming = false
+
   private baseDistance = 0
+
   private inputPanelRef = createRef<HTMLDivElement>()
+
   private timeoutId: number | null = null
+
   private animationFrameId: number | null = null
 
   private onMouseDown = (e: React.MouseEvent) => {
