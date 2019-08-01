@@ -150,11 +150,9 @@
         ":automergeMinor",
         ":label(dependencies)",
         ":maintainLockFilesMonthly",
-        ":prNotPending",
         ":rebaseStalePrs",
         ":semanticCommitTypeAll(chore)",
-        ":semanticCommits",
-        ":unpublishSafe"
+        ":semanticCommits"
       ],
       "packageRules": [
         {
