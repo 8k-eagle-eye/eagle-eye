@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "allowJs": true,
+    "isolatedModules": true,
     "module": "esnext"
   },
   "extends": "../tsconfig"
