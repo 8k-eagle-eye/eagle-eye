@@ -37,7 +37,7 @@
     "react-dom": "16.8.6",
     "reflect-metadata": "0.1.13",
     "styled-components": "4.3.2",
-    "tachijs": "0.15.1"
+    "tachijs": "1.0.0-2"
   },
   "devDependencies": {
     "@types/jest": "24.0.16",
