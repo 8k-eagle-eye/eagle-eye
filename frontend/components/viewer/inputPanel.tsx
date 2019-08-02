@@ -7,12 +7,12 @@ interface InputPanelProps {
   baseSize: { width: number; height: number }
   clientRect: { top: number; left: number }
   scale: number
-  gridSize: { width: number; height: number }
+  gridSize: { x: number; y: number }
   translate: { x: number; y: number }
   destinationTranslate: { x: number; y: number }
   onChangeScale: Dispatch<number>
   onChangeTranslate: Dispatch<{ x: number; y: number }>
-  onChangeFinallyTranslate: Dispatch<{ x: number; y: number }>
+  onChangeDestinationTranslate: Dispatch<{ x: number; y: number }>
 }
 
 const InputPanelElem = styled.div`
@@ -26,8 +26,6 @@ const InputPanelElem = styled.div`
 
 export default class InputPanel extends Component<InputPanelProps> {
   private prevPanPoint = { x: 0, y: 0 }
-
-  private zoomCenter = { x: 0, y: 0 }
 
   private panning = false
 
@@ -99,59 +97,63 @@ export default class InputPanel extends Component<InputPanelProps> {
   }
 
   private startPan(e: React.MouseEvent | Touch) {
-    this.prevPanPoint = { x: e.pageX, y: e.pageY }
+    const { baseSize } = this.props
+    this.prevPanPoint = { x: e.pageX / baseSize.width, y: e.pageY / baseSize.height }
     this.stopMoveToGrid()
   }
 
   private movePan(e: MouseEvent | Touch) {
     const { prevPanPoint } = this
-    const currentPanPoint = { x: e.pageX, y: e.pageY }
+    const { baseSize } = this.props
+    const currentPanPoint = { x: e.pageX / baseSize.width, y: e.pageY / baseSize.height }
 
-    this.transform(0, currentPanPoint.x - prevPanPoint.x, currentPanPoint.y - prevPanPoint.y)
+    this.onTranslate(currentPanPoint.x - prevPanPoint.x, currentPanPoint.y - prevPanPoint.y)
     this.prevPanPoint = currentPanPoint
   }
 
   private onZoom(pointX: number, pointY: number, scaleDelta: number) {
-    const { clientRect, translate } = this.props
-
-    this.zoomCenter = {
-      x: pointX - clientRect.left + translate.x,
-      y: pointY - clientRect.top + translate.y
-    }
-
-    this.transform(scaleDelta, 0, 0)
-  }
-
-  private transform(scaleDelta: number, translateXDelta: number, translateYDelta: number) {
-    const { scale, translate, baseSize, onChangeScale, onChangeTranslate } = this.props
-    const { zoomCenter } = this
+    const { clientRect, translate, scale, baseSize, onChangeScale, onChangeTranslate } = this.props
     const newScale = Math.min(MAX_SCALE, Math.max(1, scale + scaleDelta))
-    const pinpoint = {
-      x: zoomCenter.x - translate.x + translateXDelta,
-      y: zoomCenter.y - translate.y + translateYDelta
-    }
 
     onChangeScale(newScale)
+
     onChangeTranslate({
       x: Math.max(
         0,
-        Math.min(baseSize.width * (newScale - 1), (zoomCenter.x / scale) * newScale - pinpoint.x)
+        Math.min(
+          newScale - 1,
+          ((pointX - clientRect.left) / baseSize.width) * (newScale / scale - 1) +
+            (translate.x * newScale) / scale
+        )
       ),
       y: Math.max(
         0,
-        Math.min(baseSize.height * (newScale - 1), (zoomCenter.y / scale) * newScale - pinpoint.y)
+        Math.min(
+          newScale - 1,
+          ((pointY - clientRect.top) / baseSize.height) * (newScale / scale - 1) +
+            (translate.y * newScale) / scale
+        )
       )
     })
   }
 
-  private startMoveToGrid = () => {
-    const { baseSize, gridSize, translate, onChangeFinallyTranslate } = this.props
-    const modX = (translate.x + baseSize.width / 2) % gridSize.width
-    const modY = (translate.y + baseSize.height / 2) % gridSize.height
+  private onTranslate(translateXDelta: number, translateYDelta: number) {
+    const { scale, translate, onChangeTranslate } = this.props
 
-    onChangeFinallyTranslate({
-      x: translate.x - (modX > gridSize.width / 2 ? modX - gridSize.width : modX),
-      y: translate.y - (modY > gridSize.height / 2 ? modY - gridSize.height : modY)
+    onChangeTranslate({
+      x: Math.max(0, Math.min(scale - 1, translate.x - translateXDelta)),
+      y: Math.max(0, Math.min(scale - 1, translate.y - translateYDelta))
+    })
+  }
+
+  private startMoveToGrid = () => {
+    const { gridSize, translate, onChangeDestinationTranslate } = this.props
+    const modX = (translate.x + 0.5) % gridSize.x
+    const modY = (translate.y + 0.5) % gridSize.y
+
+    onChangeDestinationTranslate({
+      x: translate.x - (modX > gridSize.x / 2 ? modX - gridSize.x : modX),
+      y: translate.y - (modY > gridSize.y / 2 ? modY - gridSize.y : modY)
     })
 
     this.animationFrameId = requestAnimationFrame(this.runGridAnimation)
@@ -168,7 +170,7 @@ export default class InputPanel extends Component<InputPanelProps> {
     const newDiffY =
       Math.abs(diffYToGrid) <= step ? 0 : diffYToGrid + (diffYToGrid < 0 ? step : -step)
 
-    this.transform(0, diffXToGrid - newDiffX, diffYToGrid - newDiffY)
+    this.onTranslate(diffXToGrid - newDiffX, diffYToGrid - newDiffY)
 
     if (newDiffX === 0 && newDiffY === 0) {
       this.stopMoveToGrid()

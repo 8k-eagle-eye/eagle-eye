@@ -1,4 +1,4 @@
-import React, { useState, useCallback, createRef, useMemo } from 'react'
+import React, { useState, useCallback, useRef } from 'react'
 import styled from 'styled-components'
 
 interface SeekBarProps {
@@ -84,7 +84,7 @@ const SeekableArea = styled.div.attrs(({ seeking }: SeekableAreaProps) => ({
 
 const SeekBar = (props: SeekBarProps) => {
   const { currentTime, duration, onSeekTime, onSeekStart, onSeekEnd } = props
-  const containerRef = useMemo(() => createRef<HTMLDivElement>(), [])
+  const containerRef = useRef<HTMLDivElement>(null)
   const [seeking, setSeeking] = useState(false)
   const onSeek = useCallback(
     (x: number) => {

@@ -12,12 +12,9 @@ export default (videoRef: RefObject<HTMLVideoElement>, playing: boolean, current
   }, [playing, videoRef.current])
 
   useEffect(() => {
-    const videoElem = videoRef.current
-    if (!videoElem) {
-      return
-    }
+    const videoElem = videoRef.current!
 
-    if (Math.abs(videoElem.currentTime - currentTime) > 0.5) {
+    if (Math.abs(videoElem.currentTime - currentTime) > 0.2) {
       videoElem.currentTime = currentTime
     }
   }, [currentTime, videoRef.current])

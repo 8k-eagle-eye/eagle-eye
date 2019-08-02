@@ -1,4 +1,4 @@
-import React, { createRef, useMemo } from 'react'
+import React, { useRef, useMemo } from 'react'
 import styled from 'styled-components'
 import useVideoController from 'hooks/viewer/useVideoController'
 import getVideoSrc from 'libs/viewer/getVideoSrc'
@@ -9,7 +9,7 @@ interface VideoContainerProps {
   playing: boolean
   scale: number
   currentTime: number
-  gridSize: { width: number; height: number }
+  gridSize: { x: number; y: number }
   resolutionRatio: number
   translate: { x: number; y: number }
   destinationTranslate: { x: number; y: number }
@@ -22,7 +22,7 @@ interface ContainerProps {
 
 const Container = styled.div.attrs(({ translate, scale }: ContainerProps) => ({
   style: {
-    transform: `translate(-${translate.x}px, -${translate.y}px) scale(${scale})`
+    transform: `translate(-${translate.x * 100}%, -${translate.y * 100}%) scale(${scale})`
   }
 }))<ContainerProps>`
   position: absolute;
@@ -39,7 +39,7 @@ const BaseVideo = styled.video`
 `
 
 const VideoContainer = (props: VideoContainerProps) => {
-  const videoRef = createRef<HTMLVideoElement>()
+  const videoRef = useRef<HTMLVideoElement>(null)
   const {
     baseUrl,
     playing,

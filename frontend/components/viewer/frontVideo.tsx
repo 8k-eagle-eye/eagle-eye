@@ -9,7 +9,7 @@ interface FrontVideoProps {
   playing: boolean
   currentTime: number
   scale: number
-  gridSize: { width: number; height: number }
+  gridSize: { x: number; y: number }
   resolutionRatio: number
   destinationTranslate: { x: number; y: number }
 }
@@ -25,9 +25,8 @@ const FrontVideoElem = styled.video.attrs(
   ({ sizeRatio, top, left, opacity }: FrontVideoElemProps) => ({
     style: {
       width: `${sizeRatio}%`,
-      height: `${sizeRatio}%`,
-      top: `${top}px`,
-      left: `${left}px`,
+      top: `${top * 100}%`,
+      left: `${left * 100}%`,
       opacity
     }
   })
