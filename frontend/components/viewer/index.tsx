@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, createRef, useMemo } from 'react'
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
 import styled from 'styled-components'
 import VideoContainer from './videoContainer'
 import InputPanel from './inputPanel'
@@ -16,7 +16,7 @@ export interface ViewerProps {
 interface FullScreenContainerProps {
   isFullScreen: boolean
   aspect: number
-  windowAspect: number
+  fullScreenAspect: number
 }
 
 const ViewerRoot = styled.div<{ aspect: number; isFullScreen: boolean }>`
@@ -28,10 +28,10 @@ const ViewerRoot = styled.div<{ aspect: number; isFullScreen: boolean }>`
 
 const FullScreenContainer = styled.div<FullScreenContainerProps>`
   position: ${({ isFullScreen }) => (isFullScreen ? 'fixed' : 'absolute')};
-  width: ${({ isFullScreen, aspect, windowAspect }) =>
-    (isFullScreen ? (aspect > windowAspect ? 1 : aspect / windowAspect) : 1) * 100}%;
-  height: ${({ isFullScreen, aspect, windowAspect }) =>
-    (isFullScreen ? (aspect > windowAspect ? windowAspect / aspect : 1) : 1) * 100}%;
+  width: ${({ isFullScreen, aspect, fullScreenAspect }) =>
+    (isFullScreen ? (aspect > fullScreenAspect ? 1 : aspect / fullScreenAspect) : 1) * 100}%;
+  height: ${({ isFullScreen, aspect, fullScreenAspect }) =>
+    (isFullScreen ? (aspect > fullScreenAspect ? fullScreenAspect / aspect : 1) : 1) * 100}%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -62,26 +62,27 @@ const ScalePanel = styled.div`
 
 const Viewer = (props: ViewerProps) => {
   const { aspect, baseUrl, duration } = props
-  const viewerRef = useMemo(() => createRef<HTMLDivElement>(), [])
+  const viewerRef = useRef<HTMLDivElement>(null)
+  const fullScreenPanelRef = useRef<HTMLDivElement>(null)
   const [baseSize, setBaseSize] = useState({ width: 0, height: 0 })
   const [clientRect, setClientRect] = useState({ top: 0, left: 0 })
   const [scale, setScale] = useState(1)
   const [translate, setTranslate] = useState({ x: 0, y: 0 })
-  const [destinationTranslate, setFinallyTranslate] = useState({ x: 0, y: 0 })
+  const [destinationTranslate, setDestinationTranslate] = useState({ x: 0, y: 0 })
   const [initialized, setInitialized] = useState(false)
   const [animationIconVisible, setAnimationIconVisible] = useState(true)
   const [isFullScreen, setFullScreen] = useState(false)
-  const [windowAspect, setWindowAspect] = useState(1)
+  const [fullScreenAspect, setFullScreenAspect] = useState(1)
   const { playing, onPause, onPlay, currentTime, onSeekTime } = useTimeController(duration)
   const resolutionRatio = useMemo(() => (scale >= 8 ? 8 : scale >= 4 ? 4 : scale >= 2 ? 2 : 1), [
     scale
   ])
   const gridSize = useMemo(
     () => ({
-      width: (baseSize.width * scale) / resolutionRatio / 2,
-      height: (baseSize.height * scale) / resolutionRatio / 2
+      x: scale / resolutionRatio / 2,
+      y: scale / resolutionRatio / 2
     }),
-    [baseSize, scale]
+    [scale]
   )
 
   const togglePlaying = useCallback(() => {
@@ -100,10 +101,14 @@ const Viewer = (props: ViewerProps) => {
     const viewerElem = viewerRef.current!
     const { clientWidth, clientHeight } = viewerElem
     const { top, left } = viewerElem.getBoundingClientRect()
+    const fullScreenPanelElem = fullScreenPanelRef.current
 
     setBaseSize({ width: clientWidth, height: clientHeight })
     setClientRect({ top, left })
-    setWindowAspect(window.innerWidth / window.innerHeight)
+
+    if (fullScreenPanelElem) {
+      setFullScreenAspect(fullScreenPanelElem.clientWidth / fullScreenPanelElem.clientHeight)
+    }
   }, [])
 
   useEffect(() => setAnimationIconVisible(!initialized), [scale])
@@ -128,13 +133,15 @@ const Viewer = (props: ViewerProps) => {
     <ViewerRoot aspect={aspect} isFullScreen={isFullScreen}>
       {initialized ? (
         <>
-          {isFullScreen ? <ExitFullScreenPanel onClick={toggleFullScreen} /> : null}
+          {isFullScreen ? (
+            <ExitFullScreenPanel ref={fullScreenPanelRef} onClick={toggleFullScreen} />
+          ) : null}
 
           <FullScreenContainer
             ref={viewerRef}
             isFullScreen={isFullScreen}
             aspect={aspect}
-            windowAspect={windowAspect}
+            fullScreenAspect={fullScreenAspect}
           >
             <VideoContainer
               baseUrl={baseUrl}
@@ -160,7 +167,7 @@ const Viewer = (props: ViewerProps) => {
               destinationTranslate={destinationTranslate}
               onChangeScale={setScale}
               onChangeTranslate={setTranslate}
-              onChangeFinallyTranslate={setFinallyTranslate}
+              onChangeDestinationTranslate={setDestinationTranslate}
             />
 
             <ControlsBar

@@ -1,7 +1,7 @@
-import { useState, createRef, useCallback, useEffect } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 
 export default (src: string, playing: boolean, currentTime: number) => {
-  const frontVideoRef = createRef<HTMLVideoElement>()
+  const frontVideoRef = useRef<HTMLVideoElement>(null)
   const [canPlay, setCanPlay] = useState(false)
 
   useEffect(() => setCanPlay(false), [src])
@@ -25,7 +25,7 @@ export default (src: string, playing: boolean, currentTime: number) => {
       return
     }
 
-    if (Math.abs(videoElem.currentTime - currentTime) > 0.5) {
+    if (Math.abs(videoElem.currentTime - currentTime) > 0.2) {
       videoElem.currentTime = currentTime
     }
   }, [currentTime, canPlay, frontVideoRef.current, src])
