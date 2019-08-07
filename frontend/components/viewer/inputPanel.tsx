@@ -41,7 +41,6 @@ export default class InputPanel extends Component<InputPanelProps> {
 
   private onMouseDown = (e: React.MouseEvent) => {
     e.preventDefault()
-    this.panning = true
     this.startPan(e)
   }
 
@@ -52,22 +51,19 @@ export default class InputPanel extends Component<InputPanelProps> {
       this.startPan(e.touches[0])
     } else if (e.touches.length === 2) {
       this.zooming = true
+      this.panning = false
       this.baseDistance = calculateDistance(e.touches) / this.props.scale
     }
   }
 
   private onMouseMove = (e: MouseEvent) => {
-    if (!this.panning) {
-      return
-    }
-
-    this.movePan(e)
+    if (this.panning) this.movePan(e)
   }
 
   private onTouchMove = ({ touches }: TouchEvent) => {
-    if (touches.length === 1 && !this.zooming) {
+    if (touches.length === 1 && this.panning) {
       this.movePan(touches[0])
-    } else if (touches.length === 2) {
+    } else if (touches.length === 2 && this.zooming) {
       this.onZoom(
         (touches[0].clientX + touches[1].clientX) / 2,
         (touches[0].clientY + touches[1].clientY) / 2,
@@ -81,9 +77,9 @@ export default class InputPanel extends Component<InputPanelProps> {
     this.startMoveToGrid()
   }
 
-  private onTouchEnd = ({ touches }: TouchEvent) => {
-    // ズーム後に指1本でパンに移行してガタつくのを防ぐ
-    if (touches.length === 0) this.zooming = false
+  private onTouchEnd = () => {
+    this.zooming = false
+    this.panning = false
     this.startMoveToGrid()
   }
 
@@ -98,6 +94,7 @@ export default class InputPanel extends Component<InputPanelProps> {
 
   private startPan(e: React.MouseEvent | Touch) {
     const { baseSize } = this.props
+    this.panning = true
     this.prevPanPoint = { x: e.pageX / baseSize.width, y: e.pageY / baseSize.height }
     this.stopMoveToGrid()
   }

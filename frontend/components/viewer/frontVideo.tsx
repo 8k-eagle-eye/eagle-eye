@@ -70,7 +70,6 @@ const FrontVideo = (props: FrontVideoProps) => {
       onCanPlayThrough={setCanPlayOnCanPlayThrough}
       loop
       playsInline
-      muted
     />
   )
 }

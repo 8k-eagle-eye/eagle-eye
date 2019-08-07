@@ -4,7 +4,15 @@ export default (src: string, playing: boolean, currentTime: number) => {
   const frontVideoRef = useRef<HTMLVideoElement>(null)
   const [canPlay, setCanPlay] = useState(false)
 
-  useEffect(() => setCanPlay(false), [src])
+  useEffect(() => {
+    const videoElem = frontVideoRef.current
+    if (videoElem) {
+      setCanPlay(false)
+      // reactのバグでmutedをattrで指定できない
+      videoElem.muted = true
+      videoElem.load()
+    }
+  }, [src])
 
   useEffect(() => {
     const videoElem = frontVideoRef.current
