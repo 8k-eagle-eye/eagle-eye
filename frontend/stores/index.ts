@@ -2,7 +2,7 @@
 import { action, observable } from 'mobx'
 import { useStaticRendering } from 'mobx-react'
 
-interface InitialData {
+export interface StoreData {
   lastUpdate: number
   light: boolean
 }
@@ -17,10 +17,9 @@ export class Store {
 
   public timer = 0
 
-  // @ts-ignore: disable noUnusedParameters because it is example
-  public constructor(isServer: boolean, initialData: Partial<InitialData> = {}) {
-    this.lastUpdate = initialData.lastUpdate != null ? initialData.lastUpdate : Date.now()
-    this.light = !!initialData.light
+  public hydrate(serializedStore: StoreData) {
+    this.lastUpdate = serializedStore.lastUpdate != null ? serializedStore.lastUpdate : Date.now()
+    this.light = !!serializedStore.light
   }
 
   @action public start = () => {
@@ -33,16 +32,7 @@ export class Store {
   public stop = () => clearInterval(this.timer)
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let store: Store = null as any
-
-export function initializeStore(initialData: Partial<InitialData> = {}) {
-  // Always make a new store if server, otherwise state is shared between requests
-  if (isServer) {
-    return new Store(isServer, initialData)
-  }
-  if (store === null) {
-    store = new Store(isServer, initialData)
-  }
-  return store
+export async function fetchInitialStoreState() {
+  // You can do anything to fetch initial store state
+  return {}
 }

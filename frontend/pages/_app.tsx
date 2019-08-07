@@ -2,35 +2,39 @@ import App, { Container, AppContext } from 'next/app'
 import React from 'react'
 import { Provider } from 'mobx-react'
 import { ThemeProvider } from 'styled-components'
-import { initializeStore, Store } from 'stores/index'
+import { fetchInitialStoreState, StoreData, Store } from 'stores/index'
 import { theme } from 'assets/styles/theme'
 
 export default class MyApp extends App {
-  public static async getInitialProps({ Component, ctx }: AppContext) {
-    const mobxStore = initializeStore()
-    // ctx.mobxStore = mobxStore
-    let pageProps = {}
-
-    if (Component.getInitialProps) {
-      pageProps = await Component.getInitialProps(ctx)
-    }
-
-    return { pageProps, initialMobxState: mobxStore }
+  public state = {
+    store: new Store()
   }
 
-  private store: Store = null as any
+  // Fetching serialized(JSON) store state
+  public static async getInitialProps(appContext: AppContext) {
+    const appProps = await App.getInitialProps(appContext)
+    const initialStoreState = await fetchInitialStoreState()
 
-  public constructor(props: any) {
-    super(props)
-    const isServer = typeof window === 'undefined'
-    this.store = isServer ? props.initialMobxState : initializeStore(props.initialMobxState)
+    return {
+      ...appProps,
+      initialStoreState
+    }
+  }
+
+  // Hydrate serialized state to store
+  public static getDerivedStateFromProps(
+    props: { initialStoreState: StoreData },
+    state: { store: Store }
+  ) {
+    state.store.hydrate(props.initialStoreState)
+    return state
   }
 
   public render() {
     const { Component, pageProps } = this.props
     return (
       <Container>
-        <Provider store={this.store}>
+        <Provider store={this.state.store}>
           <ThemeProvider theme={theme}>
             <Component {...pageProps} />
           </ThemeProvider>
