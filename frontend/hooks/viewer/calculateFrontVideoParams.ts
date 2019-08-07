@@ -15,4 +15,4 @@ export default (
       gridIndexTop: Math.round((top * scale) / gridSize.y),
       gridIndexLeft: Math.round((left * scale) / gridSize.x)
     }
-  }, [gridSize, destinationTranslate])
+  }, [destinationTranslate])
