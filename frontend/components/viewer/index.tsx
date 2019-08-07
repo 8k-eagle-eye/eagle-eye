@@ -5,7 +5,7 @@ import InputPanel from './inputPanel'
 import Poster from './poster'
 import AnimationIcon from './animationIcon'
 import ControlsBar from './controlsBar'
-import useTimeController from 'hooks/viewer/useTimeController'
+import useVideoController from 'hooks/viewer/useVideoController'
 
 export interface ViewerProps {
   aspect: number
@@ -73,7 +73,14 @@ const Viewer = (props: ViewerProps) => {
   const [animationIconVisible, setAnimationIconVisible] = useState(true)
   const [isFullScreen, setFullScreen] = useState(false)
   const [fullScreenAspect, setFullScreenAspect] = useState(1)
-  const { playing, onPause, onPlay, currentTime, onSeekTime } = useTimeController(duration)
+  const {
+    videoRef,
+    currentTime,
+    changeCurrentTimeOnSeek,
+    playing,
+    onPause,
+    onPlay
+  } = useVideoController()
   const resolutionRatio = useMemo(() => (scale >= 8 ? 8 : scale >= 4 ? 4 : scale >= 2 ? 2 : 1), [
     scale
   ])
@@ -148,6 +155,7 @@ const Viewer = (props: ViewerProps) => {
               playing={playing}
               scale={scale}
               gridSize={gridSize}
+              videoRef={videoRef}
               currentTime={currentTime}
               resolutionRatio={resolutionRatio}
               translate={translate}
@@ -175,7 +183,7 @@ const Viewer = (props: ViewerProps) => {
               currentTime={currentTime}
               duration={duration}
               isFullScreen={isFullScreen}
-              onSeekTime={onSeekTime}
+              onSeekTime={changeCurrentTimeOnSeek}
               onTogglePlaying={togglePlaying}
               onToggleFullScreen={toggleFullScreen}
             />

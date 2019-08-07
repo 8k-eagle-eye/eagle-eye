@@ -1,6 +1,5 @@
-import React, { useRef, useMemo } from 'react'
+import React, { RefObject, useMemo } from 'react'
 import styled from 'styled-components'
-import useVideoController from 'hooks/viewer/useVideoController'
 import getVideoSrc from 'libs/viewer/getVideoSrc'
 import FrontVideo from './frontVideo'
 
@@ -8,6 +7,7 @@ interface VideoContainerProps {
   baseUrl: string
   playing: boolean
   scale: number
+  videoRef: RefObject<HTMLVideoElement>
   currentTime: number
   gridSize: { x: number; y: number }
   resolutionRatio: number
@@ -39,12 +39,12 @@ const BaseVideo = styled.video`
 `
 
 const VideoContainer = (props: VideoContainerProps) => {
-  const videoRef = useRef<HTMLVideoElement>(null)
   const {
     baseUrl,
     playing,
     translate,
     scale,
+    videoRef,
     currentTime,
     gridSize,
     resolutionRatio,
@@ -54,8 +54,6 @@ const VideoContainer = (props: VideoContainerProps) => {
     () => getVideoSrc({ baseUrl, resolutionRatio: 1, gridIndexTop: 0, gridIndexLeft: 0 }),
     [baseUrl]
   )
-
-  useVideoController(videoRef, playing, currentTime)
 
   return (
     <Container translate={translate} scale={scale}>

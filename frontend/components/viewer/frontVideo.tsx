@@ -53,7 +53,7 @@ const FrontVideo = (props: FrontVideoProps) => {
     () => getVideoSrc({ baseUrl, resolutionRatio, gridIndexTop, gridIndexLeft }),
     [baseUrl, resolutionRatio, gridIndexTop, gridIndexLeft]
   )
-  const { ref, canPlay, setCanPlayOnCanPlayThrough } = useFrontVideoController(
+  const { ref, canPlay, isDelayed, setCanPlayOnCanPlayThrough } = useFrontVideoController(
     src,
     playing,
     currentTime
@@ -65,12 +65,11 @@ const FrontVideo = (props: FrontVideoProps) => {
       sizeRatio={100 / resolutionRatio}
       top={top}
       left={left}
-      opacity={canPlay ? 1 : 0}
+      opacity={canPlay && !isDelayed ? 1 : 0}
       src={src}
       onCanPlayThrough={setCanPlayOnCanPlayThrough}
       loop
       playsInline
-      muted
     />
   )
 }
