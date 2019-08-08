@@ -124,7 +124,7 @@ const Home = () => (
 
     <Header {...homeContent.header} />
 
-    <FirstView />
+    <FirstView {...homeContent.viewer.main} />
 
     <Hero {...homeContent.hero} />
 

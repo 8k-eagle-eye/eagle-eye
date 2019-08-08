@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import Viewer from 'components/viewer'
+import Viewer, { ViewerProps } from 'components/viewer'
 import bgImg from 'assets/images/top-bg.jpg'
 
 const FirstViewRoot = styled.div`
@@ -60,7 +60,7 @@ const ViewerFrame = styled.div`
   box-shadow: 0 10px 30px 0px rgba(0, 0, 0, 0.4);
 `
 
-const FirstView = () => {
+const FirstView = (props: ViewerProps) => {
   return (
     <FirstViewRoot>
       <BackgroundImg />
@@ -82,7 +82,7 @@ const FirstView = () => {
       </Container>
 
       <ViewerFrame>
-        <Viewer aspect={16 / 9} duration={34} baseUrl={process.env.STORAGE_ORIGIN as string} />
+        <Viewer {...props} />
       </ViewerFrame>
     </FirstViewRoot>
   )
