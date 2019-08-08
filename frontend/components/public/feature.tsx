@@ -4,7 +4,6 @@ import { styled } from 'assets/styles/theme'
 export interface FeatureProps {
   heading: string
   headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-  description: string
   icon: {
     src: string
     alt?: string
@@ -31,7 +30,6 @@ const Feature = (props: FeatureProps) => (
       </Icon>
     )}
     <Heading as={props.headingLevel && props.headingLevel}>{props.heading}</Heading>
-    <p style={{ whiteSpace: 'pre-line' }}>{props.description}</p>
   </>
 )
 

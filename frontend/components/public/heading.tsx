@@ -7,7 +7,7 @@ export interface HeadingProps extends HTMLAttributes<HTMLElement> {
 
 const HeadingElement = styled.h2`
   margin-bottom: 0.5em;
-  font-size: 10vw;
+  font-size: 20px;
   font-weight: bold;
 
   @media screen and (min-width: 640px) {

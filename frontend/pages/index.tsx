@@ -4,19 +4,23 @@ import FeatureList, { FeatureListProps } from 'components/public/featureList'
 import Footer from 'components/public/footer'
 import Head, { HeadProps } from 'components/head'
 import Header, { HeaderProps } from 'components/public/header'
-import Heading, { HeadingProps } from 'components/public/heading'
+import { HeadingProps } from 'components/public/heading'
+import FirstView from 'components/public/firstView'
 import Hero, { HeroProps } from 'components/public/hero'
-import Viewer, { ViewerProps } from 'components/viewer'
+import { ViewerProps } from 'components/viewer'
 import aspectRatioIcon from 'assets/images/aspect-ratio.svg'
 import phonelinkIcon from 'assets/images/phonelink.svg'
 import { ResetStyle, BackgroundStyle } from 'assets/styles/globalStyle'
 import { SITE_TITLE, APP_VERSION } from 'consts/meta'
 import { styled } from 'assets/styles/theme'
+import x12Img from 'assets/images/x12.jpg'
+import compereImg from 'assets/images/compare.jpg'
 
 interface Content {
   head: HeadProps
   header: HeaderProps
   hero: HeroProps
+  hero2: HeroProps
   viewer: {
     heading: HeadingProps
     main: ViewerProps
@@ -37,13 +41,14 @@ const homeContent: Content = {
     version: APP_VERSION
   },
   hero: {
-    heading: 'Application Concept, Copy etc...',
-    description: `Eagle Eyeはユーザーが動画を通じて触れる世界を広げます。
-8K相当の情報量を保持した動画を、ユーザーによる動画スワイプ、ズームイン/アウトをして視聴することが可能な動画プレーヤーです。`,
-    linkList: [
-      { href: '#demonstration', text: 'Demonstration' },
-      { href: 'https://github.com/8k-eagle-eye/eagle-eye', text: 'GitHub' }
-    ]
+    heading: '12倍にズームしてもクッキリ再生',
+    src: x12Img,
+    description: 'ズーム+解像度補正で小さな建物の名前まで読み取れる'
+  },
+  hero2: {
+    heading: '8K動画を使うから細部までキレイ',
+    src: compereImg,
+    description: '通常の動画と比較して16倍以上の情報量'
   },
   viewer: {
     heading: {
@@ -64,37 +69,20 @@ const homeContent: Content = {
       items: [
         {
           heading: 'インタラクティブな解像度補正',
-          description:
-            '8Kで撮影されたオリジナル動画のデータ密度を利用して最大12倍の無劣化ズームを実現します',
           icon: { src: aspectRatioIcon }
         },
         {
           heading: 'PCとスマホ両方のWebサイトに対応',
-          description: `特別な環境・機材を必要とせず、現状のサイトに埋め込み・配信をします
-          5Gともにやってくる8K動画の感動を4G環境でも少しだけ先取り体験出来ます`,
+          icon: { src: phonelinkIcon }
+        },
+        {
+          heading: '8K動画一つあれば変換可能',
           icon: { src: phonelinkIcon }
         }
       ]
     }
   }
 }
-
-const ViewerSection = styled.section`
-  margin-bottom: 30vw;
-
-  @media screen and (min-width: 576px) {
-    margin-bottom: 173px;
-  }
-`
-
-const ViewerFrame = styled.div`
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-  margin: 0 auto 2em;
-  background-color: ${({ theme }) => theme.color.primaryDark};
-  max-width: 640px;
-`
 
 const FeaturesSection = styled.section`
   position: relative;
@@ -136,19 +124,11 @@ const Home = () => (
 
     <Header {...homeContent.header} />
 
+    <FirstView />
+
     <Hero {...homeContent.hero} />
 
-    <ViewerSection>
-      <Container>
-        <Heading className="text-center" {...homeContent.viewer.heading} />
-        <ViewerFrame>
-          <Viewer {...homeContent.viewer.main} />
-        </ViewerFrame>
-        <p className="text-md-center" style={{ whiteSpace: 'pre-line' }}>
-          {homeContent.viewer.description}
-        </p>
-      </Container>
-    </ViewerSection>
+    <Hero {...homeContent.hero2} />
 
     <FeaturesSection>
       <Container>

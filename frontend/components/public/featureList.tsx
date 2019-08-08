@@ -54,8 +54,8 @@ const List = styled.div`
 
 const FeatureList = (props: FeatureListProps) => (
   <List {...props}>
-    {props.items.map(({ heading, description, icon }) => (
-      <Feature key={heading} {...{ heading, description, icon }} />
+    {props.items.map(({ heading, icon }) => (
+      <Feature key={heading} {...{ heading, icon }} />
     ))}
   </List>
 )

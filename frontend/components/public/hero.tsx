@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import React from 'react'
 import { Container } from 'react-bootstrap'
 import Heading from 'components/public/heading'
@@ -6,11 +5,8 @@ import { styled } from 'assets/styles/theme'
 
 export interface HeroProps {
   heading: string
+  src: string
   description?: string
-  linkList?: {
-    href: string
-    text: string
-  }[]
 }
 
 const HeroSection = styled.section`
@@ -30,55 +26,20 @@ const HeroDescription = styled.p`
   white-space: pre-line;
 `
 
-const HeroLinkList = styled.ul`
-  .link {
-    display: block;
-    padding: 0.5em 1em;
-    border: solid 2px ${({ theme }) => theme.color.primary};
-    border-radius: 4px;
-    color: ${({ theme }) => theme.color.primary};
-    font-weight: bold;
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
-
-  li {
-    display: inline-block;
-  }
-
-  li:first-child {
-    .link {
-      background-color: ${({ theme }) => theme.color.primary};
-      color: var(--white);
-    }
-  }
-
-  li:nth-child(n + 2) {
-    margin-left: 1.5em;
-  }
+const DescriptionImg = styled.img`
+  display: block;
+  max-width: 80%;
+  margin: 72px auto 0;
+  box-shadow: -5px 10px 30px 0px rgba(0, 0, 0, 0.4);
 `
-
-const LinkList = (props: Required<Pick<HeroProps, 'linkList'>>) => (
-  <HeroLinkList>
-    {props.linkList.map(link => (
-      <li key={link.href}>
-        <Link href={link.href}>
-          <a className="link">{link.text}</a>
-        </Link>
-      </li>
-    ))}
-  </HeroLinkList>
-)
 
 const Hero = (props: HeroProps) => (
   <HeroSection>
     <Container className="text-md-center">
       <Heading text={props.heading} />
       {props.description && <HeroDescription>{props.description}</HeroDescription>}
-      {props.linkList && props.linkList.length > 0 && <LinkList linkList={props.linkList} />}
     </Container>
+    <DescriptionImg src={props.src} />
   </HeroSection>
 )
 

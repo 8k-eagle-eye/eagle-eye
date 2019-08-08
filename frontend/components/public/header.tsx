@@ -2,6 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import { Container } from 'react-bootstrap'
 import { styled } from 'assets/styles/theme'
+import logoImg from 'assets/images/logo.png'
 
 export interface HeaderProps {
   title: string
@@ -26,6 +27,11 @@ const Title = styled.h1`
   }
 `
 
+const Logo = styled.img`
+  width: 240px;
+  max-width: 25%;
+`
+
 const Version = styled.sup`
   color: ${({ theme }) => theme.color.primary};
   font-size: 0.5em;
@@ -38,7 +44,7 @@ const Header = (props: HeaderProps) => (
       <Title>
         <Link href="/">
           <a>
-            {props.title}
+            <Logo src={logoImg} alt={props.title} />
             <Version>{props.version}</Version>
           </a>
         </Link>
