@@ -103,7 +103,10 @@ const SeekBar = (props: SeekBarProps) => {
 
   const onTouchMove = useCallback(
     (e: React.TouchEvent) => {
-      if (seeking) onSeek(e.touches[0].clientX)
+      if (seeking) {
+        e.preventDefault()
+        onSeek(e.touches[0].clientX)
+      }
     },
     [onSeek]
   )
@@ -134,20 +137,22 @@ const SeekBar = (props: SeekBarProps) => {
   }, [onSeekEnd, currentTime])
 
   return (
-    <Container ref={containerRef}>
-      <SeekBarFrame onMouseDown={setSeekingOnMouseDown} onTouchStart={setSeekingOnTouchStart}>
+    <Container
+      ref={containerRef}
+      onMouseDown={setSeekingOnMouseDown}
+      onTouchStart={setSeekingOnTouchStart}
+      onMouseMove={onMouseMove}
+      onTouchMove={onTouchMove}
+      onMouseUp={setSeekingOnSeekEnd}
+      onTouchEnd={setSeekingOnSeekEnd}
+    >
+      <SeekBarFrame>
         <ProgressBar ratio={(currentTime / duration) * 100}>
           <CircleButton />
         </ProgressBar>
       </SeekBarFrame>
 
-      <SeekableArea
-        seeking={seeking}
-        onMouseMove={onMouseMove}
-        onTouchMove={onTouchMove}
-        onMouseUp={setSeekingOnSeekEnd}
-        onTouchEnd={setSeekingOnSeekEnd}
-      />
+      <SeekableArea seeking={seeking} />
     </Container>
   )
 }

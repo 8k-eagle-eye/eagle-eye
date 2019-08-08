@@ -53,7 +53,7 @@ const homeContent: Content = {
     main: {
       aspect: 16 / 9,
       duration: 34,
-      baseUrl: process.env.STORAGE_ORIGIN as string
+      baseUrl: `${process.env.BASE_URL_JP as string}/tokyo`
     },
     description: `「もっとよく見てみたい場所」に指を置いて、ズーム・スワイプ操作をしてみましょう。
 直感的な操作で、細部に宿るた美しさ、精緻さが新しい動画体験を提供します。`

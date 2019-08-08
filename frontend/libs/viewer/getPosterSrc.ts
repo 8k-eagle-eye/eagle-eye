@@ -1,1 +1,1 @@
-export default (baseUrl: string) => `${baseUrl}/videos/poster.jpg`
+export default (baseUrl: string) => `${baseUrl}/poster.jpg`

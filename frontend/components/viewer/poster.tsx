@@ -29,7 +29,7 @@ const CircleButton = styled.div`
   cursor: pointer;
   transition: 0.2s ease-in-out;
 
-  &:hover {
+  ${PosterFrame}:hover > & {
     opacity: 1;
   }
 `
@@ -46,8 +46,8 @@ const ArrowMark = styled.div`
 
 const Poster = ({ baseUrl, onClick }: PosterProps) => {
   return (
-    <PosterFrame baseUrl={baseUrl}>
-      <CircleButton onClick={onClick}>
+    <PosterFrame baseUrl={baseUrl} onClick={onClick}>
+      <CircleButton>
         <ArrowMark />
       </CircleButton>
     </PosterFrame>

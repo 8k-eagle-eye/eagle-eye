@@ -6,5 +6,4 @@ interface VideoSrcParams {
 }
 
 export default ({ baseUrl, resolutionRatio, gridIndexTop, gridIndexLeft }: VideoSrcParams) =>
-  `${baseUrl}/videos/${resolutionRatio === 1 ? 'hd' : `${resolutionRatio}k`}/${gridIndexTop +
-    1}-${gridIndexLeft + 1}.mp4`
+  `${baseUrl}/${resolutionRatio}k/${gridIndexTop + 1}-${gridIndexLeft + 1}.mp4`
