@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Viewer, { ViewerProps } from 'components/viewer'
-import bgImg from 'assets/images/top-bg.jpg'
+import bgImg from 'assets/images/home-hero-bg.jpg'
 
 const FirstViewRoot = styled.div`
   min-height: 100vh;

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import { Container } from 'react-bootstrap'
 import { styled } from 'assets/styles/theme'
-import logoImg from 'assets/images/logo.png'
+import logoImg from 'assets/images/logo-8kee.png'
 
 export interface HeaderProps {
   title: string

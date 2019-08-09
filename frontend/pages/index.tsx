@@ -3,12 +3,12 @@ import Footer from 'components/public/footer'
 import Head, { HeadProps } from 'components/head'
 import Header, { HeaderProps } from 'components/public/header'
 import FirstView from 'components/public/firstView'
-import Hero, { HeroProps } from 'components/public/hero'
+import Hero, { HeroProps } from 'components/public/feature'
 import { ViewerProps } from 'components/viewer'
 import { ResetStyle } from 'assets/styles/globalStyle'
 import { SITE_TITLE, APP_VERSION } from 'consts/meta'
-import x12Img from 'assets/images/x12.jpg'
-import compereImg from 'assets/images/compare.jpg'
+import x12Img from 'assets/images/home-x12.jpg'
+import compereImg from 'assets/images/home-compare.jpg'
 
 interface Content {
   head: HeadProps
