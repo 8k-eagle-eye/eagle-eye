@@ -6,9 +6,9 @@ import Header from 'components/public/header'
 import Hero, { HeroProps } from 'components/public/hero'
 import Feature, { FeatureProps } from 'components/public/feature'
 import Viewer, { ViewerProps } from 'components/viewer'
+import Wrapper from 'components/public/wrapper'
 import { ResetStyle } from 'assets/styles/globalStyle'
 import { SITE_TITLE } from 'consts/meta'
-import { styled } from 'assets/styles/theme'
 import x12Img from 'assets/images/home-x12.jpg'
 import compereImg from 'assets/images/home-compare.jpg'
 
@@ -77,23 +77,6 @@ const homeContent: { [key: string]: Content } = {
     ]
   }
 }
-
-const Wrapper = styled.div`
-  width: 80%;
-  max-width: 960px;
-  margin-right: auto;
-  margin-left: auto;
-
-  & + & {
-    margin-top: 30vw;
-  }
-
-  @media screen and (min-width: 576px) {
-    & + & {
-      margin-top: 173px;
-    }
-  }
-`
 
 const Home = withRouter(props => {
   const { lang } = props.router.query
