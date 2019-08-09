@@ -27,11 +27,7 @@ const Heading = styled.h2`
   white-space: pre-line;
 
   @media screen and (min-width: 576px) {
-    font-size: 60px;
-  }
-
-  @media screen and (min-width: 768px) {
-    font-size: 64px;
+    font-size: 56px;
   }
 `
 
@@ -39,12 +35,8 @@ const Description = styled.p`
   padding-top: 2em;
   padding-bottom: 2rem;
   color: rgb(255, 226, 53);
-  font-size: 5vw;
+  font-size: 16px;
   white-space: pre-line;
-
-  @media screen and (min-width: 400px) {
-    font-size: 20px;
-  }
 `
 
 const Hero: FC<HeroProps> & { defaultProps: Partial<HeroProps> } = props => (
