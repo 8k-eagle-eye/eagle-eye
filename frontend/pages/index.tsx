@@ -2,7 +2,6 @@ import React from 'react'
 import Footer from 'components/public/footer'
 import Head, { HeadProps } from 'components/head'
 import Header, { HeaderProps } from 'components/public/header'
-import { HeadingProps } from 'components/public/heading'
 import FirstView from 'components/public/firstView'
 import Hero, { HeroProps } from 'components/public/hero'
 import { ViewerProps } from 'components/viewer'
@@ -17,9 +16,7 @@ interface Content {
   hero: HeroProps
   hero2: HeroProps
   viewer: {
-    heading: HeadingProps
     main: ViewerProps
-    description: string
   }
 }
 
@@ -42,17 +39,11 @@ const homeContent: Content = {
     description: '通常の動画と比較して16倍以上の情報量'
   },
   viewer: {
-    heading: {
-      id: 'demonstration',
-      text: 'Demonstration'
-    },
     main: {
       aspect: 16 / 9,
       duration: 34,
       baseUrl: `${process.env.BASE_URL_JP as string}/tokyo`
-    },
-    description: `「もっとよく見てみたい場所」に指を置いて、ズーム・スワイプ操作をしてみましょう。
-直感的な操作で、細部に宿るた美しさ、精緻さが新しい動画体験を提供します。`
+    }
   }
 }
 
