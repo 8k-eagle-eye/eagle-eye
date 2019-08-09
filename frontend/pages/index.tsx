@@ -9,8 +9,8 @@ import Viewer, { ViewerProps } from 'components/viewer'
 import Wrapper from 'components/public/wrapper'
 import { ResetStyle } from 'assets/styles/globalStyle'
 import { SITE_TITLE } from 'consts/meta'
-import x12Img from 'assets/images/home-x12.jpg'
-import compereImg from 'assets/images/home-compare.jpg'
+import imageX12 from 'assets/images/home/x12.jpg'
+import imageCompere from 'assets/images/home/compare.jpg'
 
 interface Content {
   head: HeadProps
@@ -38,12 +38,12 @@ const homeContent: { [key: string]: Content } = {
     features: [
       {
         heading: '12倍にズームしてもクッキリ再生',
-        image: { src: x12Img },
+        image: { src: imageX12 },
         caption: 'ズーム+解像度補正で小さな建物の名前まで読み取れる'
       },
       {
         heading: '8K動画を使うから細部までキレイ',
-        image: { src: compereImg },
+        image: { src: imageCompere },
         caption: '通常の動画と比較して16倍以上の情報量'
       }
     ]
@@ -66,12 +66,12 @@ const homeContent: { [key: string]: Content } = {
     features: [
       {
         heading: 'Clear video streaming in 12x zoom.',
-        image: { src: x12Img },
+        image: { src: imageX12 },
         caption: 'With zoom and resolution correction, even the name of small building is readable.'
       },
       {
         heading: 'Clear in any detail parts in video, by 8K.',
-        image: { src: compereImg },
+        image: { src: imageCompere },
         caption: '16x more data volume comparing with regular video.'
       }
     ]
