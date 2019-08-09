@@ -6,7 +6,7 @@ import { HeadingProps } from 'components/public/heading'
 import FirstView from 'components/public/firstView'
 import Hero, { HeroProps } from 'components/public/hero'
 import { ViewerProps } from 'components/viewer'
-import { ResetStyle, BackgroundStyle } from 'assets/styles/globalStyle'
+import { ResetStyle } from 'assets/styles/globalStyle'
 import { SITE_TITLE, APP_VERSION } from 'consts/meta'
 import x12Img from 'assets/images/x12.jpg'
 import compereImg from 'assets/images/compare.jpg'
@@ -60,7 +60,6 @@ const Home = () => (
   <>
     <Head {...homeContent.head} />
     <ResetStyle />
-    <BackgroundStyle />
 
     <Header {...homeContent.header} />
 

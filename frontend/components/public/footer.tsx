@@ -1,7 +1,5 @@
-import Link from 'next/link'
 import React, { FC, HTMLAttributes } from 'react'
 import { Container } from 'react-bootstrap'
-import githubIcon from 'assets/images/github.svg'
 import { COPYRIGHT } from 'consts/meta'
 import { styled } from 'assets/styles/theme'
 
@@ -42,37 +40,6 @@ const StyledFooter = styled.footer`
   }
 `
 
-const ListItem = ({ text, icon }: Omit<FooterListItem, 'href'>) => (
-  <>
-    {icon ? (
-      <>
-        {text}
-        <img {...icon} />
-      </>
-    ) : (
-      text
-    )}
-  </>
-)
-
-const LinkList = (props: Required<Pick<FooterProps, 'listItems'>>) => (
-  <>
-    {props.listItems.map(({ text, href, icon }) => (
-      <li key={text}>
-        {href ? (
-          <Link href={href}>
-            <a>
-              <ListItem {...{ text, icon }} />
-            </a>
-          </Link>
-        ) : (
-          <ListItem {...{ text, icon }} />
-        )}
-      </li>
-    ))}
-  </>
-)
-
 const Footer: FC<FooterProps> & { defaultProps: Partial<FooterProps> } = props => (
   <StyledFooter {...props}>
     <Container>
@@ -80,24 +47,13 @@ const Footer: FC<FooterProps> & { defaultProps: Partial<FooterProps> } = props =
         <li>
           <small>{props.copyright}</small>
         </li>
-        {props.listItems && props.listItems.length > 0 && <LinkList listItems={props.listItems} />}
       </ul>
     </Container>
   </StyledFooter>
 )
 
 Footer.defaultProps = {
-  copyright: COPYRIGHT,
-  listItems: [
-    {
-      text: 'GitHub',
-      href: 'https://github.com/8k-eagle-eye/eagle-eye',
-      icon: {
-        src: githubIcon,
-        alt: 'GitHub icon'
-      }
-    }
-  ]
+  copyright: COPYRIGHT
 }
 
 export default Footer
