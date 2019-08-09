@@ -36,7 +36,7 @@ const Feature: FC<FeatureProps> & { defaultProps: Partial<FeatureProps> } = prop
     <Heading text={props.heading} />
     {props.caption && <Caption>{props.caption}</Caption>}
     <ImageWrapper>
-      <Image src={props.image.src} alt={props.image.alt && props.image.alt} />
+      <Image src={props.image.src} alt={props.image.alt || ''} />
     </ImageWrapper>
   </>
 )
