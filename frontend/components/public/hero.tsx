@@ -1,46 +1,59 @@
-import React from 'react'
+import React, { FC, HTMLAttributes } from 'react'
 import { Container } from 'react-bootstrap'
-import Heading from 'components/public/heading'
+import imageHomeHeroBg from 'assets/images/home-hero-bg.jpg'
 import { styled } from 'assets/styles/theme'
 
-export interface HeroProps {
+export interface HeroProps extends HTMLAttributes<HTMLElement> {
   heading: string
-  src: string
-  description?: string
+  headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  description: string
 }
 
-const HeroSection = styled.section`
-  position: relative;
-  margin-bottom: 30vw;
-  padding-top: 30vw;
+const Section = styled.section`
+  text-align: center;
+  min-height: 100vh;
+  background: linear-gradient(#012b, #012b), left center / cover url(${imageHomeHeroBg});
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const CustomContainer = styled(Container)`
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+`
+
+const Heading = styled.h2`
+  color: #fff;
+  font-size: 10vw;
+  font-weight: bold;
+  white-space: pre-line;
 
   @media screen and (min-width: 576px) {
-    margin-bottom: 173px;
-    padding-top: 173px;
+    font-size: 56px;
   }
 `
 
-const HeroDescription = styled.p`
-  margin-bottom: 1.2rem;
-  color: ${({ theme }) => theme.color.gray};
+const Description = styled.p`
+  padding-top: 2em;
+  color: rgb(255, 226, 53);
+  font-size: 16px;
   white-space: pre-line;
 `
 
-const DescriptionImg = styled.img`
-  display: block;
-  max-width: 80%;
-  margin: 72px auto 0;
-  box-shadow: -5px 10px 30px 0px rgba(0, 0, 0, 0.4);
-`
-
-const Hero = (props: HeroProps) => (
-  <HeroSection>
-    <Container className="text-md-center">
-      <Heading text={props.heading} />
-      {props.description && <HeroDescription>{props.description}</HeroDescription>}
-    </Container>
-    <DescriptionImg src={props.src} />
-  </HeroSection>
+const Hero: FC<HeroProps> & { defaultProps: Partial<HeroProps> } = props => (
+  <Section style={props.style}>
+    <CustomContainer>
+      <Heading as={props.headingLevel}>{props.heading}</Heading>
+      <Description>{props.description}</Description>
+    </CustomContainer>
+  </Section>
 )
+
+Hero.defaultProps = {
+  heading: 'Lorem ipsum',
+  description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, enim.
+    Totam atque quisquam a. Molestiae nostrum impedit soluta quas eveniet suscipit in fugit odit, saepe odio fuga quisquam consectetur voluptatem.`
+}
 
 export default Hero
