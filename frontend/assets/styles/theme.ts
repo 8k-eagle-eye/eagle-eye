@@ -8,7 +8,7 @@ export const theme = {
     gray: '#6c757d'
   },
   fontSize: {
-    xl: '64px',
+    xl: '48px',
     l: '32px'
   }
 }

@@ -1,169 +1,126 @@
 import React from 'react'
-import { Container } from 'react-bootstrap'
-import FeatureList, { FeatureListProps } from 'components/public/featureList'
+import { withRouter } from 'next/router'
 import Footer from 'components/public/footer'
 import Head, { HeadProps } from 'components/head'
-import Header, { HeaderProps } from 'components/public/header'
-import Heading, { HeadingProps } from 'components/public/heading'
+import Header from 'components/public/header'
 import Hero, { HeroProps } from 'components/public/hero'
+import Feature, { FeatureProps } from 'components/public/feature'
 import Viewer, { ViewerProps } from 'components/viewer'
-import aspectRatioIcon from 'assets/images/aspect-ratio.svg'
-import phonelinkIcon from 'assets/images/phonelink.svg'
-import { ResetStyle, BackgroundStyle } from 'assets/styles/globalStyle'
-import { SITE_TITLE, APP_VERSION } from 'consts/meta'
+import { ResetStyle } from 'assets/styles/globalStyle'
+import { SITE_TITLE } from 'consts/meta'
 import { styled } from 'assets/styles/theme'
+import x12Img from 'assets/images/home-x12.jpg'
+import compereImg from 'assets/images/home-compare.jpg'
 
 interface Content {
   head: HeadProps
-  header: HeaderProps
   hero: HeroProps
-  viewer: {
-    heading: HeadingProps
-    main: ViewerProps
-    description: string
-  }
-  features: {
-    heading: string
-    list: FeatureListProps
-  }
+  features: FeatureProps[]
+  viewer: ViewerProps
 }
 
-const homeContent: Content = {
-  head: {
-    title: SITE_TITLE
-  },
-  header: {
-    title: SITE_TITLE,
-    version: APP_VERSION
-  },
-  hero: {
-    heading: 'Application Concept, Copy etc...',
-    description: `Eagle Eyeはユーザーが動画を通じて触れる世界を広げます。
-8K相当の情報量を保持した動画を、ユーザーによる動画スワイプ、ズームイン/アウトをして視聴することが可能な動画プレーヤーです。`,
-    linkList: [
-      { href: '#demonstration', text: 'Demonstration' },
-      { href: 'https://github.com/8k-eagle-eye/eagle-eye', text: 'GitHub' }
-    ]
-  },
-  viewer: {
-    heading: {
-      id: 'demonstration',
-      text: 'Demonstration'
+const homeContent: { [key: string]: Content } = {
+  jp: {
+    head: {
+      title: SITE_TITLE
     },
-    main: {
+    hero: {
+      heading: `最大12倍ズームの
+      新しい映像体験`,
+      description: `Eagle Eyeは8K動画データをタイル分割することで
+        マップのようなズーム操作を実現した動画プレーヤーです`
+    },
+    features: [
+      {
+        heading: '12倍にズームしてもクッキリ再生',
+        image: { src: x12Img },
+        caption: 'ズーム+解像度補正で小さな建物の名前まで読み取れる'
+      },
+      {
+        heading: '8K動画を使うから細部までキレイ',
+        image: { src: compereImg },
+        caption: '通常の動画と比較して16倍以上の情報量'
+      }
+    ],
+    viewer: {
       aspect: 16 / 9,
       duration: 34,
-      baseUrl: `${process.env.BASE_URL_JP as string}/tokyo`
-    },
-    description: `「もっとよく見てみたい場所」に指を置いて、ズーム・スワイプ操作をしてみましょう。
-直感的な操作で、細部に宿るた美しさ、精緻さが新しい動画体験を提供します。`
+      baseUrl: `${process.env.BASE_URL_JP}/tokyo`
+    }
   },
-  features: {
-    heading: 'Features',
-    list: {
-      items: [
-        {
-          heading: 'インタラクティブな解像度補正',
-          description:
-            '8Kで撮影されたオリジナル動画のデータ密度を利用して最大12倍の無劣化ズームを実現します',
-          icon: { src: aspectRatioIcon }
-        },
-        {
-          heading: 'PCとスマホ両方のWebサイトに対応',
-          description: `特別な環境・機材を必要とせず、現状のサイトに埋め込み・配信をします
-          5Gともにやってくる8K動画の感動を4G環境でも少しだけ先取り体験出来ます`,
-          icon: { src: phonelinkIcon }
-        }
-      ]
+  us: {
+    head: {
+      title: SITE_TITLE
+    },
+    hero: {
+      heading: `New video streaming experience
+      with maximum 12x zoom in.`,
+      description: `Eagle Eye is video streaming player which provides zooming UX like map
+      with image segmentation method for 8K video.`
+    },
+    features: [
+      {
+        heading: 'Clear video streaming in 12x zoom.',
+        image: { src: x12Img },
+        caption: 'With zoom and resolution correction, even the name of small building is readable.'
+      },
+      {
+        heading: 'Clear in any detail parts in video, by 8K.',
+        image: { src: compereImg },
+        caption: '16x more data volume comparing with regular video.'
+      }
+    ],
+    viewer: {
+      aspect: 16 / 9,
+      duration: 34,
+      baseUrl: `${process.env.BASE_URL_US}/tokyo`
     }
   }
 }
 
-const ViewerSection = styled.section`
-  margin-bottom: 30vw;
+const Wrapper = styled.div`
+  width: 80%;
+  max-width: 960px;
+  margin-right: auto;
+  margin-left: auto;
+
+  & + & {
+    margin-top: 30vw;
+  }
 
   @media screen and (min-width: 576px) {
-    margin-bottom: 173px;
+    & + & {
+      margin-top: 173px;
+    }
   }
 `
 
-const ViewerFrame = styled.div`
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-  margin: 0 auto 2em;
-  background-color: ${({ theme }) => theme.color.primaryDark};
-  max-width: 640px;
-`
+const Home = withRouter(props => {
+  const { lang } = props.router.query
+  const content = homeContent[typeof lang === 'string' ? lang : 'jp'] || homeContent.us
 
-const FeaturesSection = styled.section`
-  position: relative;
-  overflow-x: hidden;
-  padding-top: 6vw;
-  background-color: ${({ theme }) => theme.color.primaryLight};
-  background-clip: content-box;
+  return (
+    <>
+      <Head {...content.head} />
+      <ResetStyle />
+      <Header />
+      <Hero {...content.hero} style={{ paddingBottom: '20vh' }} />
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: 1px;
-    z-index: -1;
-    display: block;
-    height: 0;
-    width: 0;
-    border-style: solid;
-  }
+      <Wrapper style={{ marginTop: '-20vh', boxShadow: '-5px 10px 30px 0px rgba(0, 0, 0, 0.4)' }}>
+        <Viewer {...content.viewer} />
+      </Wrapper>
 
-  &::before {
-    right: 0;
-    border-color: transparent transparent ${({ theme }) => theme.color.primaryDark} transparent;
-    border-width: 0 0 6vw 100vw;
-  }
+      <Wrapper as="section" className="text-center">
+        <Feature {...content.features[0]} />
+      </Wrapper>
 
-  &::after {
-    left: 0;
-    border-color: transparent transparent transparent ${({ theme }) => theme.color.primaryLight};
-    border-width: 6vw 0 0 100vw;
-  }
-`
+      <Wrapper as="section" className="text-center">
+        <Feature {...content.features[1]} />
+      </Wrapper>
 
-const Home = () => (
-  <>
-    <Head {...homeContent.head} />
-    <ResetStyle />
-    <BackgroundStyle />
-
-    <Header {...homeContent.header} />
-
-    <Hero {...homeContent.hero} />
-
-    <ViewerSection>
-      <Container>
-        <Heading className="text-center" {...homeContent.viewer.heading} />
-        <ViewerFrame>
-          <Viewer {...homeContent.viewer.main} />
-        </ViewerFrame>
-        <p className="text-md-center" style={{ whiteSpace: 'pre-line' }}>
-          {homeContent.viewer.description}
-        </p>
-      </Container>
-    </ViewerSection>
-
-    <FeaturesSection>
-      <Container>
-        <h2 className="font-weight-bold mt-4 mt-md-0 mb-4">{homeContent.features.heading}</h2>
-        <FeatureList {...homeContent.features.list} />
-      </Container>
-    </FeaturesSection>
-
-    <Footer
-      className="pt-5"
-      style={{
-        backgroundColor: 'var(--color-primary-light)'
-      }}
-    />
-  </>
-)
+      <Footer />
+    </>
+  )
+})
 
 export default Home

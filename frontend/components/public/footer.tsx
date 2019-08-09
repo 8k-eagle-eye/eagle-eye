@@ -1,103 +1,32 @@
-import Link from 'next/link'
-import React, { FC, HTMLAttributes } from 'react'
+import React, { FC } from 'react'
 import { Container } from 'react-bootstrap'
-import githubIcon from 'assets/images/github.svg'
 import { COPYRIGHT } from 'consts/meta'
 import { styled } from 'assets/styles/theme'
 
-export interface FooterListItem {
-  text: string
-  href?: string
-  icon?: {
-    src: string
-    alt?: string
-  }
-}
-
-export interface FooterProps extends HTMLAttributes<HTMLElement> {
+export interface FooterProps {
   copyright: string
-  listItems?: FooterListItem[]
 }
 
 const StyledFooter = styled.footer`
+  margin-top: 30vw;
+  padding-top: 2rem;
   padding-bottom: 2rem;
 
-  ul {
-    display: flex;
-    justify-content: center;
-  }
-
-  li:nth-child(n + 2) {
-    margin-left: 1rem;
-  }
-
-  a {
-    font-weight: bold;
-  }
-
-  img {
-    width: 1.5em;
-    margin-top: -0.2em;
-    margin-left: 0.4em;
+  @media screen and (min-width: 576px) {
+    margin-top: 173px;
   }
 `
 
-const ListItem = ({ text, icon }: Omit<FooterListItem, 'href'>) => (
-  <>
-    {icon ? (
-      <>
-        {text}
-        <img {...icon} />
-      </>
-    ) : (
-      text
-    )}
-  </>
-)
-
-const LinkList = (props: Required<Pick<FooterProps, 'listItems'>>) => (
-  <>
-    {props.listItems.map(({ text, href, icon }) => (
-      <li key={text}>
-        {href ? (
-          <Link href={href}>
-            <a>
-              <ListItem {...{ text, icon }} />
-            </a>
-          </Link>
-        ) : (
-          <ListItem {...{ text, icon }} />
-        )}
-      </li>
-    ))}
-  </>
-)
-
 const Footer: FC<FooterProps> & { defaultProps: Partial<FooterProps> } = props => (
   <StyledFooter {...props}>
-    <Container>
-      <ul>
-        <li>
-          <small>{props.copyright}</small>
-        </li>
-        {props.listItems && props.listItems.length > 0 && <LinkList listItems={props.listItems} />}
-      </ul>
+    <Container as="p" className="text-center">
+      <small>{props.copyright}</small>
     </Container>
   </StyledFooter>
 )
 
 Footer.defaultProps = {
-  copyright: COPYRIGHT,
-  listItems: [
-    {
-      text: 'GitHub',
-      href: 'https://github.com/8k-eagle-eye/eagle-eye',
-      icon: {
-        src: githubIcon,
-        alt: 'GitHub icon'
-      }
-    }
-  ]
+  copyright: COPYRIGHT
 }
 
 export default Footer

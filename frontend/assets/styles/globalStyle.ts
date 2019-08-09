@@ -1,5 +1,4 @@
 import { createGlobalStyle, css } from 'styled-components'
-import multiTriangleIcon from 'assets/images/multi-triangle.svg'
 import { theme } from 'assets/styles/theme'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -63,19 +62,5 @@ export const ResetStyle = createGlobalStyle`
 
   small {
     font-size: inherit;
-  }
-`
-
-export const BackgroundStyle = createGlobalStyle`
-  body {
-    background: no-repeat calc(50% + 24vw) -16vw / 40vw url(${multiTriangleIcon});
-
-    @media screen and (min-width: 768px) {
-      background-size: 308px;
-    }
-
-    @media screen and (min-width: 1200px) {
-      background-position: calc(50% + 288px) -192px;
-    }
   }
 `
