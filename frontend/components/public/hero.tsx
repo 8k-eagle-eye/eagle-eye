@@ -16,11 +16,14 @@ const Section = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 146px;
+`
+
+const CustomContainer = styled(Container)`
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 `
 
 const Heading = styled.h2`
-  padding-top: 2rem;
   color: #fff;
   font-size: 10vw;
   font-weight: bold;
@@ -33,7 +36,6 @@ const Heading = styled.h2`
 
 const Description = styled.p`
   padding-top: 2em;
-  padding-bottom: 2rem;
   color: rgb(255, 226, 53);
   font-size: 16px;
   white-space: pre-line;
@@ -41,10 +43,10 @@ const Description = styled.p`
 
 const Hero: FC<HeroProps> & { defaultProps: Partial<HeroProps> } = props => (
   <Section style={props.style}>
-    <Container>
+    <CustomContainer>
       <Heading as={props.headingLevel}>{props.heading}</Heading>
       <Description>{props.description}</Description>
-    </Container>
+    </CustomContainer>
   </Section>
 )
 

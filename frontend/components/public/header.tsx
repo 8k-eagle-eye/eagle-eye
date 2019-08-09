@@ -17,6 +17,22 @@ const StyledHeader = styled.header`
   top: 0;
   z-index: 3;
   width: 100%;
+
+  & + * {
+    padding-top: 82px;
+  }
+
+  @media screen and (min-width: 768px) {
+    & + * {
+      padding-top: 110px;
+    }
+  }
+
+  @media screen and (min-width: 1200px) {
+    & + * {
+      padding-top: 146px;
+    }
+  }
 `
 
 const Heading = styled.h1`

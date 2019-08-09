@@ -19,10 +19,10 @@ const Caption = styled.p`
 `
 
 const ImageWrapper = styled.p`
-  margin-top: 72px;
+  margin-top: 36px;
 
   @media screen and (min-width: 576px) {
-    margin-top: 36px;
+    margin-top: 72px;
   }
 `
 

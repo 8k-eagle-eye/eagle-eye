@@ -104,9 +104,9 @@ const Home = withRouter(props => {
       <Head {...content.head} />
       <ResetStyle />
       <Header />
-      <Hero {...content.hero} style={{ paddingBottom: '15vh' }} />
+      <Hero {...content.hero} style={{ paddingBottom: '20vh' }} />
 
-      <Wrapper style={{ marginTop: '-15vh', boxShadow: '-5px 10px 30px 0px rgba(0, 0, 0, 0.4)' }}>
+      <Wrapper style={{ marginTop: '-20vh', boxShadow: '-5px 10px 30px 0px rgba(0, 0, 0, 0.4)' }}>
         <Viewer {...content.viewer} />
       </Wrapper>
 
