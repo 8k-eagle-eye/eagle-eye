@@ -1,71 +1,89 @@
 import React from 'react'
 import Footer from 'components/public/footer'
 import Head, { HeadProps } from 'components/head'
-import Header, { HeaderProps } from 'components/public/header'
-import FirstView from 'components/public/hero'
-import Hero, { HeroProps } from 'components/public/feature'
-import { ViewerProps } from 'components/viewer'
+import Header from 'components/public/header'
+import Hero, { HeroProps } from 'components/public/hero'
+import Feature, { FeatureProps } from 'components/public/feature'
+import Viewer, { ViewerProps } from 'components/viewer'
 import { ResetStyle } from 'assets/styles/globalStyle'
-import { SITE_TITLE, APP_VERSION } from 'consts/meta'
+import { SITE_TITLE } from 'consts/meta'
+import { styled } from 'assets/styles/theme'
 import x12Img from 'assets/images/home-x12.jpg'
 import compereImg from 'assets/images/home-compare.jpg'
 
 interface Content {
   head: HeadProps
-  header: HeaderProps
   hero: HeroProps
-  hero2: HeroProps
-  viewer: {
-    main: ViewerProps
-  }
+  features: FeatureProps[]
+  viewer: ViewerProps
 }
 
 const homeContent: Content = {
   head: {
     title: SITE_TITLE
   },
-  header: {
-    title: SITE_TITLE,
-    version: APP_VERSION
-  },
   hero: {
-    heading: '12倍にズームしてもクッキリ再生',
-    src: x12Img,
-    description: 'ズーム+解像度補正で小さな建物の名前まで読み取れる'
+    heading: `最大12倍ズームの
+    新しい映像体験`,
+    description: `Eagle Eyeは8K動画データをタイル分割することで
+      マップのようなズーム操作を実現した動画プレーヤーです`
   },
-  hero2: {
-    heading: '8K動画を使うから細部までキレイ',
-    src: compereImg,
-    description: '通常の動画と比較して16倍以上の情報量'
-  },
-  viewer: {
-    main: {
-      aspect: 16 / 9,
-      duration: 34,
-      baseUrl: `${process.env.BASE_URL_JP as string}/tokyo`
+  features: [
+    {
+      heading: '12倍にズームしてもクッキリ再生',
+      image: { src: x12Img },
+      caption: 'ズーム+解像度補正で小さな建物の名前まで読み取れる'
+    },
+    {
+      heading: '8K動画を使うから細部までキレイ',
+      image: { src: compereImg },
+      caption: '通常の動画と比較して16倍以上の情報量'
     }
+  ],
+  viewer: {
+    aspect: 16 / 9,
+    duration: 34,
+    baseUrl: process.env.STORAGE_ORIGIN as string
   }
 }
+
+const Wrapper = styled.div`
+  width: 80%;
+  max-width: 960px;
+  margin-right: auto;
+  margin-left: auto;
+
+  & + & {
+    margin-top: 30vw;
+  }
+
+  @media screen and (min-width: 576px) {
+    & + & {
+      margin-top: 173px;
+    }
+  }
+`
 
 const Home = () => (
   <>
     <Head {...homeContent.head} />
     <ResetStyle />
+    <Header />
+    <Hero {...homeContent.hero} style={{ paddingBottom: '15vh' }} />
 
-    <Header {...homeContent.header} />
+    <Wrapper style={{ marginTop: '-15vh', boxShadow: '-5px 10px 30px 0px rgba(0, 0, 0, 0.4)' }}>
+      <Viewer {...homeContent.viewer} />
+    </Wrapper>
 
-    <FirstView {...homeContent.viewer.main} />
+    <Wrapper as="section" className="text-center">
+      <Feature {...homeContent.features[0]} />
+    </Wrapper>
 
-    <Hero {...homeContent.hero} />
+    <Wrapper as="section" className="text-center">
+      <Feature {...homeContent.features[1]} />
+    </Wrapper>
 
-    <Hero {...homeContent.hero2} />
-
-    <Footer
-      className="pt-5"
-      style={{
-        backgroundColor: 'var(--color-primary-light)'
-      }}
-    />
+    <Footer />
   </>
 )
 

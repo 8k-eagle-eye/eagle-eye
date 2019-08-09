@@ -1,15 +1,17 @@
 import Link from 'next/link'
-import React from 'react'
+import React, { FC } from 'react'
 import { Container } from 'react-bootstrap'
+import imageLogo8kee from 'assets/images/logo-8kee.png'
+import { SITE_TITLE } from 'consts/meta'
 import { styled } from 'assets/styles/theme'
-import logoImg from 'assets/images/logo-8kee.png'
 
 export interface HeaderProps {
-  title: string
-  version: string
+  heading: string
+  headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  logo?: string
 }
 
-const HeaderElement = styled.header`
+const StyledHeader = styled.header`
   position: absolute;
   left: 0;
   top: 0;
@@ -17,40 +19,32 @@ const HeaderElement = styled.header`
   width: 100%;
 `
 
-const Title = styled.h1`
+const Heading = styled.h1`
   padding: 0.25em 0;
-  font-size: ${({ theme }) => theme.fontSize.l};
-  font-weight: bold;
-
-  a:hover {
-    text-decoration: none;
-  }
+  font-size: 2rem;
 `
 
 const Logo = styled.img`
-  width: 240px;
-  max-width: 25%;
+  width: 25%;
+  max-width: 240px;
+  min-width: 120px;
 `
 
-const Version = styled.sup`
-  color: ${({ theme }) => theme.color.primary};
-  font-size: 0.5em;
-  top: -0.8em;
-`
-
-const Header = (props: HeaderProps) => (
-  <HeaderElement>
+const Header: FC<HeaderProps> & { defaultProps: Partial<HeaderProps> } = props => (
+  <StyledHeader>
     <Container>
-      <Title>
+      <Heading as={props.headingLevel}>
         <Link href="/">
-          <a>
-            <Logo src={logoImg} alt={props.title} />
-            <Version>{props.version}</Version>
-          </a>
+          <a>{props.logo ? <Logo src={props.logo} alt={props.heading} /> : props.heading}</a>
         </Link>
-      </Title>
+      </Heading>
     </Container>
-  </HeaderElement>
+  </StyledHeader>
 )
+
+Header.defaultProps = {
+  heading: SITE_TITLE,
+  logo: imageLogo8kee
+}
 
 export default Header

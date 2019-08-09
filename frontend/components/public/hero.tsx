@@ -1,91 +1,65 @@
-import React from 'react'
-import styled from 'styled-components'
-import Viewer, { ViewerProps } from 'components/viewer'
-import bgImg from 'assets/images/home-hero-bg.jpg'
+import React, { FC, HTMLAttributes } from 'react'
+import { Container } from 'react-bootstrap'
+import imageHomeHeroBg from 'assets/images/home-hero-bg.jpg'
+import { styled } from 'assets/styles/theme'
 
-const FirstViewRoot = styled.div`
+export interface HeroProps extends HTMLAttributes<HTMLElement> {
+  heading: string
+  headingLevel?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  description: string
+}
+
+const Section = styled.section`
+  text-align: center;
   min-height: 100vh;
-  position: relative;
-`
-
-const BackgroundImg = styled.div`
-  height: 100vh;
-  background: center/cover url(${bgImg});
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #012b;
-  }
-`
-
-const Container = styled.div`
-  position: relative;
-  height: 85vh;
+  background: linear-gradient(#012b, #012b), left center / cover url(${imageHomeHeroBg});
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-top: 146px;
 `
 
-const HeadingText = styled.h2`
-  text-align: center;
+const Heading = styled.h2`
+  padding-top: 2rem;
   color: #fff;
-  font-size: 64px;
-  padding-top: 40px;
+  font-size: 10vw;
+  font-weight: bold;
+  white-space: pre-line;
+
+  @media screen and (min-width: 576px) {
+    font-size: 60px;
+  }
+
+  @media screen and (min-width: 768px) {
+    font-size: 64px;
+  }
 `
 
-const Subtitle = styled.div`
-  text-align: center;
-  padding-top: 40px;
+const Description = styled.p`
+  padding-top: 2em;
+  padding-bottom: 2rem;
   color: rgb(255, 226, 53);
-  font-size: 20px;
+  font-size: 5vw;
+  white-space: pre-line;
+
+  @media screen and (min-width: 400px) {
+    font-size: 20px;
+  }
 `
 
-const ViewerFrame = styled.div`
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-  margin: 0 auto;
-  max-width: 960px;
-  width: 80%;
-  box-shadow: 0 10px 30px 0px rgba(0, 0, 0, 0.4);
-`
+const Hero: FC<HeroProps> & { defaultProps: Partial<HeroProps> } = props => (
+  <Section style={props.style}>
+    <Container>
+      <Heading as={props.headingLevel}>{props.heading}</Heading>
+      <Description>{props.description}</Description>
+    </Container>
+  </Section>
+)
 
-const FirstView = (props: ViewerProps) => {
-  return (
-    <FirstViewRoot>
-      <BackgroundImg />
-
-      <Container>
-        <div>
-          <HeadingText>
-            最大12倍ズームの
-            <br />
-            新しい映像体験
-          </HeadingText>
-
-          <Subtitle>
-            Eagle Eyeは8K動画データをタイル分割することで
-            <br />
-            マップのようなズーム操作を実現した動画プレーヤーです
-          </Subtitle>
-        </div>
-      </Container>
-
-      <ViewerFrame>
-        <Viewer {...props} />
-      </ViewerFrame>
-    </FirstViewRoot>
-  )
+Hero.defaultProps = {
+  heading: 'Lorem ipsum',
+  description: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, enim.
+    Totam atque quisquam a. Molestiae nostrum impedit soluta quas eveniet suscipit in fugit odit, saepe odio fuga quisquam consectetur voluptatem.`
 }
 
-export default FirstView
+export default Hero

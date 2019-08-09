@@ -1,53 +1,26 @@
-import React, { FC, HTMLAttributes } from 'react'
+import React, { FC } from 'react'
 import { Container } from 'react-bootstrap'
 import { COPYRIGHT } from 'consts/meta'
 import { styled } from 'assets/styles/theme'
 
-export interface FooterListItem {
-  text: string
-  href?: string
-  icon?: {
-    src: string
-    alt?: string
-  }
-}
-
-export interface FooterProps extends HTMLAttributes<HTMLElement> {
+export interface FooterProps {
   copyright: string
-  listItems?: FooterListItem[]
 }
 
 const StyledFooter = styled.footer`
+  margin-top: 30vw;
+  padding-top: 2rem;
   padding-bottom: 2rem;
 
-  ul {
-    display: flex;
-    justify-content: center;
-  }
-
-  li:nth-child(n + 2) {
-    margin-left: 1rem;
-  }
-
-  a {
-    font-weight: bold;
-  }
-
-  img {
-    width: 1.5em;
-    margin-top: -0.2em;
-    margin-left: 0.4em;
+  @media screen and (min-width: 576px) {
+    margin-top: 173px;
   }
 `
 
 const Footer: FC<FooterProps> & { defaultProps: Partial<FooterProps> } = props => (
   <StyledFooter {...props}>
-    <Container>
-      <ul>
-        <li>
-          <small>{props.copyright}</small>
-        </li>
-      </ul>
+    <Container as="p" className="text-center">
+      <small>{props.copyright}</small>
     </Container>
   </StyledFooter>
 )
