@@ -18,7 +18,7 @@ const Section = styled.section`
   align-items: center;
 `
 
-const CustomContainer = styled(Container)`
+const ModifiedContainer = styled(Container)`
   padding-top: 2rem;
   padding-bottom: 2rem;
 `
@@ -43,10 +43,10 @@ const Description = styled.p`
 
 const Hero: FC<HeroProps> & { defaultProps: Partial<HeroProps> } = props => (
   <Section style={props.style}>
-    <CustomContainer>
+    <ModifiedContainer>
       <Heading as={props.headingLevel}>{props.heading}</Heading>
       <Description>{props.description}</Description>
-    </CustomContainer>
+    </ModifiedContainer>
   </Section>
 )
 
