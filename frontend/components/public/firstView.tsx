@@ -3,6 +3,14 @@ import styled from 'styled-components'
 import Viewer, { ViewerProps } from 'components/viewer'
 import bgImg from 'assets/images/top-bg.jpg'
 
+export interface FirstViewProps {
+  heading: {
+    titles: [string, string]
+    subs: [string, string]
+  }
+  main: ViewerProps
+}
+
 const FirstViewRoot = styled.div`
   min-height: 100vh;
   position: relative;
@@ -39,7 +47,7 @@ const Container = styled.div`
 const HeadingText = styled.h2`
   text-align: center;
   color: #fff;
-  font-size: 64px;
+  font-size: 56px;
   padding-top: 40px;
 `
 
@@ -47,7 +55,7 @@ const Subtitle = styled.div`
   text-align: center;
   padding-top: 40px;
   color: rgb(255, 226, 53);
-  font-size: 20px;
+  font-size: 16px;
 `
 
 const ViewerFrame = styled.div`
@@ -60,7 +68,7 @@ const ViewerFrame = styled.div`
   box-shadow: 0 10px 30px 0px rgba(0, 0, 0, 0.4);
 `
 
-const FirstView = (props: ViewerProps) => {
+const FirstView = (props: FirstViewProps) => {
   return (
     <FirstViewRoot>
       <BackgroundImg />
@@ -68,21 +76,21 @@ const FirstView = (props: ViewerProps) => {
       <Container>
         <div>
           <HeadingText>
-            最大12倍ズームの
+            {props.heading.titles[0]}
             <br />
-            新しい映像体験
+            {props.heading.titles[1]}
           </HeadingText>
 
           <Subtitle>
-            Eagle Eyeは8K動画データをタイル分割することで
+            {props.heading.subs[0]}
             <br />
-            マップのようなズーム操作を実現した動画プレーヤーです
+            {props.heading.subs[1]}
           </Subtitle>
         </div>
       </Container>
 
       <ViewerFrame>
-        <Viewer {...props} />
+        <Viewer {...props.main} />
       </ViewerFrame>
     </FirstViewRoot>
   )
