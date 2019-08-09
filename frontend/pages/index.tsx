@@ -15,8 +15,8 @@ import compereImg from 'assets/images/home-compare.jpg'
 interface Content {
   head: HeadProps
   hero: HeroProps
-  features: FeatureProps[]
   viewer: ViewerProps
+  features: FeatureProps[]
 }
 
 const homeContent: { [key: string]: Content } = {
@@ -30,6 +30,11 @@ const homeContent: { [key: string]: Content } = {
       description: `Eagle Eyeは8K動画データをタイル分割することで
         マップのようなズーム操作を実現した動画プレーヤーです`
     },
+    viewer: {
+      aspect: 16 / 9,
+      duration: 34,
+      baseUrl: `${process.env.BASE_URL_JP}/tokyo`
+    },
     features: [
       {
         heading: '12倍にズームしてもクッキリ再生',
@@ -41,12 +46,7 @@ const homeContent: { [key: string]: Content } = {
         image: { src: compereImg },
         caption: '通常の動画と比較して16倍以上の情報量'
       }
-    ],
-    viewer: {
-      aspect: 16 / 9,
-      duration: 34,
-      baseUrl: `${process.env.BASE_URL_JP}/tokyo`
-    }
+    ]
   },
   us: {
     head: {
@@ -57,6 +57,11 @@ const homeContent: { [key: string]: Content } = {
       with maximum 12x zoom in.`,
       description: `Eagle Eye is video streaming player which provides zooming UX like map
       with image segmentation method for 8K video.`
+    },
+    viewer: {
+      aspect: 16 / 9,
+      duration: 34,
+      baseUrl: `${process.env.BASE_URL_US}/tokyo`
     },
     features: [
       {
@@ -69,12 +74,7 @@ const homeContent: { [key: string]: Content } = {
         image: { src: compereImg },
         caption: '16x more data volume comparing with regular video.'
       }
-    ],
-    viewer: {
-      aspect: 16 / 9,
-      duration: 34,
-      baseUrl: `${process.env.BASE_URL_US}/tokyo`
-    }
+    ]
   }
 }
 
@@ -110,13 +110,11 @@ const Home = withRouter(props => {
         <Viewer {...content.viewer} />
       </Wrapper>
 
-      <Wrapper as="section" className="text-center">
-        <Feature {...content.features[0]} />
-      </Wrapper>
-
-      <Wrapper as="section" className="text-center">
-        <Feature {...content.features[1]} />
-      </Wrapper>
+      {content.features.map((feature, index) => (
+        <Wrapper as="section" className="text-center" key={index}>
+          <Feature {...feature} />
+        </Wrapper>
+      ))}
 
       <Footer />
     </>
