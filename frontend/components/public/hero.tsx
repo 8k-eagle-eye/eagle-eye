@@ -1,6 +1,6 @@
 import React, { FC, HTMLAttributes } from 'react'
 import { Container } from 'react-bootstrap'
-import imageHomeHeroBg from 'assets/images/home-hero-bg.jpg'
+import imageHeroBg from 'assets/images/home/hero-bg.jpg'
 import { styled } from 'assets/styles/theme'
 
 export interface HeroProps extends HTMLAttributes<HTMLElement> {
@@ -12,13 +12,13 @@ export interface HeroProps extends HTMLAttributes<HTMLElement> {
 const Section = styled.section`
   text-align: center;
   min-height: 100vh;
-  background: linear-gradient(#012b, #012b), left center / cover url(${imageHomeHeroBg});
+  background: linear-gradient(#012b, #012b), left center / cover url(${imageHeroBg});
   display: flex;
   justify-content: center;
   align-items: center;
 `
 
-const CustomContainer = styled(Container)`
+const ModifiedContainer = styled(Container)`
   padding-top: 2rem;
   padding-bottom: 2rem;
 `
@@ -43,10 +43,10 @@ const Description = styled.p`
 
 const Hero: FC<HeroProps> & { defaultProps: Partial<HeroProps> } = props => (
   <Section style={props.style}>
-    <CustomContainer>
+    <ModifiedContainer>
       <Heading as={props.headingLevel}>{props.heading}</Heading>
       <Description>{props.description}</Description>
-    </CustomContainer>
+    </ModifiedContainer>
   </Section>
 )
 

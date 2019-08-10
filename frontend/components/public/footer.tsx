@@ -1,20 +1,15 @@
-import React, { FC } from 'react'
+import React, { FC, HTMLAttributes } from 'react'
 import { Container } from 'react-bootstrap'
 import { COPYRIGHT } from 'consts/meta'
 import { styled } from 'assets/styles/theme'
 
-export interface FooterProps {
+export interface FooterProps extends HTMLAttributes<HTMLElement> {
   copyright: string
 }
 
 const StyledFooter = styled.footer`
-  margin-top: 30vw;
   padding-top: 2rem;
   padding-bottom: 2rem;
-
-  @media screen and (min-width: 576px) {
-    margin-top: 173px;
-  }
 `
 
 const Footer: FC<FooterProps> & { defaultProps: Partial<FooterProps> } = props => (
