@@ -1,4 +1,8 @@
-<h2 align="center">Eagle Eye</h2>
+<h2 align="center">
+  <img src="https://8kee.netlify.com/static/favicon-mask.svg" alt="Eagle Eye logo" width="128" />
+  <br />
+  Eagle Eye
+</h2>
 
 <p align="center">
   <a href="https://circleci.com/gh/8k-eagle-eye/eagle-eye">
