@@ -17,8 +17,7 @@ const SliderContainer = (props: SliderContainerProps) => {
 }
 
 SliderContainer.defaultProps = {
-  leftImage: { src: '' },
-  rightImage: { src: '' }
+  aspect: 1.78
 }
 
 export default SliderContainer
