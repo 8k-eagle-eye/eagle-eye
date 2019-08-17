@@ -1,19 +1,24 @@
-import React, { FC } from 'react'
-import Image, { ImageProps } from 'components/slider/image'
+import React from 'react'
+import ComparisonImage, { ComparisonImageProps } from 'components/slider/comparisonImage'
 
 export interface SliderContainerProps {
   aspect?: number
-  leftImage: ImageProps
-  rightImage: ImageProps
+  leftImage: ComparisonImageProps
+  rightImage: ComparisonImageProps
 }
 
-const SliderContainer: FC<SliderContainerProps> = props => {
+const SliderContainer = (props: SliderContainerProps) => {
   return (
     <>
-      <Image {...props.leftImage} />
-      <Image {...props.rightImage} />
+      <ComparisonImage {...props.leftImage} />
+      <ComparisonImage {...props.rightImage} />
     </>
   )
+}
+
+SliderContainer.defaultProps = {
+  leftImage: { src: '' },
+  rightImage: { src: '' }
 }
 
 export default SliderContainer

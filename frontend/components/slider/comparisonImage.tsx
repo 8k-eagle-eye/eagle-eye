@@ -1,16 +1,14 @@
-import React, { FC } from 'react'
+import React from 'react'
 
-export interface ImageProps {
+export interface ComparisonImageProps {
   label?: string
   src: string
 }
 
-const Image: FC<ImageProps> = props => {
-  return (
-    <>
-      <img src={props.src} alt={props.label} />
-    </>
-  )
+const ComparisonImage = (props: ComparisonImageProps) => <img src={props.src} alt={props.label} />
+
+ComparisonImage.defaultProps = {
+  label: ''
 }
 
-export default Image
+export default ComparisonImage
