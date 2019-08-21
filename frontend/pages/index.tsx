@@ -7,7 +7,6 @@ import Head, { HeadProps } from 'components/head'
 import Header from 'components/public/header'
 import Hero, { HeroProps } from 'components/public/hero'
 import Strength, { StrengthProps } from 'components/public/strength'
-import Viewer, { ViewerProps } from 'components/viewer'
 import Wrapper from 'components/public/wrapper'
 import iconAspectRatio from 'assets/images/home/aspect-ratio.svg'
 import iconMovieFilter from 'assets/images/home/movie-filter.svg'
@@ -21,7 +20,6 @@ import { styled } from 'assets/styles/theme'
 interface Content {
   head: HeadProps
   hero: HeroProps
-  viewer: ViewerProps
   features: FeatureProps[]
   strengths: StrengthProps[]
 }
@@ -35,12 +33,12 @@ const homeContent: { [key: string]: Content } = {
       heading: `最大12倍ズームの
       新しい映像体験`,
       description: `Eagle Eyeは8K動画データをタイル分割することで
-        マップのようなズーム操作を実現した動画プレーヤーです`
-    },
-    viewer: {
-      aspect: 16 / 9,
-      duration: 34,
-      baseUrl: `${process.env.BASE_URL_JP}/tokyo`
+        マップのようなズーム操作を実現した動画プレーヤーです`,
+      viewer: {
+        aspect: 16 / 9,
+        duration: 34,
+        baseUrl: `${process.env.BASE_URL_JP}/tokyo`
+      }
     },
     features: [
       {
@@ -77,12 +75,12 @@ const homeContent: { [key: string]: Content } = {
       heading: `New video streaming experience
       with maximum 12x zoom in.`,
       description: `Eagle Eye is video streaming player which provides zooming UX like map
-      with image segmentation method for 8K video.`
-    },
-    viewer: {
-      aspect: 16 / 9,
-      duration: 34,
-      baseUrl: `${process.env.BASE_URL_US}/tokyo`
+      with image segmentation method for 8K video.`,
+      viewer: {
+        aspect: 16 / 9,
+        duration: 34,
+        baseUrl: `${process.env.BASE_URL_US}/tokyo`
+      }
     },
     features: [
       {
@@ -130,11 +128,7 @@ const Home = withRouter(props => {
       <Head {...content.head} />
       <ResetStyle />
       <Header />
-      <Hero {...content.hero} style={{ paddingBottom: '20vh' }} />
-
-      <Wrapper style={{ marginTop: '-20vh', boxShadow: '-5px 10px 30px 0px rgba(0, 0, 0, 0.4)' }}>
-        <Viewer {...content.viewer} />
-      </Wrapper>
+      <Hero {...content.hero} />
 
       {content.features.map((feature, index) => (
         <Wrapper as="section" className="text-center" key={index}>
