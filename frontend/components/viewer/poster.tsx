@@ -1,19 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
-import getPosterSrc from 'libs/viewer/getPosterSrc'
 
 interface PosterProps {
-  baseUrl: string
+  src?: string
   onClick: () => void
 }
 
-const PosterFrame = styled.div<{ baseUrl: string }>`
+const PosterFrame = styled.div<{ src?: string }>`
   position: absolute;
   width: 100%;
   height: 100%;
   left: 0;
   top: 0;
-  background: center/cover url(${({ baseUrl }) => getPosterSrc(baseUrl)});
+  background: ${({ src }) => (src ? `center/cover url(${src})` : 'none')};
 `
 
 const CircleButton = styled.div`
@@ -22,7 +21,7 @@ const CircleButton = styled.div`
   left: 50%;
   width: 80px;
   height: 80px;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(0.75);
   border-radius: 50%;
   background: #fff;
   opacity: 0.8;
@@ -31,6 +30,10 @@ const CircleButton = styled.div`
 
   ${PosterFrame}:hover > & {
     opacity: 1;
+  }
+
+  @media screen and (min-width: 576px) {
+    transform: translate(-50%, -50%);
   }
 `
 
@@ -44,9 +47,9 @@ const ArrowMark = styled.div`
   transform: translateY(-50%);
 `
 
-const Poster = ({ baseUrl, onClick }: PosterProps) => {
+const Poster = ({ src, onClick }: PosterProps) => {
   return (
-    <PosterFrame baseUrl={baseUrl} onClick={onClick}>
+    <PosterFrame src={src} onClick={onClick}>
       <CircleButton>
         <ArrowMark />
       </CircleButton>

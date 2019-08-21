@@ -11,6 +11,7 @@ export interface ViewerProps {
   aspect: number
   baseUrl: string
   duration: number
+  posterSrc?: string
 }
 
 interface FullScreenContainerProps {
@@ -22,7 +23,6 @@ interface FullScreenContainerProps {
 const ViewerRoot = styled.div<{ aspect: number; isFullScreen: boolean }>`
   padding-top: ${({ aspect }) => 100 / aspect}%;
   position: relative;
-  background: #222;
   z-index: ${({ isFullScreen }) => (isFullScreen ? 10000 : 'auto')};
 `
 
@@ -61,7 +61,7 @@ const ScalePanel = styled.div`
 `
 
 const Viewer = (props: ViewerProps) => {
-  const { aspect, baseUrl, duration } = props
+  const { aspect, baseUrl, duration, posterSrc } = props
   const viewerRef = useRef<HTMLDivElement>(null)
   const fullScreenPanelRef = useRef<HTMLDivElement>(null)
   const [baseSize, setBaseSize] = useState({ width: 0, height: 0 })
@@ -190,7 +190,7 @@ const Viewer = (props: ViewerProps) => {
           </FullScreenContainer>
         </>
       ) : (
-        <Poster baseUrl={baseUrl} onClick={playFirstTime} />
+        <Poster src={posterSrc} onClick={playFirstTime} />
       )}
     </ViewerRoot>
   )
