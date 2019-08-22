@@ -1,7 +1,7 @@
 {
   "name": "eagle-eye",
   "version": "0.0.1",
-  "description": "",
+  "description": "Eagle Eye is video streaming player which provides zooming UX like map.",
   "author": "m-mitsuhide",
   "private": true,
   "repository": {
