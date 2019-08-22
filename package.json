@@ -120,7 +120,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix --no-ignore",
+      "eslint --fix",
       "git add"
     ],
     "*.{json,md,yaml,yml}": [

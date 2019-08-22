@@ -31,7 +31,7 @@ module.exports = {
       jsx: true
     },
     ecmaVersion: 2018,
-    project: './tsconfig.json',
+    project: './tsconfig.eslint.json',
     sourceType: 'module'
   },
   plugins: ['react-hooks'],
