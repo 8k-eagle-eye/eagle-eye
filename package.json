@@ -50,8 +50,8 @@
     "@types/react-dom": "16.9.0",
     "@types/styled-components": "4.1.18",
     "@types/supertest": "2.0.8",
-    "@typescript-eslint/eslint-plugin": "1.13.0",
-    "@typescript-eslint/parser": "1.13.0",
+    "@typescript-eslint/eslint-plugin": "2.0.0",
+    "@typescript-eslint/parser": "2.0.0",
     "babel-plugin-styled-components": "1.10.6",
     "codecov": "3.5.0",
     "dotenv": "8.1.0",
@@ -120,7 +120,7 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix --no-ignore",
+      "eslint --fix",
       "git add"
     ],
     "*.{json,md,yaml,yml}": [
