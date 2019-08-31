@@ -49,6 +49,7 @@
     "@types/react-dom": "16.9.0",
     "@types/styled-components": "4.1.18",
     "@types/supertest": "2.0.8",
+    "@types/webpack": "4.39.1",
     "@typescript-eslint/eslint-plugin": "2.0.0",
     "@typescript-eslint/parser": "2.0.0",
     "babel-plugin-styled-components": "1.10.6",

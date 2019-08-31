@@ -6,7 +6,21 @@ const { compilerOptions } = require('../tsconfig')
 
 const baseUrl = path.resolve(process.cwd(), compilerOptions.baseUrl)
 
+/**
+ * @typedef { import('webpack').Configuration } WebpackConfiguration
+ * @typedef {{
+ *   buildId: string,
+ *   dev: boolean,
+ *   isServer: boolean,
+ *   defaultLoaders: Object<string, any>
+ * }} WebpackOptions
+ */
 module.exports = {
+  /**
+   * @param { WebpackConfiguration } config
+   * @param { WebpackOptions } options
+   * @returns { WebpackConfiguration }
+   */
   webpack(config, { dev, isServer }) {
     config.module.rules.push({
       test: /\.(png|jpe?g|gif|svg|webp)$/i,
