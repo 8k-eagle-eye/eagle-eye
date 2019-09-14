@@ -81,7 +81,7 @@
     "ts-jest": "24.0.2",
     "ts-node": "8.3.0",
     "tsconfig-paths": "3.8.0",
-    "typescript": "3.6.2",
+    "typescript": "3.6.3",
     "url-loader": "2.1.0"
   },
   "_moduleAliases": {
