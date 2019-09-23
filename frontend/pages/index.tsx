@@ -121,7 +121,7 @@ const ModifiedWrapper = styled(Wrapper)`
 
 const Home = withRouter(props => {
   const { lang } = props.router.query
-  const content = homeContent[typeof lang === 'string' ? lang : 'jp'] || homeContent.us
+  const content = homeContent[typeof lang === 'string' ? lang : 'us'] || homeContent.us
 
   return (
     <>

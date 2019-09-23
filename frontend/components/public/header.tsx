@@ -40,6 +40,13 @@ const Heading = styled.h1`
   font-size: 2rem;
 `
 
+const Languages = styled.div`
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  color: #fff;
+`
+
 const Logo = styled.img`
   width: 25%;
   max-width: 240px;
@@ -54,6 +61,15 @@ const Header: FC<HeaderProps> & { defaultProps: Partial<HeaderProps> } = props =
           <a>{props.logo ? <Logo src={props.logo} alt={props.heading} /> : props.heading}</a>
         </Link>
       </Heading>
+      <Languages>
+        <Link href="/?lang=us">
+          <a>English</a>
+        </Link>{' '}
+        /{' '}
+        <Link href="/?lang=jp">
+          <a>Japanese</a>
+        </Link>
+      </Languages>
     </Container>
   </StyledHeader>
 )
