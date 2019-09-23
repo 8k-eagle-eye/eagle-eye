@@ -41,6 +41,7 @@ const Heading = styled.h2`
   white-space: pre-line;
   position: relative;
   z-index: 1;
+  text-shadow: #0008 1px 1px 1px;
 
   @media screen and (min-width: 576px) {
     font-size: 56px;
@@ -54,6 +55,7 @@ const Description = styled.p`
   white-space: pre-line;
   position: relative;
   z-index: 1;
+  text-shadow: #0008 1px 1px 1px;
 `
 
 const ViewerWrapper = styled.div`
@@ -61,12 +63,6 @@ const ViewerWrapper = styled.div`
   max-width: 960px;
   margin: 120px auto 0;
   position: relative;
-`
-
-const ViewerMask = styled.div`
-  position: absolute;
-  background: #0005;
-  width: 100vw;
 `
 
 const MobileImage = styled.div`
@@ -78,50 +74,12 @@ const MobileImage = styled.div`
   bottom: -13.5%;
 `
 
-const MaskPanels = () => {
-  const styles = [
-    {
-      bottom: '100%',
-      left: '50%',
-      height: '100vh',
-      transform: 'translateX(-50%)'
-    },
-    {
-      top: '100%',
-      left: '50%',
-      height: '100vh',
-      transform: 'translateX(-50%)'
-    },
-    {
-      right: '100%',
-      top: '50%',
-      height: '100%',
-      transform: 'translateY(-50%)'
-    },
-    {
-      left: '100%',
-      top: '50%',
-      height: '100%',
-      transform: 'translateY(-50%)'
-    }
-  ]
-
-  return (
-    <>
-      {styles.map((style, i) => (
-        <ViewerMask key={i} style={style} />
-      ))}
-    </>
-  )
-}
-
 const Hero: FC<HeroProps> & { defaultProps: Partial<HeroProps> } = props => (
   <Section>
     <ModifiedContainer>
       <Heading as={props.headingLevel}>{props.heading}</Heading>
       <Description>{props.description}</Description>
       <ViewerWrapper>
-        <MaskPanels />
         <MobileImage />
         <Viewer {...props.viewer} />
       </ViewerWrapper>

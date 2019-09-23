@@ -72,14 +72,14 @@ const homeContent: { [key: string]: Content } = {
       title: SITE_TITLE
     },
     hero: {
-      heading: `New video streaming experience
-      with maximum 12x zoom in.`,
+      heading: `New experience
+      with 12x zoom in.`,
       description: `Eagle Eye is video streaming player which provides zooming UX like map
       with image segmentation method for 8K video.`,
       viewer: {
         aspect: 16 / 9,
         duration: 34,
-        baseUrl: `${process.env.BASE_URL_US}/tokyo`
+        baseUrl: `${process.env.BASE_URL_JP}/tokyo` // todo: location swiching
       }
     },
     features: [
