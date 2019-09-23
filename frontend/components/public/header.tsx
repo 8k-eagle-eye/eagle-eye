@@ -50,7 +50,7 @@ const Languages = styled.div`
 const Logo = styled.img`
   width: 25%;
   max-width: 240px;
-  min-width: 120px;
+  min-width: 160px;
 `
 
 const Header: FC<HeaderProps> & { defaultProps: Partial<HeaderProps> } = props => (
