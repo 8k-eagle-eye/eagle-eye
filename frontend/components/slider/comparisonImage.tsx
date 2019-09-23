@@ -1,14 +1,23 @@
 import React from 'react'
+import styled from 'styled-components'
 
 export interface ComparisonImageProps {
   label?: string
+  left?: number
   src: string
 }
 
-const ComparisonImage = (props: ComparisonImageProps) => <img src={props.src} alt={props.label} />
+const Image = styled.img`
+  max-width: 100%;
+  height: auto;
+  display: block;
+`
+
+const ComparisonImage = (props: ComparisonImageProps) => <Image src={props.src} alt={props.label} />
 
 ComparisonImage.defaultProps = {
-  label: ''
+  label: '',
+  left: 0
 }
 
 export default ComparisonImage
