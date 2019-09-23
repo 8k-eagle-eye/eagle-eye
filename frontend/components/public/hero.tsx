@@ -20,11 +20,9 @@ const Section = styled.section`
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  margin-bottom: 100px;
   padding-bottom: 80px;
 
   @media screen and (min-width: 576px) {
-    margin-bottom: 150px;
     padding-bottom: 120px;
   }
 `
