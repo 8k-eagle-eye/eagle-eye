@@ -14,7 +14,6 @@ import iconAspectRatio from 'assets/images/home/aspect-ratio.svg'
 import iconMovieFilter from 'assets/images/home/movie-filter.svg'
 import iconPhonelink from 'assets/images/home/phonelink.svg'
 import { ResetStyle } from 'assets/styles/globalStyle'
-import { SITE_TITLE } from 'consts/meta'
 import { styled } from 'assets/styles/theme'
 
 interface Content {
@@ -27,7 +26,9 @@ interface Content {
 const homeContent: { [key: string]: Content } = {
   jp: {
     head: {
-      title: SITE_TITLE
+      title: '最大12倍ズームの新しい映像体験',
+      description:
+        'Eagle Eyeは8K動画データをタイル分割することでマップのようなズーム操作を実現した動画プレーヤーです'
     },
     hero: {
       heading: `最大12倍ズームの
@@ -69,7 +70,9 @@ const homeContent: { [key: string]: Content } = {
   },
   us: {
     head: {
-      title: SITE_TITLE
+      title: 'New video streaming experience with maximum 12x zoom in.',
+      description:
+        'Eagle Eye is video streaming player which provides zooming UX like map with image segmentation method for 8K video.'
     },
     hero: {
       heading: `New experience

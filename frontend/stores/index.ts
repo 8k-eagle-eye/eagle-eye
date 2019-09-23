@@ -8,7 +8,7 @@ export interface StoreData {
 }
 
 const isServer = typeof window === 'undefined'
-useStaticRendering(isServer)
+useStaticRendering(isServer) // eslint-disable-line react-hooks/rules-of-hooks
 
 export class Store {
   @observable public lastUpdate = 0
