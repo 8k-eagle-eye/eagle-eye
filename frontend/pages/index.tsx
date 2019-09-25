@@ -1,25 +1,25 @@
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { withRouter } from 'next/router'
-import Feature, { FeatureProps } from 'components/public/feature'
 import Footer from 'components/public/footer'
 import Head, { HeadProps } from 'components/head'
 import Header from 'components/public/header'
 import Hero, { HeroProps } from 'components/public/hero'
 import Strength, { StrengthProps } from 'components/public/strength'
+import FixedScroll, { FixedScrollProps } from 'components/public/fixedScroll'
+import Feature1 from 'components/public/feature1'
+import Feature2 from 'components/public/feature2'
 import Wrapper from 'components/public/wrapper'
 import iconAspectRatio from 'assets/images/home/aspect-ratio.svg'
 import iconMovieFilter from 'assets/images/home/movie-filter.svg'
 import iconPhonelink from 'assets/images/home/phonelink.svg'
-import imageCompere from 'assets/images/home/compare.jpg'
-import imageX12 from 'assets/images/home/x12.jpg'
 import { ResetStyle } from 'assets/styles/globalStyle'
 import { styled } from 'assets/styles/theme'
 
 interface Content {
   head: HeadProps
   hero: HeroProps
-  features: FeatureProps[]
+  features: FixedScrollProps[]
   strengths: StrengthProps[]
 }
 
@@ -44,12 +44,12 @@ const homeContent: { [key: string]: Content } = {
     features: [
       {
         heading: '12倍にズームしてもクッキリ再生',
-        image: { src: imageX12 },
+        vhTimes: 2,
         caption: 'ズーム+解像度補正で小さな建物の名前まで読み取れる'
       },
       {
         heading: '8K動画を使うから細部までキレイ',
-        image: { src: imageCompere },
+        vhTimes: 2,
         caption: '通常の動画と比較して16倍以上の情報量'
       }
     ],
@@ -75,25 +75,25 @@ const homeContent: { [key: string]: Content } = {
         'Eagle Eye is video streaming player which provides zooming UX like map with image segmentation method for 8K video.'
     },
     hero: {
-      heading: `New video streaming experience
-      with maximum 12x zoom in.`,
+      heading: `New experience
+      with 12x zoom in.`,
       description: `Eagle Eye is video streaming player which provides zooming UX like map
       with image segmentation method for 8K video.`,
       viewer: {
         aspect: 16 / 9,
         duration: 34,
-        baseUrl: `${process.env.BASE_URL_US}/tokyo`
+        baseUrl: `${process.env.BASE_URL_JP}/tokyo` // todo: location swiching
       }
     },
     features: [
       {
         heading: 'Clear video streaming in 12x zoom.',
-        image: { src: imageX12 },
+        vhTimes: 2,
         caption: 'With zoom and resolution correction, even the name of small building is readable.'
       },
       {
         heading: 'Clear in any detail parts in video, by 8K.',
-        image: { src: imageCompere },
+        vhTimes: 2,
         caption: '16x more data volume comparing with regular video.'
       }
     ],
@@ -124,7 +124,7 @@ const ModifiedWrapper = styled(Wrapper)`
 
 const Home = withRouter(props => {
   const { lang } = props.router.query
-  const content = homeContent[typeof lang === 'string' ? lang : 'jp'] || homeContent.us
+  const content = homeContent[typeof lang === 'string' ? lang : 'us'] || homeContent.us
 
   return (
     <>
@@ -133,11 +133,13 @@ const Home = withRouter(props => {
       <Header />
       <Hero {...content.hero} />
 
-      {content.features.map((feature, index) => (
-        <Wrapper as="section" className="text-center" key={index}>
-          <Feature {...feature} />
-        </Wrapper>
-      ))}
+      <FixedScroll {...content.features[0]}>
+        <Feature1 scrollRatio={0} />
+      </FixedScroll>
+
+      <FixedScroll {...content.features[1]}>
+        <Feature2 scrollRatio={0} />
+      </FixedScroll>
 
       <ModifiedWrapper>
         <Container>
