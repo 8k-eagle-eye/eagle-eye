@@ -11,11 +11,14 @@
   <a href="https://codecov.io/gh/8k-eagle-eye/eagle-eye">
     <img src="https://img.shields.io/codecov/c/github/8k-eagle-eye/eagle-eye.svg?logo=codecov&logoColor=fff" alt="Codecov" />
   </a>
+  <a href="https://app.netlify.com/sites/8kee/deploys">
+    <img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fdeveloper.oswaldlabs.com%2Fnetlify-status%2F2b470b42-c0bf-4d78-8f16-c79261248a7b&logo=netlify&logoColor=fff" alt="Netlify status" />
+  </a>
   <a href="https://dependabot.com/">
-    <img src="https://badgen.net/dependabot/8k-eagle-eye/eagle-eye?icon=dependabot&label=dependabot" alt="Dependabot" />
+    <img src="https://badgen.net/dependabot/8k-eagle-eye/eagle-eye?icon=dependabot&label=dependabot" alt="Dependabot status" />
   </a>
   <a href="https://renovatebot.com/">
-    <img src="https://badges.renovateapi.com/github/8k-eagle-eye/eagle-eye" alt="Renovate" />
+    <img src="https://badges.renovateapi.com/github/8k-eagle-eye/eagle-eye" alt="Renovate status" />
   </a>
   <br />
   <a href="https://github.com/microsoft/TypeScript">

@@ -10,7 +10,7 @@ commands:
   install_packages:
     parameters:
       cache_key:
-        default: package.json
+        default: package-lock.json
         description: File to use as a Node cache checksum
         type: string
       cache_version:
@@ -23,7 +23,7 @@ commands:
           key: dependencies-<< parameters.cache_version >>-{{ checksum "<< parameters.cache_key >>" }}
       - run:
           name: Install dependencies
-          command: npm install
+          command: echo "package-lock=false" >> .npmrc && npm install
       - save_cache:
           name: Cache dependencies
           key: dependencies-<< parameters.cache_version >>-{{ checksum "<< parameters.cache_key >>" }}
@@ -92,7 +92,7 @@ workflows:
   commit:
     jobs:
       - setup:
-          cache_key: package.json
+          cache_key: package-lock.json
           cache_version: v1
       - lint:
           requires:
@@ -105,7 +105,7 @@ workflows:
       - audit
     triggers:
       - schedule:
-          cron: "1 0 * * 6" # 10:00 AM on Saturday (Asia/Tokyo)
+          cron: "0 1 * * 6" # 10:00 AM on Saturday (Asia/Tokyo)
           filters:
             branches:
               only:
