@@ -31,7 +31,7 @@
     "coverage": "codecov"
   },
   "dependencies": {
-    "mobx": "5.13.0",
+    "mobx": "5.13.1",
     "mobx-react": "6.1.3",
     "next": "9.0.6",
     "react": "16.10.0",
@@ -49,7 +49,7 @@
     "@types/react-dom": "16.9.1",
     "@types/styled-components": "4.1.19",
     "@types/supertest": "2.0.8",
-    "@types/webpack": "4.39.1",
+    "@types/webpack": "4.39.2",
     "@typescript-eslint/eslint-plugin": "2.3.1",
     "@typescript-eslint/parser": "2.3.1",
     "babel-plugin-styled-components": "1.10.6",
