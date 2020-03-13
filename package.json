@@ -82,7 +82,7 @@
     "ts-node": "8.5.2",
     "tsconfig-paths": "3.9.0",
     "typescript": "3.8.3",
-    "url-loader": "2.2.0"
+    "url-loader": "3.0.0"
   },
   "_moduleAliases": {
     "backend": "dist/backend",
